@@ -4,6 +4,7 @@ import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { ButtonComponent } from "@/components/ButtonComponent";
 
 export default function HomeScreen() {
   return (
@@ -21,6 +22,9 @@ export default function HomeScreen() {
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
+        <ButtonComponent text={"Join Game"} variant="primary" />
+        <ButtonComponent text={"Create Game"} variant="secondary" />
+
         <Button title="Create a game" />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>

@@ -28,6 +28,7 @@ export const Colors = {
     tint: tintColorLight,
     icon: "#687076",
     primaryButton: brightPink,
+    addButton: creamWhite,
     tabIconDefault: "#687076",
     tabIconSelected: tintColorLight,
   },

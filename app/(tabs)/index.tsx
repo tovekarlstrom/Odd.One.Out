@@ -5,6 +5,7 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { RoundButton } from "@/components/RoundButton";
+import { AddQuestion } from "@/components/AddQuestion";
 
 export default function HomeScreen() {
   return (
@@ -23,6 +24,7 @@ export default function HomeScreen() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <Button title="Create a game" />
+        <AddQuestion />
         <RoundButton isAdding={true} />
         <RoundButton isAdding={false} />
       </ThemedView>

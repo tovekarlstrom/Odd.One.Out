@@ -17,7 +17,7 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
-    InstrumentalSans: require("../assets/fonts/InstrumentalSans-VariableFont_wdth,wght.ttf"),
+    // InstrumentalSans: require("../assets/fonts/InstrumentalSans-VariableFont_wdth,wght.ttf"),
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });
 

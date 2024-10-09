@@ -1,20 +1,10 @@
-import {
-  type TextProps,
-  StyleSheet,
-  Button,
-  Alert,
-  TouchableOpacity,
-} from "react-native";
+import { type TextProps, StyleSheet, TouchableOpacity } from "react-native";
 
-import { useThemeColor } from "@/hooks/useThemeColor";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
 export type RoundButtonProps = TextProps & {
   isAdding: boolean;
-  lightColor?: string;
-  darkColor?: string;
-  type?: "default" | "title" | "defaultSemiBold" | "subtitle" | "link";
 };
 
 function onPressButton(isAdding: boolean) {
@@ -25,13 +15,7 @@ function onPressButton(isAdding: boolean) {
   }
 }
 
-export function RoundButton({
-  isAdding,
-  lightColor,
-  darkColor,
-}: RoundButtonProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
-
+export function RoundButton({ isAdding }: RoundButtonProps) {
   return (
     <TouchableOpacity
       style={styles.button}

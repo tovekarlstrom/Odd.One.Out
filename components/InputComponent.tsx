@@ -13,7 +13,7 @@ export function InputComponent({
     <TextInput
       style={styles.input}
       placeholder={placeholder ? placeholder : ""}
-      placeholderTextColor={placeholder ? "#7e7d7d" : "#231F20"}
+      placeholderTextColor={placeholder ? "#747272" : "#231F20"}
       onChangeText={onChangeText}
     />
   );

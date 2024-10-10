@@ -19,7 +19,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     AbrilFat: require("../assets/fonts/AbrilFatface-Regular.ttf"),
-    InstrumentalSans: require("../assets/fonts/InstrumentSans-Regular.ttf"),
+    InstrumentalSans: require("../assets/fonts/InstrumentSans-VariableFont_wdth,wght.ttf"),
   });
 
   useEffect(() => {

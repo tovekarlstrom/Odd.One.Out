@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/Theme";
 import { TextInput, StyleSheet } from "react-native";
 
 interface InputComponentProps {
@@ -17,7 +18,9 @@ export function InputComponent({
     <TextInput
       style={styles.input}
       placeholder={placeholder ? placeholder : ""}
-      placeholderTextColor={placeholder ? "#747272" : "#231F20"}
+      placeholderTextColor={
+        placeholder ? Colors.light.placeholder : Colors.light.text
+      }
       onChangeText={onChangeText}
       value={value}
       returnKeyType="done" // Change the return key type to "done" on mobile keyboard
@@ -28,13 +31,13 @@ export function InputComponent({
 
 const styles = StyleSheet.create({
   input: {
-    backgroundColor: "#D9CCC4",
+    backgroundColor: Colors.light.inputField,
     width: "100%",
     maxWidth: 285,
     height: 55,
     borderWidth: 0,
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: Sizes.Spacings.medium,
+    paddingRight: Sizes.Spacings.medium,
     borderRadius: 30,
   },
 });

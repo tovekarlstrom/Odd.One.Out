@@ -34,10 +34,12 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ButtonComponent text={"Join Game"} variant="primary" />
-        <ButtonComponent text={"Create Game"} variant="secondary" />
-        <Button title="Go to Create" onPress={() => router.push("/create")} />
-        <Button title="Create a game" />
+        <ButtonComponent text={"Join Game"} variant="primary" route="/create" />
+        <ButtonComponent
+          text={"Create Game"}
+          variant="secondary"
+          route="/create"
+        />
         <AddQuestion />
         <RoundButton isAdding={true} />
         <RoundButton isAdding={false} />

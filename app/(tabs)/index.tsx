@@ -7,8 +7,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { RoundButton } from "@/components/RoundButton";
 import { useRouter } from "expo-router";
 import { AddQuestion } from "@/components/AddQuestion";
-import { QuestionItem } from "@/components/QuestionItem";
-import { AddedQuestions } from "@/components/AddedQuestions";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -23,15 +21,22 @@ export default function HomeScreen() {
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hej Tove!</ThemedText>
-        <HelloWave />
+        <ThemedText type="title">
+          Blend in or stand out - What's your strategy?
+        </ThemedText>
+        {/* <HelloWave /> */}
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="default">
+          It's not about what's right, it's about what most people think. Let's
+          get started!
+        </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <Button title="Go to Create" onPress={() => router.push("/create")} />
         <Button title="Create a game" />
         <RoundButton isAdding={true} />
         <RoundButton isAdding={false} />
-        <QuestionItem question="What is the capital of Sweden?" />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="defaultLarge">Step 1: Try it</ThemedText>

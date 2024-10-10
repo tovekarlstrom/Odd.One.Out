@@ -19,5 +19,6 @@ const styled = StyleSheet.create({
   container: {
     flexDirection: "column",
     gap: Sizes.Spacings.medium,
+    flex: 1,
   },
 });

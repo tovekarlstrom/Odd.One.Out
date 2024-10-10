@@ -2,9 +2,6 @@
  * Below are the theme used in the app.
  */
 
-const tintColorLight = "#0a7ea4";
-const tintColorDark = "#fff";
-
 // VÅRA FÄRGER!!!
 const brightBlue = "#94B0E1";
 const lightBlue = "#B5C1D8";
@@ -20,21 +17,25 @@ const beigeCard = "#F1E8E3";
 const beigeDark = "#D9CCC4";
 const dullBlack = "#231F20";
 const creamWhite = "#F2F2F2";
+const darkGrey = "#747272";
 
 export const Colors = {
-  text: dullBlack,
-  contrastText: creamWhite,
-  background: beigeBody,
-  primaryButton: brightPink,
-  secondaryButton: creamWhite,
-  addButton: creamWhite,
-  Card: beigeCard,
-  inputField: beigeDark,
-  contrastBlue: royalBlue,
-  tint: tintColorLight,
-  icon: "#687076",
-  tabIconDefault: "#687076",
-  tabIconSelected: tintColorLight,
+  light: {
+    text: dullBlack,
+    contrastText: creamWhite,
+    background: beigeBody,
+    primaryButton: brightPink,
+    secondaryButton: creamWhite,
+    addButton: creamWhite,
+    Card: beigeCard,
+    inputField: beigeDark,
+    contrastBlue: royalBlue,
+    placeholder: darkGrey,
+    tint: dullBlack,
+    icon: dullBlack,
+    tabIconDefault: "#687076",
+    tabIconSelected: dullBlack,
+  },
 };
 
 export const Sizes = {

@@ -1,8 +1,8 @@
 import { View, StyleSheet } from "react-native";
 import { InputComponent } from "./InputComponent";
 import { RoundButton } from "./RoundButton";
-import { useContext, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useState } from "react";
+
 import { useQuestions } from "@/contexts/QuestionsProvider";
 
 export function AddQuestion() {

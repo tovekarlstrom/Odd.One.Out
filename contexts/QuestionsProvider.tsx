@@ -1,14 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useContext, useEffect, useState } from "react";
 
-interface QuestionContextProps {
-  questions: string[];
-  addQuestion: (newQuestion: string) => Promise<void>;
-  removeQuestion: (question: string) => Promise<void>;
-}
-const QuestionContext = createContext<QuestionContextProps | undefined>(
-  undefined
-);
+const QuestionContext = createContext<any>(undefined);
 
 export function QuestionsProvider({ children }: { children: React.ReactNode }) {
   const [questions, setQuestions] = useState<string[]>([]);

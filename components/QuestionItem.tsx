@@ -1,21 +1,17 @@
 import { View, Text, StyleSheet } from "react-native";
 import { RoundButton } from "./RoundButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useQuestions } from "@/contexts/QuestionsProvider";
 
 interface QuestionTemProps {
   question: string;
 }
 
 export function QuestionItem({ question }: QuestionTemProps) {
-  const handleRemoveQuestion = async () => {
-    const questions = await AsyncStorage.getItem("questions");
-    const parsedQuestions = JSON.parse(questions || "[]");
-    const getIndex = parsedQuestions.indexOf(question);
-    const updatedQuestions = parsedQuestions.splice(getIndex, 1);
-    await AsyncStorage.setItem("questions", JSON.stringify(updatedQuestions));
+  const { removeQuestion } = useQuestions();
 
-    console.log("Filtered questions", getIndex);
-    console.log("Remove question", question);
+  const handleRemoveQuestion = async () => {
+    removeQuestion(question);
   };
   return (
     <View style={styles.container}>

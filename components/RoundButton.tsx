@@ -5,24 +5,12 @@ import { Ionicons } from "@expo/vector-icons";
 
 export type RoundButtonProps = TextProps & {
   isAdding: boolean;
+  onPress?: () => void;
 };
 
-function onPressButton(isAdding: boolean) {
-  if (isAdding) {
-    alert("It is added");
-  } else {
-    alert("It is removed");
-  }
-}
-
-export function RoundButton({ isAdding }: RoundButtonProps) {
+export function RoundButton({ isAdding, onPress }: RoundButtonProps) {
   return (
-    <TouchableOpacity
-      style={styles.button}
-      onPress={() => {
-        onPressButton(isAdding);
-      }}
-    >
+    <TouchableOpacity style={styles.button} onPress={onPress}>
       <Ionicons
         name={isAdding ? "add-outline" : "remove-outline"}
         size={30}

@@ -4,6 +4,8 @@ import { StyleSheet } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { AddQuestion } from "@/components/AddQuestion";
+import { AddedQuestions } from "@/components/AddedQuestions";
 
 export default function TabThreeScreen() {
   return (
@@ -19,6 +21,8 @@ export default function TabThreeScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedText>Add content</ThemedText>
+      <AddQuestion />
+      <AddedQuestions />
     </ParallaxScrollView>
   );
 }

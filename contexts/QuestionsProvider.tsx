@@ -3,8 +3,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 interface QuestionContextProps {
   questions: string[];
-  addQuestion: (newQuestion: string) => void;
-  removeQuestion: (question: string) => void;
+  addQuestion: (newQuestion: string) => Promise<void>;
+  removeQuestion: (question: string) => Promise<void>;
 }
 const QuestionContext = createContext<QuestionContextProps | undefined>(
   undefined

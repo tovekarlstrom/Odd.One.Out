@@ -3,12 +3,16 @@ import { TextInput, StyleSheet } from "react-native";
 
 interface InputComponentProps {
   placeholder?: string;
-  onChangeText?: (text: string) => void;
+  onChangeText: (text: string) => void;
+  value: string;
+  onSubmitEditing: () => void;
 }
 
 export function InputComponent({
   placeholder,
   onChangeText,
+  value,
+  onSubmitEditing,
 }: InputComponentProps) {
   return (
     <TextInput
@@ -18,6 +22,9 @@ export function InputComponent({
         placeholder ? Colors.light.placeholder : Colors.light.text
       }
       onChangeText={onChangeText}
+      value={value}
+      returnKeyType="done" // Change the return key type to "done" on mobile keyboard
+      onSubmitEditing={onSubmitEditing} // Call the addNewQusetion function when the user presses "done" on the keyboard
     />
   );
 }
@@ -28,7 +35,6 @@ const styles = StyleSheet.create({
     width: "100%",
     maxWidth: 285,
     height: 55,
-    margin: 12,
     borderWidth: 0,
     paddingLeft: Sizes.Spacings.medium,
     paddingRight: Sizes.Spacings.medium,

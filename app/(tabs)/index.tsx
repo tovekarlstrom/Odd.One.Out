@@ -6,6 +6,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { RoundButton } from "@/components/RoundButton";
 import { useRouter } from "expo-router";
+import { AddQuestion } from "@/components/AddQuestion";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -33,6 +34,8 @@ export default function HomeScreen() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <Button title="Go to Create" onPress={() => router.push("/create")} />
+        <Button title="Create a game" />
+        <AddQuestion />
         <RoundButton isAdding={true} />
         <RoundButton isAdding={false} />
       </ThemedView>

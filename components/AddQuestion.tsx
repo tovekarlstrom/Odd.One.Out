@@ -1,22 +1,20 @@
 import { View, StyleSheet } from "react-native";
 import { InputComponent } from "./InputComponent";
 import { RoundButton } from "./RoundButton";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useQuestions } from "@/contexts/QuestionsProvider";
 
 export function AddQuestion() {
   const [newQuestion, setNewQuestion] = useState<string>("");
+  const { addQuestion } = useQuestions();
+
   const handleNewQuestion = (text: string) => {
     setNewQuestion(text);
     console.log(text);
   };
   const addNewQuestion = async () => {
-    const existingQuestions = JSON.parse(
-      (await AsyncStorage.getItem("questions")) || "[]"
-    );
-    const updatedQuestions = [...existingQuestions, newQuestion];
-    await AsyncStorage.setItem("questions", JSON.stringify(updatedQuestions));
-    console.log("question added", newQuestion);
+    addQuestion(newQuestion);
     setNewQuestion("");
   };
 

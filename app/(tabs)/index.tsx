@@ -6,6 +6,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { RoundButton } from "@/components/RoundButton";
 import { AddQuestion } from "@/components/AddQuestion";
+import { QuestionItem } from "@/components/QuestionItem";
+import { AddedQuestions } from "@/components/AddedQuestions";
 
 export default function HomeScreen() {
   return (
@@ -23,10 +25,12 @@ export default function HomeScreen() {
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
+        <AddedQuestions />
         <Button title="Create a game" />
         <AddQuestion />
         <RoundButton isAdding={true} />
         <RoundButton isAdding={false} />
+        <QuestionItem question="What is the capital of Sweden?" />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>

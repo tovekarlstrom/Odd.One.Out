@@ -1,31 +1,42 @@
-import { Text, type TextProps, StyleSheet } from 'react-native';
+import { Colors, Sizes } from "@/constants/Theme";
+import { Text, type TextProps, StyleSheet } from "react-native";
 
-import { useThemeColor } from '@/hooks/useThemeColor';
+// import { useThemeColor } from '@/hooks/useThemeColor';
 
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
-  type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link';
+  type?:
+    | "default"
+    | "defaultLarge"
+    | "title"
+    | "heading32"
+    | "heading24"
+    | "defaultSemiBold"
+    | "subtitle"
+    | "link";
 };
 
 export function ThemedText({
   style,
   lightColor,
   darkColor,
-  type = 'default',
+  type = "default",
   ...rest
 }: ThemedTextProps) {
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, 'text');
+  const color = lightColor;
 
   return (
     <Text
       style={[
         { color },
-        type === 'default' ? styles.default : undefined,
-        type === 'title' ? styles.title : undefined,
-        type === 'defaultSemiBold' ? styles.defaultSemiBold : undefined,
-        type === 'subtitle' ? styles.subtitle : undefined,
-        type === 'link' ? styles.link : undefined,
+        type === "default" ? styles.default : undefined,
+        type === "defaultSemiBold" ? styles.defaultSemiBold : undefined,
+        type === "defaultLarge" ? styles.defaultLarge : undefined,
+        type === "title" ? styles.heading40 : undefined,
+        type === "heading32" ? styles.heading32 : undefined,
+        type === "heading24" ? styles.heading24 : undefined,
+        type === "link" ? styles.link : undefined,
         style,
       ]}
       {...rest}
@@ -35,26 +46,44 @@ export function ThemedText({
 
 const styles = StyleSheet.create({
   default: {
-    fontSize: 16,
-    lineHeight: 24,
+    fontSize: Sizes.SmallTextSize,
+    fontFamily: "InstrumentalSans",
+    lineHeight: 20,
   },
   defaultSemiBold: {
-    fontSize: 16,
+    fontSize: Sizes.SmallTextSize,
+    fontFamily: "InstrumentalSans",
     lineHeight: 24,
-    fontWeight: '600',
+    fontWeight: "600",
   },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
+  defaultLarge: {
+    fontSize: Sizes.LargeTextSize,
+    fontFamily: "InstrumentalSans",
+    lineHeight: 24,
+    fontWeight: "bold",
+  },
+  heading40: {
+    fontSize: Sizes.LargeHeading,
+    fontFamily: "AbrilFat",
+    fontWeight: "bold",
+    lineHeight: 40,
+  },
+  heading32: {
+    fontSize: Sizes.MediumHeading,
+    fontFamily: "InstrumentalSans",
+    fontWeight: "bold",
     lineHeight: 32,
   },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  heading24: {
+    fontSize: Sizes.SmallHeading,
+    fontFamily: "InstrumentalSans",
+    fontWeight: "600",
+    lineHeight: 24,
   },
   link: {
     lineHeight: 30,
-    fontSize: 16,
-    color: '#0a7ea4',
+    fontSize: Sizes.SmallTextSize,
+    fontFamily: "InstrumentalSans",
+    color: Colors.light.text,
   },
 });

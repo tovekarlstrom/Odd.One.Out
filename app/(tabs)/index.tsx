@@ -5,9 +5,11 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { RoundButton } from "@/components/RoundButton";
+import { useRouter } from "expo-router";
 import { AddQuestion } from "@/components/AddQuestion";
 
 export default function HomeScreen() {
+  const router = useRouter();
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
@@ -19,17 +21,26 @@ export default function HomeScreen() {
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hej Tove!</ThemedText>
-        <HelloWave />
+        <ThemedText type="title">
+          Blend in or stand out - What's your strategy?
+        </ThemedText>
+        {/* <HelloWave /> */}
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
+        <ThemedText type="default">
+          It's not about what's right, it's about what most people think. Let's
+          get started!
+        </ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <Button title="Go to Create" onPress={() => router.push("/create")} />
         <Button title="Create a game" />
         <AddQuestion />
         <RoundButton isAdding={true} />
         <RoundButton isAdding={false} />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
+        <ThemedText type="defaultLarge">Step 1: Try it</ThemedText>
         <ThemedText>
           Edit{" "}
           <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
@@ -41,14 +52,14 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
+        <ThemedText type="defaultLarge">Step 2: Explore</ThemedText>
         <ThemedText>
           Tap the Explore tab to learn more about what's included in this
           starter app.
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
+        <ThemedText type="defaultLarge">Step 3: Get a fresh start</ThemedText>
         <ThemedText>
           When you're ready, run{" "}
           <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>{" "}

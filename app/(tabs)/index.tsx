@@ -4,6 +4,7 @@ import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { ButtonComponent } from "@/components/ButtonComponent";
 import { RoundButton } from "@/components/RoundButton";
 import { useRouter } from "expo-router";
 import { AddQuestion } from "@/components/AddQuestion";
@@ -33,8 +34,13 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <Button title="Go to Create" onPress={() => router.push("/create")} />
-        <Button title="Create a game" />
+        <ButtonComponent text={"Join Game"} variant="primary" route="/create" />
+        <ButtonComponent
+          text={"Create Game"}
+          variant="secondary"
+          route="/create"
+        />
+        <AddQuestion />
         <RoundButton isAdding={true} />
         <RoundButton isAdding={false} />
       </ThemedView>

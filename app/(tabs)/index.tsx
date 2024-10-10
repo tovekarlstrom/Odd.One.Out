@@ -28,9 +28,7 @@ export default function HomeScreen() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <Button title="Go to Create" onPress={() => router.push("/create")} />
-        <AddedQuestions />
         <Button title="Create a game" />
-        <AddQuestion />
         <RoundButton isAdding={true} />
         <RoundButton isAdding={false} />
         <QuestionItem question="What is the capital of Sweden?" />

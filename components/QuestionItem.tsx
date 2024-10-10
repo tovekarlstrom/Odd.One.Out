@@ -1,7 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 import { RoundButton } from "./RoundButton";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useQuestions } from "@/contexts/QuestionsProvider";
+import { Colors, Sizes } from "@/constants/Theme";
+import { ThemedText } from "./ThemedText";
 
 interface QuestionTemProps {
   question: string;
@@ -16,7 +17,7 @@ export function QuestionItem({ question }: QuestionTemProps) {
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>
-        <Text style={styles.text}>{question}</Text>
+        <ThemedText type="defaultSemiBold">{question}</ThemedText>
       </View>
       <RoundButton isAdding={false} onPress={handleRemoveQuestion} />
     </View>
@@ -35,12 +36,8 @@ const styles = StyleSheet.create({
     minHeight: 55,
     minWidth: 261,
     height: "100%",
-    backgroundColor: "#EBDED6",
+    backgroundColor: Colors.light.background,
     justifyContent: "center",
-    padding: 15,
-  },
-  text: {
-    color: "#231F20",
-    fontWeight: "bold",
+    padding: Sizes.Spacings.medium,
   },
 });

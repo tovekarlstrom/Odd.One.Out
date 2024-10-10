@@ -1,9 +1,7 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { get } from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 import { QuestionItem } from "./QuestionItem";
 import { useQuestions } from "@/contexts/QuestionsProvider";
+import { Sizes } from "@/constants/Theme";
 
 export function AddedQuestions() {
   const { questions } = useQuestions();
@@ -20,6 +18,6 @@ export function AddedQuestions() {
 const styled = StyleSheet.create({
   container: {
     flexDirection: "column",
-    gap: 8,
+    gap: Sizes.Spacings.medium,
   },
 });

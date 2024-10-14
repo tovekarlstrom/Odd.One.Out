@@ -32,7 +32,7 @@ export function InputComponent({
 const styles = StyleSheet.create({
   input: {
     backgroundColor: Colors.light.inputField,
-    width: "100%",
+    flex: 1,
     maxWidth: 285,
     height: 55,
     borderWidth: 0,

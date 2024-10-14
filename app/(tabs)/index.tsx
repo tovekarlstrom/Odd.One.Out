@@ -8,6 +8,8 @@ import { ButtonComponent } from "@/components/ButtonComponent";
 import { RoundButton } from "@/components/RoundButton";
 import { useRouter } from "expo-router";
 import { AddQuestion } from "@/components/AddQuestion";
+import { CardComponent } from "@/components/CardComponent";
+import { InputComponent } from "@/components/InputComponent";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -34,15 +36,12 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ButtonComponent text={"Join Game"} variant="primary" route="/create" />
+        <ButtonComponent text={"Join Game"} variant="primary" route="/game" />
         <ButtonComponent
           text={"Create Game"}
           variant="secondary"
           route="/create"
         />
-        <AddQuestion />
-        <RoundButton isAdding={true} />
-        <RoundButton isAdding={false} />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="defaultLarge">Step 1: Try it</ThemedText>

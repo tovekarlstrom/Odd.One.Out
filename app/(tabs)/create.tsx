@@ -1,4 +1,3 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
@@ -7,32 +6,35 @@ import { ThemedView } from "@/components/ThemedView";
 import { AddQuestion } from "@/components/AddQuestion";
 import { AddedQuestions } from "@/components/AddedQuestions";
 import { Colors } from "@/constants/Theme";
-import { useState } from "react";
-import { CardComponent } from "@/components/CardComponent";
+import { ButtonComponent } from "@/components/ButtonComponent";
+import { LinearGradient } from "expo-linear-gradient";
 
 export default function TabThreeScreen() {
-  const [modalVisible, setModalVisible] = useState(false);
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
-      headerImage={
-        <Ionicons size={310} name="code-slash" style={styles.headerImage} />
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="heading32">
-          Enter <Text style={styles.titleSpan}>questions</Text> to challenge the
-          crowd
-        </ThemedText>
-      </ThemedView>
-      <AddQuestion />
-      <CardComponent heading="Added Questions">
+    <>
+      <ParallaxScrollView>
+        <ThemedView style={styles.titleContainer}>
+          <ThemedText type="heading32">
+            Enter <Text style={styles.titleSpan}>questions</Text> to challenge
+            the crowd.
+          </ThemedText>
+        </ThemedView>
+        <AddQuestion />
+
         <AddedQuestions />
-      </CardComponent>
-      <CardComponent heading="Added Questions">
-        <ThemedText type="heading32">Enter</ThemedText>
-      </CardComponent>
-    </ParallaxScrollView>
+      </ParallaxScrollView>
+      <LinearGradient
+        colors={["rgba(235, 222, 214, 0)", "#EBDED6"]}
+        locations={[0.02, 0.41]}
+        style={styles.buttonContainer}
+      >
+        <ButtonComponent
+          text="Create Game"
+          variant="primary"
+          route={"/explore"}
+        />
+      </LinearGradient>
+    </>
   );
 }
 
@@ -47,14 +49,19 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     marginBottom: 70,
+    width: "90%",
   },
   titleSpan: {
     color: Colors.light.contrastBlue,
   },
-  card: {
-    marginTop: 50,
-    backgroundColor: Colors.light.Card,
-    borderRadius: 20,
-    padding: 15,
+
+  buttonContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 25,
+    paddingTop: 15,
+    alignItems: "center",
   },
 });

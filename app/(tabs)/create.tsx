@@ -23,7 +23,7 @@ export default function TabThreeScreen() {
         <AddedQuestions />
       </ParallaxScrollView>
       <LinearGradient
-        colors={["rgba(235, 222, 214, 0)", "#EBDED6"]}
+        colors={["rgba(235, 222, 214, 0)", Colors.light.background]}
         locations={[0.02, 0.41]}
         style={styles.buttonContainer}
       >
@@ -38,12 +38,6 @@ export default function TabThreeScreen() {
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: "#808080",
-    bottom: -90,
-    left: -35,
-    position: "absolute",
-  },
   titleContainer: {
     flexDirection: "row",
     gap: 8,

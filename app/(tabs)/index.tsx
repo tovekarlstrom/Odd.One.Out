@@ -8,6 +8,7 @@ import { ButtonComponent } from "@/components/ButtonComponent";
 import { RoundButton } from "@/components/RoundButton";
 import { useRouter } from "expo-router";
 import { AddQuestion } from "@/components/AddQuestion";
+import { CopyComponent } from "@/components/CopyComponent";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -26,6 +27,7 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
+        <CopyComponent gameCode="WBkdsoe56D" />
         <ButtonComponent text={"Join Game"} variant="primary" route="/create" />
         <ButtonComponent
           text={"Create Game"}

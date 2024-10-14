@@ -8,12 +8,14 @@ type ButtonVariant = "primary" | "secondary";
 interface ButtonComponentProps {
   text: string;
   variant: ButtonVariant;
-  route: Href<string | object>;
+  route?: Href<string | object>;
+  onSubmit?: () => Promise<void> | void;
 }
 export function ButtonComponent({
   variant,
   text,
   route,
+  onSubmit,
 }: ButtonComponentProps) {
   const router = useRouter();
   const buttonColor =
@@ -21,10 +23,19 @@ export function ButtonComponent({
       ? Colors.light.primaryButton
       : Colors.light.secondaryButton;
 
+  const handlePress = async () => {
+    if (onSubmit) {
+      await onSubmit();
+    }
+    if (route) {
+      router.push(route);
+    }
+  };
+
   return (
     <TouchableOpacity
       style={[styles.button, { backgroundColor: buttonColor }]}
-      onPress={() => router.push(route)}
+      onPress={handlePress}
     >
       <ThemedText style={styles.buttonText} type="defaultSemiBold">
         {text}

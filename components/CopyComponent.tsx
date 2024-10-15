@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { Ionicons } from "@expo/vector-icons";
-import { Colors } from "@/constants/Theme";
+import { Colors, Sizes } from "@/constants/Theme";
 import * as Clipboard from "expo-clipboard";
 import { useState } from "react";
 
@@ -41,7 +41,7 @@ export function CopyComponent({ gameCode }: { gameCode: string }) {
 const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.light.contrastBlue,
-    padding: 10,
+    padding: Sizes.Spacings.small,
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
   },
   copy: {
     position: "absolute",
-    right: 15,
+    right: Sizes.Spacings.medium,
   },
 });

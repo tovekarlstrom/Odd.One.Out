@@ -1,8 +1,7 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { RoundButton } from "./RoundButton";
 import { useQuestions } from "@/contexts/QuestionsProvider";
-import { Colors, Sizes } from "@/constants/Theme";
-import { ThemedText } from "./ThemedText";
+import { TextField } from "./TextField";
 
 interface QuestionTemProps {
   question: string;
@@ -16,9 +15,7 @@ export function QuestionItem({ question }: QuestionTemProps) {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.textContainer}>
-        <ThemedText type="defaultSemiBold">{question}</ThemedText>
-      </View>
+      <TextField value={question} />
       <RoundButton isAdding={false} onPress={handleRemoveQuestion} />
     </View>
   );
@@ -31,14 +28,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 8,
     flex: 1,
-  },
-  textContainer: {
-    borderRadius: 30,
-    minHeight: 55,
-    minWidth: 200,
-    flex: 1,
-    backgroundColor: Colors.light.background,
-    justifyContent: "center",
-    padding: Sizes.Spacings.medium,
   },
 });

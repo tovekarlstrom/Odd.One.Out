@@ -8,6 +8,7 @@ import { ButtonComponent } from "@/components/ButtonComponent";
 import { RoundButton } from "@/components/RoundButton";
 import { useRouter } from "expo-router";
 import { AddQuestion } from "@/components/AddQuestion";
+import { CopyComponent } from "@/components/CopyComponent";
 import { CardComponent } from "@/components/CardComponent";
 import { InputComponent } from "@/components/InputComponent";
 
@@ -28,6 +29,7 @@ export default function HomeScreen() {
         </ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
+        <CopyComponent gameCode="WBkdsoe56D" />
         <ButtonComponent text={"Join Game"} variant="primary" route="/game" />
         <ButtonComponent
           text={"Create Game"}

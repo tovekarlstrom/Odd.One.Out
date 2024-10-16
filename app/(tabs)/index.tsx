@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, Button } from "react-native";
+import { Image, StyleSheet, Platform, Button, View } from "react-native";
 
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
@@ -11,6 +11,8 @@ import { AddQuestion } from "@/components/AddQuestion";
 import { CopyComponent } from "@/components/CopyComponent";
 import { CardComponent } from "@/components/CardComponent";
 import { InputComponent } from "@/components/InputComponent";
+import { TextField } from "@/components/TextField";
+import PlayerIcon from "@/components/PlayerIcon";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -36,6 +38,20 @@ export default function HomeScreen() {
           variant="secondary"
           route="/create"
         />
+      </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <CardComponent heading="Test with all options">
+          <View style={styles.addGap}>
+            <TextField value="Klara" points={5}>
+              <PlayerIcon size={20} />
+            </TextField>
+            <TextField value="Klara">
+              <PlayerIcon size={20} />
+            </TextField>
+            <TextField value="Skriv ett land på K" />
+            <TextField value="Orange (prova att klicka!)" isClickable={true} />
+          </View>
+        </CardComponent>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="defaultLarge">Step 1: Try it</ThemedText>
@@ -72,6 +88,9 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  addGap: {
+    gap: 8,
+  },
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",

@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     flex: 1,
     padding: 24,
-    gap: 16,
+
     overflow: "hidden",
   },
 });

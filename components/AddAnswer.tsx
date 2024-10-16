@@ -22,7 +22,7 @@ export function AddAnswer() {
   };
 
   return (
-    <CardComponent heading={questions[index]}>
+    <CardComponent heading={questions[index]} fullWidth>
       <InputComponent
         placeholder="Your answer"
         onChangeText={handleNewAnswer}

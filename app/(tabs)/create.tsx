@@ -27,11 +27,7 @@ export default function TabThreeScreen() {
         locations={[0.02, 0.41]}
         style={styles.buttonContainer}
       >
-        <ButtonComponent
-          text="Create Game"
-          variant="primary"
-          route={"/explore"}
-        />
+        <ButtonComponent text="Create Game" variant="primary" route={"/"} />
       </LinearGradient>
     </>
   );

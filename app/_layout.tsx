@@ -8,10 +8,17 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import {
+  createStackNavigator,
+  TransitionSpecs,
+  CardStyleInterpolators,
+} from "@react-navigation/stack";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QuestionsProvider } from "@/contexts/QuestionsProvider";
 import { AnswersProvider } from "@/contexts/AnswersProvider";
+import { View } from "react-native/Libraries/Components/View/View";
+import { ThemedText } from "@/components/ThemedText";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -38,10 +45,12 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <QuestionsProvider>
         <AnswersProvider>
-          <Stack>
+          <Stack screenOptions={{ animation: "none" }}>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
+            <Stack.Screen name="game" options={{ headerShown: false }} />
           </Stack>
+          <ThemedText>Hewj ehejejej</ThemedText>
         </AnswersProvider>
       </QuestionsProvider>
     </ThemeProvider>

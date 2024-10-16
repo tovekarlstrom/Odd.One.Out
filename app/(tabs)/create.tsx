@@ -6,7 +6,6 @@ import { AddQuestion } from "@/components/AddQuestion";
 import { AddedQuestions } from "@/components/AddedQuestions";
 import { Colors } from "@/constants/Theme";
 import { ButtonComponent } from "@/components/ButtonComponent";
-import { LinearGradient } from "expo-linear-gradient";
 import { GradientContainer } from "@/components/GradientContainer";
 
 export default function TabThreeScreen() {

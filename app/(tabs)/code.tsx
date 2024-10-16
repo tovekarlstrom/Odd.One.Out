@@ -1,17 +1,11 @@
-import Ionicons from "@expo/vector-icons/Ionicons";
 import { StyleSheet, View } from "react-native";
-
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedView } from "@/components/ThemedView";
-import PlayerIcon from "@/components/PlayerIcon";
-import { AddAnswer } from "@/components/AddAnswer";
 import { ThemedText } from "@/components/ThemedText";
 import { CopyComponent } from "@/components/CopyComponent";
-import { CardComponent } from "@/components/CardComponent";
 import { useEffect, useState } from "react";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
-import { Sizes } from "@/constants/Theme";
 import { GradientContainer } from "@/components/GradientContainer";
 
 export default function Code() {
@@ -19,7 +13,6 @@ export default function Code() {
 
   useEffect(() => {
     const code = Math.random().toString(36).substring(4);
-    console.log(code);
     setGameCode(code);
   }, []);
 

@@ -9,7 +9,7 @@ export function AddedQuestions() {
 
   return (
     <View style={styled.outerConteiner}>
-      <CardComponent heading="Added Questions">
+      <CardComponent heading="Added Questions" fullWidth>
         <View style={styled.container}>
           {questions
             .slice()

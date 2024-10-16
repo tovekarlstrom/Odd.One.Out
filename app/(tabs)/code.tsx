@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { Sizes } from "@/constants/Theme";
+import { GradientContainer } from "@/components/GradientContainer";
 
 export default function Code() {
   const [gameCode, setGameCode] = useState("");
@@ -35,12 +36,12 @@ export default function Code() {
         </ThemedView>
         <CopyComponent gameCode={gameCode} />
         <View style={styles.cardContainer}>
-          <JoinedPlayers />
+          <JoinedPlayers heading="Joined Players" />
         </View>
       </ParallaxScrollView>
-      <View style={styles.buttonContainer}>
+      <GradientContainer>
         <ButtonComponent text="Start Game" variant="primary" route="/game" />
-      </View>
+      </GradientContainer>
     </>
   );
 }
@@ -54,14 +55,6 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     marginTop: 35,
-  },
-  buttonContainer: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    padding: Sizes.Spacings.xLarge,
-    paddingTop: Sizes.Spacings.medium,
-    alignItems: "center",
+    marginBottom: 70,
   },
 });

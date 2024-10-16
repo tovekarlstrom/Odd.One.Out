@@ -32,7 +32,7 @@ export default function HomeScreen() {
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
         <CopyComponent gameCode="WBkdsoe56D" />
-        <ButtonComponent text={"Join Game"} variant="primary" route="/game" />
+        <ButtonComponent text={"Join Game"} variant="primary" route="/join" />
         <ButtonComponent
           text={"Create Game"}
           variant="secondary"

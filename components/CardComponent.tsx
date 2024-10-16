@@ -25,11 +25,14 @@ const styles = StyleSheet.create({
     gap: 8,
     width: 285,
     margin: "auto",
+    alignItems: "center",
   },
   fullCard: {
     width: "100%",
   },
   text: {
+    width: "100%",
+    textAlign: "left",
     marginBottom: Sizes.Spacings.small,
   },
 });

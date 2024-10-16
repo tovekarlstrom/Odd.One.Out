@@ -29,7 +29,7 @@ export default function Code() {
         </ThemedView>
         <CopyComponent gameCode={gameCode} />
         <View style={styles.cardContainer}>
-          <JoinedPlayers heading="Joined Players" />
+          <JoinedPlayers heading="Joined Players" topPlayers />
         </View>
       </ParallaxScrollView>
       <GradientContainer>

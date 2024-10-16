@@ -27,6 +27,7 @@ export const Colors = {
     primaryButton: brightPink,
     secondaryButton: creamWhite,
     addButton: creamWhite,
+    activeTextField: lightGreen,
     Card: beigeCard,
     inputField: beigeDark,
     contrastBlue: royalBlue,

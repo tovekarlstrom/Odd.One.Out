@@ -1,8 +1,6 @@
 import { Colors, Sizes } from "@/constants/Theme";
 import { Text, type TextProps, StyleSheet } from "react-native";
 
-// import { useThemeColor } from '@/hooks/useThemeColor';
-
 export type ThemedTextProps = TextProps & {
   lightColor?: string;
   darkColor?: string;
@@ -47,49 +45,44 @@ export function ThemedText({
 const styles = StyleSheet.create({
   default: {
     fontSize: Sizes.SmallTextSize,
-    fontFamily: "InstrumentalSans",
+    fontFamily: "Instrument Sans Regular",
     lineHeight: 20,
     color: Colors.light.text,
   },
   defaultSemiBold: {
     fontSize: Sizes.SmallTextSize,
-    fontFamily: "InstrumentalSans",
+    fontFamily: "Instrument Sans SemiBold",
     lineHeight: 24,
-    fontWeight: "bold",
     color: Colors.light.text,
   },
   defaultLarge: {
     fontSize: Sizes.LargeTextSize,
-    fontFamily: "InstrumentalSans",
+    fontFamily: "Instrument Sans Bold",
     lineHeight: 24,
-    fontWeight: "bold",
     color: Colors.light.text,
   },
   heading40: {
     fontSize: Sizes.LargeHeading,
-    fontFamily: "AbrilFat",
-    fontWeight: "bold",
+    fontFamily: "Abril Fat",
     lineHeight: 40,
     color: Colors.light.text,
   },
   heading32: {
     fontSize: Sizes.MediumHeading,
-    fontFamily: "InstrumentalSans",
-    fontWeight: "bold",
+    fontFamily: "Instrument Sans Bold",
     lineHeight: 32,
     color: Colors.light.text,
   },
   heading24: {
     fontSize: Sizes.SmallHeading,
-    fontFamily: "InstrumentalSans",
-    fontWeight: "600",
+    fontFamily: "Instrument Sans SemiBold",
     lineHeight: 24,
     color: Colors.light.text,
   },
   link: {
-    lineHeight: 30,
+    // lineHeight: 30,
     fontSize: Sizes.SmallTextSize,
-    fontFamily: "InstrumentalSans",
+    fontFamily: "Instrument Sans SemiBold",
     color: Colors.light.text,
   },
 });

@@ -21,11 +21,11 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.light.Card,
     borderRadius: 30,
-    padding: Sizes.Spacings.xLarge,
+    padding: Sizes.Spacings.large,
     gap: 8,
     width: 285,
+    maxWidth: 350,
     margin: "auto",
-    alignItems: "center",
   },
   fullCard: {
     width: "100%",

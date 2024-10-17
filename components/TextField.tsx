@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     minWidth: 200,
     backgroundColor: Colors.light.activeTextField,
     padding: Sizes.Spacings.medium,
-    width: "100%",
+    flex: 1,
   },
   textBox: {
     borderRadius: 30,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     minWidth: 200,
     backgroundColor: Colors.light.background,
     padding: Sizes.Spacings.medium,
-    width: "100%",
+    flex: 1,
   },
   threeItems: {
     justifyContent: "space-between",

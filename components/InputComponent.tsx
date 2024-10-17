@@ -39,5 +39,6 @@ const styles = StyleSheet.create({
     paddingLeft: Sizes.Spacings.medium,
     paddingRight: Sizes.Spacings.medium,
     borderRadius: 30,
+    margin: "auto",
   },
 });

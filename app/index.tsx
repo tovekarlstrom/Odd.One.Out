@@ -1,27 +1,13 @@
-import {
-  StyleSheet,
-  Platform,
-  Button,
-  View,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, ImageBackground } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { ButtonComponent } from "@/components/ButtonComponent";
-import { useRouter } from "expo-router";
-import { Colors, Sizes } from "@/constants/Theme";
-import { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
+import { Sizes } from "@/constants/Theme";
 import LearnMore from "@/components/LearnMore";
 
 export default function HomeScreen() {
-  const [openLearnMore, setOpenlearnMore] = useState<boolean>(false);
-  const clickLearnMore = () => {
-    setOpenlearnMore(!openLearnMore);
-  };
   return (
     <ImageBackground
       source={require("../assets/images/startBackground.png")}

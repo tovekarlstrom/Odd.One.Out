@@ -1,15 +1,16 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, TouchableOpacity, ViewProps } from "react-native";
 import Icon from "../assets/oddOneOutIcon.svg";
 import { router } from "expo-router";
+import { ThemedView } from "./ThemedView";
 
-interface IconProps {
+export type IconProps = ViewProps & {
   size: number;
-}
+};
 
-export default function LogoIcon({ size }: IconProps) {
+export default function LogoIcon({ size, style }: IconProps) {
   return (
-    <View style={styles.container}>
+    <ThemedView style={[style]}>
       <TouchableOpacity
         onPress={() => {
           router.push("/");
@@ -18,13 +19,6 @@ export default function LogoIcon({ size }: IconProps) {
       >
         <Icon width={size} height={size} />
       </TouchableOpacity>
-    </View>
+    </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});

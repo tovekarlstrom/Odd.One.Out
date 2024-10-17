@@ -4,20 +4,16 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-import {
-  createStackNavigator,
-  TransitionSpecs,
-  CardStyleInterpolators,
-} from "@react-navigation/stack";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QuestionsProvider } from "@/contexts/QuestionsProvider";
 import { AnswersProvider } from "@/contexts/AnswersProvider";
-import { View } from "react-native/Libraries/Components/View/View";
+import { ThemedView } from "@/components/ThemedView";
+import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -25,6 +21,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const pages = ["index", "code", "game", "create"];
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     AbrilFat: require("../assets/fonts/AbrilFatface-Regular.ttf"),
@@ -46,13 +43,35 @@ export default function RootLayout() {
       <QuestionsProvider>
         <AnswersProvider>
           <Stack screenOptions={{ animation: "none" }}>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            {pages.map((page) => (
+              <Stack.Screen
+                key={page}
+                name={page}
+                options={{ headerShown: false }}
+              />
+            ))}
             <Stack.Screen name="+not-found" />
-            <Stack.Screen name="game" options={{ headerShown: false }} />
           </Stack>
-          <ThemedText>Hewj ehejejej</ThemedText>
+          {/* <ThemedView style={styles.container}>
+            <TouchableOpacity
+              onPress={() => {
+                router.back();
+              }}
+            >
+              <Text>Back</Text>
+            </TouchableOpacity>
+          </ThemedView> */}
         </AnswersProvider>
       </QuestionsProvider>
     </ThemeProvider>
   );
 }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     height: 40,
+//     width: "100%",
+//     justifyContent: "flex-start",
+//     alignItems: "center",
+//   },
+// });

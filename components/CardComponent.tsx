@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   text: {
-    width: "100%",
-    textAlign: "left",
     marginBottom: Sizes.Spacings.small,
   },
 });

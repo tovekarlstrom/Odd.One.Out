@@ -12,7 +12,6 @@ export default function Join() {
 
   const handleNewGame = (text: string) => {
     setGameCode(text);
-    console.log(text);
   };
   const joinGame = () => {
     alert("Joined the game");

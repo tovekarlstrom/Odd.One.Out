@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
   learnMoreBoxClosed: {
     position: "absolute",
     bottom: 0,
-    height: Platform.OS === "ios" ? 70 : 30,
+    height: 70,
+    // height: Platform.OS === "ios" ? 70 : 30,
     width: "100%",
     display: "flex",
     justifyContent: "flex-start",

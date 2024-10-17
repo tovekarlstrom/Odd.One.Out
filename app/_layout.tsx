@@ -12,9 +12,6 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QuestionsProvider } from "@/contexts/QuestionsProvider";
 import { AnswersProvider } from "@/contexts/AnswersProvider";
-import { ThemedView } from "@/components/ThemedView";
-import { TouchableOpacity, StyleSheet, Text, View } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

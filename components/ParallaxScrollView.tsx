@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import Animated, { useAnimatedRef } from "react-native-reanimated";
 
 import { ThemedView } from "@/components/ThemedView";
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.light.background,
+    paddingTop: 80,
   },
   homePage: {
     flex: 1,
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   header: {
     position: "absolute",
     top: 30,
-    left: 10,
+    left: 0,
     zIndex: 10,
   },
   content: {

@@ -23,9 +23,10 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const pages = ["index", "code", "game", "create"];
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    AbrilFat: require("../assets/fonts/AbrilFatface-Regular.ttf"),
-    InstrumentalSans: require("../assets/fonts/InstrumentSans-VariableFont_wdth,wght.ttf"),
+    "Abril Fat": require("../assets/fonts/AbrilFatface.ttf"),
+    "Instrument Sans Regular": require("../assets/fonts/InstrumentSans-Regular.ttf"),
+    "Instrument Sans SemiBold": require("../assets/fonts/InstrumentSans-SemiBold.ttf"),
+    "Instrument Sans Bold": require("../assets/fonts/InstrumentSans-Bold.ttf"),
   });
 
   useEffect(() => {

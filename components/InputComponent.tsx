@@ -32,12 +32,13 @@ export function InputComponent({
 const styles = StyleSheet.create({
   input: {
     backgroundColor: Colors.light.inputField,
-    flex: 1,
+    width: "100%",
     maxWidth: 285,
     height: 55,
     borderWidth: 0,
     paddingLeft: Sizes.Spacings.medium,
     paddingRight: Sizes.Spacings.medium,
     borderRadius: 30,
+    margin: "auto",
   },
 });

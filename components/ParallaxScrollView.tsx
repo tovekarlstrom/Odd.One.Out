@@ -1,18 +1,22 @@
-import type { PropsWithChildren, ReactElement } from "react";
-import { StyleSheet, useColorScheme } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import Animated, { useAnimatedRef } from "react-native-reanimated";
 
 import { ThemedView } from "@/components/ThemedView";
+import { Colors, Sizes } from "@/constants/Theme";
+import LogoIcon from "./LogoIcon";
 
 export default function ParallaxScrollView({
   children,
+  isHomePage,
 }: {
   children: React.ReactNode;
+  isHomePage?: boolean;
 }) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={isHomePage ? styles.homePage : styles.container}>
+      <LogoIcon style={styles.header} size={60} />
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
         <ThemedView style={styles.content}>{children}</ThemedView>
       </Animated.ScrollView>
@@ -23,12 +27,25 @@ export default function ParallaxScrollView({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.light.background,
+    paddingTop: 80,
+  },
+  homePage: {
+    flex: 1,
+    backgroundColor: "transparent",
+    paddingTop: 80,
+  },
+  header: {
+    position: "absolute",
+    top: 30,
+    left: 0,
+    zIndex: 10,
   },
   content: {
-    paddingTop: 50,
+    paddingTop: 100,
     flex: 1,
-    padding: 24,
-
+    padding: Sizes.Spacings.large,
     overflow: "hidden",
+    backgroundColor: "transparent",
   },
 });

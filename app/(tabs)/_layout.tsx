@@ -1,50 +1,36 @@
-import { Tabs } from "expo-router";
-import React from "react";
+// import { Tabs } from "expo-router";
+// import React from "react";
 
-import { TabBarIcon } from "@/components/navigation/TabBarIcon";
-import { Colors } from "@/constants/Theme";
-import { useColorScheme } from "@/hooks/useColorScheme";
+// import { TabBarIcon } from "@/components/navigation/TabBarIcon";
+// import { useColorScheme } from "@/hooks/useColorScheme";
+// import { ThemedText } from "@/components/ThemedText";
+// import { View } from "react-native/Libraries/Components/View/View";
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+// export default function TabLayout() {
+//   const colorScheme = useColorScheme();
 
-  return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors.light.tint,
-        headerShown: false,
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "home" : "home-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: "Explore",
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon
-              name={focused ? "code-slash" : "code-slash-outline"}
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="create"
-        options={{
-          title: "Create Game",
-        }}
-      />
-    </Tabs>
-  );
-}
+//   return (
+//     <View>
+//       <Tabs
+//         screenOptions={{
+//           tabBarActiveTintColor: "blue",
+//           headerShown: false,
+//         }}
+//       >
+//         <Tabs.Screen
+//           name="index"
+//           options={{
+//             title: "Home",
+//             tabBarIcon: ({ color, focused }) => (
+//               <TabBarIcon
+//                 name={focused ? "home" : "home-outline"}
+//                 color={color}
+//               />
+//             ),
+//           }}
+//         />
+//       </Tabs>
+//       <ThemedText>Hewj ehejejej</ThemedText>
+//     </View>
+//   );
+// }

@@ -13,9 +13,11 @@
       "backgroundColor": "#EBDED6"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.tkkbco.oddoneout"
     },
     "android": {
+      "package": "com.tkkbco.oddoneout",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#EBDED6"

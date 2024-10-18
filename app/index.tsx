@@ -6,6 +6,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { Sizes } from "@/constants/Theme";
 import LearnMore from "@/components/LearnMore";
+import { StartAnimation } from "@/components/StartAnimation";
 
 export default function HomeScreen() {
   return (
@@ -14,6 +15,7 @@ export default function HomeScreen() {
       resizeMode="cover"
       style={styles.backGround}
     >
+      <StartAnimation />
       <ParallaxScrollView isHomePage={true}>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="title">

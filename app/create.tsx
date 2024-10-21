@@ -7,12 +7,11 @@ import { AddedQuestions } from "@/components/AddedQuestions";
 import { Colors } from "@/constants/Theme";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { GradientContainer } from "@/components/GradientContainer";
-import { createRoom } from "../functions/createGame";
+import { createGameRoom } from "../functions/createGameRoom";
 
 export default function TabThreeScreen() {
   const handlePress = async () => {
-    const newRoomId = await createRoom();
-    console.log(newRoomId);
+    await createGameRoom();
   };
 
   return (

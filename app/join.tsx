@@ -6,15 +6,25 @@ import { ButtonComponent } from "@/components/ButtonComponent";
 import { Sizes } from "@/constants/Theme";
 import { CardComponent } from "@/components/CardComponent";
 import { InputComponent } from "@/components/InputComponent";
+import { addPlayers } from "../functions/addPlayers";
+import { getGameRoom } from "@/functions/getGameRoom";
 
 export default function Join() {
   const [gameCode, setGameCode] = useState("");
+  const [playerName, setPlayerName] = useState<string>("");
 
   const handleNewGame = (text: string) => {
     setGameCode(text);
   };
-  const joinGame = () => {
-    alert("Joined the game");
+  const joinGame = async () => {
+    // Testa att lägga till användare med kod: ow2fotlwg i appen
+    const gameRoom = await getGameRoom(gameCode);
+    if (gameRoom) {
+      await addPlayers(gameRoom, playerName);
+      alert("Joined the game");
+    } else {
+      alert("Wrong game code!");
+    }
   };
 
   return (
@@ -28,16 +38,23 @@ export default function Join() {
           </ThemedText>
         </View>
         <View style={{ marginVertical: 40 }}>
-          <CardComponent heading="Enter game code" fullWidth>
+          <CardComponent heading="Enter game code and your name" fullWidth>
             <InputComponent
               placeholder="Code"
               onChangeText={handleNewGame}
               value={gameCode}
-              onSubmitEditing={joinGame}
+            />
+            <InputComponent
+              placeholder="Name"
+              onChangeText={(value) => {
+                setPlayerName(value);
+              }}
+              value={playerName}
             />
             <ButtonComponent
               variant="primary"
               text="Join Game"
+              onSubmit={joinGame}
               route={"/game"}
             />
           </CardComponent>

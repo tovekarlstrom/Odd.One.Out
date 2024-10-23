@@ -7,8 +7,13 @@ import { AddedQuestions } from "@/components/AddedQuestions";
 import { Colors } from "@/constants/Theme";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { GradientContainer } from "@/components/GradientContainer";
+import { createGameRoom } from "../functions/createGameRoom";
 
 export default function TabThreeScreen() {
+  const handlePress = async () => {
+    await createGameRoom();
+  };
+
   return (
     <>
       <ParallaxScrollView>
@@ -23,7 +28,12 @@ export default function TabThreeScreen() {
         <AddedQuestions />
       </ParallaxScrollView>
       <GradientContainer>
-        <ButtonComponent text="Create Game" variant="primary" route="/code" />
+        <ButtonComponent
+          onSubmit={handlePress}
+          text="Create Game"
+          variant="primary"
+          route="/code"
+        />
       </GradientContainer>
     </>
   );

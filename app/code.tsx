@@ -7,13 +7,35 @@ import { useEffect, useState } from "react";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { GradientContainer } from "@/components/GradientContainer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const loadGameCode = async () => {
+  try {
+    const roomId = await AsyncStorage.getItem("roomId");
+
+    if (!roomId) {
+      console.error("No roomId in storage");
+      return null;
+    }
+
+    return roomId;
+  } catch (e) {
+    console.error("Error loading from storage", e);
+    return null;
+  }
+};
 
 export default function Code() {
   const [gameCode, setGameCode] = useState("");
 
   useEffect(() => {
-    const code = Math.random().toString(36).substring(4);
-    setGameCode(code);
+    const fetchGameCode = async () => {
+      const roomCode = await loadGameCode();
+      if (roomCode) {
+        setGameCode(roomCode);
+      }
+    };
+    fetchGameCode();
   }, []);
 
   return (
@@ -21,7 +43,7 @@ export default function Code() {
       <ParallaxScrollView>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="heading32">
-            The stage is set! Start when you’re ready.
+            The stage is set! Start when you're ready.
           </ThemedText>
           <ThemedText type="default">
             Share the code with all players who need to join

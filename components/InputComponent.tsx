@@ -5,7 +5,7 @@ interface InputComponentProps {
   placeholder?: string;
   onChangeText: (text: string) => void;
   value: string;
-  onSubmitEditing: () => void;
+  onSubmitEditing?: () => void;
 }
 
 export function InputComponent({

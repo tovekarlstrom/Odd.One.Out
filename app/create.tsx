@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -7,15 +7,28 @@ import { AddedQuestions } from "@/components/AddedQuestions";
 import { Colors } from "@/constants/Theme";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { GradientContainer } from "@/components/GradientContainer";
-import { createGameRoom } from "../functions/createGameRoom";
+import AddAdmin from "@/components/AddAdmin";
+import { useState } from "react";
+import { BackdropContainer } from "@/components/BackdropContainer";
 
 export default function TabThreeScreen() {
-  const handlePress = async () => {
-    await createGameRoom();
+  const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);
+  const [renderAdmin, setRenderAdmin] = useState<boolean>(false);
+  const handlePress = () => {
+    setOpenAddAdmin(true);
+    setRenderAdmin(true);
+  };
+
+  const handleBackdropPress = () => {
+    setOpenAddAdmin(false);
+  };
+
+  const handleAnimation = () => {
+    setRenderAdmin(false);
   };
 
   return (
-    <>
+    <View style={styles.container}>
       <ParallaxScrollView>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type="heading32">
@@ -32,14 +45,21 @@ export default function TabThreeScreen() {
           onSubmit={handlePress}
           text="Create Game"
           variant="primary"
-          route="/code"
         />
       </GradientContainer>
-    </>
+      {renderAdmin && (
+        <BackdropContainer handleOnPress={handleBackdropPress}>
+          <AddAdmin showAddAdmin={openAddAdmin} onClose={handleAnimation} />
+        </BackdropContainer>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   titleContainer: {
     flexDirection: "row",
     gap: 8,

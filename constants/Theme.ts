@@ -51,5 +51,6 @@ export const Sizes = {
     medium: 15,
     large: 20,
     xLarge: 25,
+    xxLarge: 40,
   },
 };

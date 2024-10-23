@@ -4,41 +4,47 @@ import PlayerIcon from "./PlayerIcon";
 import { TextField } from "./TextField";
 import { ThemedText } from "./ThemedText";
 import { Sizes } from "@/constants/Theme";
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 
 interface Player {
-  name: string;
+  playerName: string;
   points?: number;
+  isAdmin?: boolean;
+  playerId: string;
 }
 
 interface JoinedPlayersProps {
   heading: string;
   topPlayers?: boolean;
+  players: Player[] | undefined;
 }
-export function JoinedPlayers({ heading, topPlayers }: JoinedPlayersProps) {
-  const [players, setPlayers] = useState<Player[] | undefined>(undefined);
+export function JoinedPlayers({
+  heading,
+  topPlayers,
+  players,
+}: JoinedPlayersProps) {
+  const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
 
   useEffect(() => {
-    const players: Player[] = [
-      { name: "Klara", points: 2 },
-      { name: "Johannes", points: 1 },
-      { name: "Sara", points: undefined },
-      { name: "Kalle", points: 4 },
-      { name: "Sara", points: undefined },
-    ];
+    if (!players) return;
+
     if (topPlayers) {
       players.sort((a, b) => (a.points || 0) - (b.points || 0)).reverse();
-      setPlayers(players.slice(0, 3));
+      setPlayerList(players.slice(0, 3));
     } else {
-      setPlayers(players);
+      setPlayerList(players);
     }
-  }, [topPlayers]);
+  }, [topPlayers, players]);
 
   return (
     <CardComponent heading={heading}>
-      {players ? (
-        players.map((player, index) => (
-          <TextField key={index} value={player.name} points={player.points}>
+      {playerList ? (
+        playerList.map((player, index) => (
+          <TextField
+            key={index}
+            value={player.playerName}
+            points={player.points}
+          >
             <PlayerIcon size={20} />
           </TextField>
         ))

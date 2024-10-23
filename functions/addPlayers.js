@@ -9,7 +9,7 @@ export const addPlayers = async (documentId, name) => {
     const player = {
       playerId: Math.random().toString(36).substring(4),
       playerName: name,
-      points: 0,
+      points: null,
       isAdmin: false,
     };
 

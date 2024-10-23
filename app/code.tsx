@@ -8,6 +8,8 @@ import { ButtonComponent } from "@/components/ButtonComponent";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { GradientContainer } from "@/components/GradientContainer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getGameRoom } from "@/functions/getGameRoom";
+import { getPlayers } from "@/functions/getPlayers";
 
 const loadGameCode = async () => {
   try {
@@ -28,6 +30,8 @@ const loadGameCode = async () => {
 export default function Code() {
   const [gameCode, setGameCode] = useState("");
 
+  const [players, setPlayers] = useState<any[]>([]);
+
   useEffect(() => {
     const fetchGameCode = async () => {
       const roomCode = await loadGameCode();
@@ -37,6 +41,22 @@ export default function Code() {
     };
     fetchGameCode();
   }, []);
+
+  useEffect(() => {
+    if (gameCode) {
+      getplayers();
+    }
+  }, [gameCode]);
+
+  const getplayers = async () => {
+    const game = await getGameRoom(gameCode);
+
+    if (game) {
+      const playersList = await getPlayers(game);
+
+      void setPlayers(playersList);
+    }
+  };
 
   return (
     <>
@@ -51,7 +71,7 @@ export default function Code() {
         </ThemedView>
         <CopyComponent gameCode={gameCode} />
         <View style={styles.cardContainer}>
-          <JoinedPlayers heading="Joined Players" topPlayers />
+          <JoinedPlayers players={players} heading="Joined Players" />
         </View>
       </ParallaxScrollView>
       <GradientContainer>

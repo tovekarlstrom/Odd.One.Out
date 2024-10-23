@@ -10,6 +10,7 @@ export const addPlayers = async (documentId, name) => {
       playerId: Math.random().toString(36).substring(4),
       playerName: name,
       points: 0,
+      isAdmin: false,
     };
 
     await updateDoc(gameRoomRef, {

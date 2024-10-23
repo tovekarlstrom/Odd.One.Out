@@ -7,7 +7,14 @@ export const createGameRoom = async () => {
   try {
     const gameRoomRef = await addDoc(collection(db, "gameRooms"), {
       roomId: roomId,
-      players: [],
+      players: [
+        {
+          playerId: Math.random().toString(36).substring(4),
+          playerName: "Admin",
+          points: 0,
+          isAdmin: true,
+        },
+      ],
     });
 
     await AsyncStorage.setItem("roomId", roomId);

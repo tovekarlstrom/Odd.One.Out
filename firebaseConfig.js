@@ -16,8 +16,6 @@ const firebaseConfig = {
   databaseURL: `https://firestore.googleapis.com/v1/projects/${process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID}/databases/(default)`,
 };
 
-console.log("ProjectID", process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID);
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);

@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -22,7 +22,7 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
     if (playerName.length < 3) {
       alert("Your player name has to contain at least three characters");
     } else {
-      await createGameRoom();
+      await createGameRoom(playerName);
     }
   };
 
@@ -49,7 +49,7 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
             onSubmit={handlePress}
             text="Create Game"
             variant="primary"
-            route={playerName.length > 3 ? "/code" : undefined}
+            route={playerName.length >= 3 ? "/code" : undefined}
           />
         </GradientContainer>
       </>
@@ -61,9 +61,7 @@ const styles = StyleSheet.create({
   addAdminBoxOpen: {
     position: "absolute",
     bottom: 0,
-    height: 300,
     width: "100%",
-    display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
     paddingTop: Sizes.Spacings.xxLarge,
@@ -71,6 +69,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
     elevation: 5,
+    overflow: "hidden",
   },
   inputContainer: {
     width: "100%",

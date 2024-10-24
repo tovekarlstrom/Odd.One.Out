@@ -9,7 +9,7 @@ import { ButtonComponent } from "@/components/ButtonComponent";
 import { GradientContainer } from "@/components/GradientContainer";
 import AddAdmin from "@/components/AddAdmin";
 import { useState } from "react";
-import { BackdropContainer } from "@/components/BackdropContainer";
+import BackdropContainer from "@/components/BackdropContainer";
 
 export default function TabThreeScreen() {
   const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);

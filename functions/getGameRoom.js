@@ -8,8 +8,6 @@ export const getGameRoom = async (roomId) => {
 
   const querySnapshot = await getDocs(q);
 
-  console.log(querySnapshot.docs[0]);
-
   if (querySnapshot.empty) {
     console.error("No game room found");
     return;
@@ -18,6 +16,5 @@ export const getGameRoom = async (roomId) => {
   const gameRoomDoc = querySnapshot.docs[0];
   const gameRoom = gameRoomDoc.id;
 
-  console.log("Game Room documentId:", gameRoom);
   return gameRoom;
 };

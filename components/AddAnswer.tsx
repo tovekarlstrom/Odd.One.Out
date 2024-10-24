@@ -13,7 +13,6 @@ export function AddAnswer() {
 
   const handleNewAnswer = (text: string) => {
     setNewAnswer(text);
-    console.log(text);
   };
   const addNewAnswer = async () => {
     alert(newAnswer);

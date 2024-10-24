@@ -11,7 +11,6 @@ export function AddQuestion() {
 
   const handleNewQuestion = (text: string) => {
     setNewQuestion(text);
-    console.log(text);
   };
   const addNewQuestion = async () => {
     addQuestion(newQuestion);

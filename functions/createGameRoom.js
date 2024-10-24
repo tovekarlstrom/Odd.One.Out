@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
-export const createGameRoom = async () => {
+export const createGameRoom = async (playerName) => {
   const roomId = Math.random().toString(36).substring(4);
   try {
     const gameRoomRef = await addDoc(collection(db, "gameRooms"), {
@@ -10,7 +10,7 @@ export const createGameRoom = async () => {
       players: [
         {
           playerId: Math.random().toString(36).substring(4),
-          playerName: "Admin",
+          playerName: playerName,
           points: 0,
           isAdmin: true,
         },
@@ -19,7 +19,6 @@ export const createGameRoom = async () => {
 
     await AsyncStorage.setItem("roomId", roomId);
 
-    console.log("Game created:", gameRoomRef.id);
     return gameRoomRef.id;
   } catch (e) {
     console.error("ERROR:", e);

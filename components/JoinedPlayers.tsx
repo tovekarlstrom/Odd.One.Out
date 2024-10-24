@@ -20,6 +20,7 @@ export function JoinedPlayers({
   players,
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
+  const [listLength, setListLength] = useState<string>("");
 
   useEffect(() => {
     if (!players) return;
@@ -28,13 +29,19 @@ export function JoinedPlayers({
       players.sort((a, b) => (a.points || 0) - (b.points || 0)).reverse();
       setPlayerList(players.slice(0, 3));
     } else {
-      setPlayerList(players);
+      setPlayerList([...players].reverse());
     }
   }, [topPlayers, players]);
 
+  useEffect(() => {
+    if (playerList && playerList.length > 0) {
+      setListLength(`(${playerList.length})`);
+    }
+  }, [playerList]);
+
   return (
-    <CardComponent heading={heading}>
-      {playerList ? (
+    <CardComponent heading={`${heading} ${listLength}`}>
+      {playerList &&
         playerList.map((player, index) => (
           <View key={index}>
             {showPoints ? (
@@ -51,12 +58,7 @@ export function JoinedPlayers({
               </TextField>
             )}
           </View>
-        ))
-      ) : (
-        <View style={{ paddingVertical: Sizes.Spacings.medium }}>
-          <ThemedText type="default">Waiting for players to join</ThemedText>
-        </View>
-      )}
+        ))}
     </CardComponent>
   );
 }

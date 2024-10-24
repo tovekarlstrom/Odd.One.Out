@@ -24,13 +24,13 @@ export default function SlideAnimation({
     if (showSlider) {
       Animated.timing(slideAnimation, {
         toValue: 1,
-        duration: 200,
+        duration: 300,
         useNativeDriver: false,
       }).start();
     } else {
       Animated.timing(slideAnimation, {
         toValue: 0,
-        duration: 200,
+        duration: 300,
         useNativeDriver: false,
       }).start(() => {
         if (onClose) {

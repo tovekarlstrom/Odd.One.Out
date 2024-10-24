@@ -68,8 +68,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.Card,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
-    elevation: 5,
-    overflow: "hidden",
   },
   inputContainer: {
     width: "100%",

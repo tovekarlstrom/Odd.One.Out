@@ -14,6 +14,7 @@ import BackdropContainer from "@/components/BackdropContainer";
 export default function TabThreeScreen() {
   const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);
   const [renderAdmin, setRenderAdmin] = useState<boolean>(false);
+
   const handlePress = () => {
     setOpenAddAdmin(true);
     setRenderAdmin(true);
@@ -41,11 +42,7 @@ export default function TabThreeScreen() {
         <AddedQuestions />
       </ParallaxScrollView>
       <GradientContainer>
-        <ButtonComponent
-          onSubmit={handlePress}
-          text="Create Game"
-          variant="primary"
-        />
+        <ButtonComponent onSubmit={handlePress} text="Next" variant="primary" />
       </GradientContainer>
       {renderAdmin && (
         <BackdropContainer handleOnPress={handleBackdropPress}>

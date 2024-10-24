@@ -9,21 +9,26 @@ import { InputComponent } from "@/components/InputComponent";
 import { addPlayers } from "../functions/addPlayers";
 import { getGameRoom } from "@/functions/getGameRoom";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 
 export default function Join() {
   const [gameCode, setGameCode] = useState("");
   const [playerName, setPlayerName] = useState<string>("");
 
+  const router = useRouter();
+
   const handleNewGame = (text: string) => {
     setGameCode(text);
   };
   const joinGame = async () => {
-    // Testa att lägga till användare med kod: ow2fotlwg i appen
     const gameRoom = await getGameRoom(gameCode);
-    if (gameRoom) {
-      await AsyncStorage.setItem("gameRoom", JSON.stringify(gameRoom));
+    if (playerName.length < 3) {
+      alert("Your player name has to contain at least three characters");
+    } else if (gameRoom) {
+      await AsyncStorage.setItem("gameRoom", gameRoom);
       await addPlayers(gameRoom, playerName);
       alert("Joined the game");
+      router.push("/game");
     } else {
       alert("Wrong game code!");
     }
@@ -57,7 +62,6 @@ export default function Join() {
               variant="primary"
               text="Join Game"
               onSubmit={joinGame}
-              route={"/game"}
             />
           </CardComponent>
         </View>

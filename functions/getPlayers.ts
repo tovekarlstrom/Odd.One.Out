@@ -1,4 +1,4 @@
-import { getDoc, collection, doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { Player } from "@/app/code";
 
@@ -9,7 +9,6 @@ export const getPlayers = async (
   try {
     const gameRoomRef = doc(db, "gameRooms", documentId);
 
-    const gameRoomDoc = await getDoc(gameRoomRef);
     const unsub = onSnapshot(gameRoomRef, (doc) => {
       if (doc.exists()) {
         const playersList = doc.data().players || [];

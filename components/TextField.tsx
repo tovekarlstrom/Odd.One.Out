@@ -7,7 +7,7 @@ import { useState } from "react";
 interface TextFieldProps {
   value: string;
   children?: React.ReactNode;
-  points?: number;
+  points?: string;
   isClickable?: boolean;
 }
 

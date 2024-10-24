@@ -11,6 +11,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getGameRoom } from "@/functions/getGameRoom";
 import { getPlayers } from "@/functions/getPlayers";
 
+export interface Player {
+  playerName: string;
+  points: number;
+  isAdmin: boolean;
+  playerId: string;
+}
+
 const loadGameCode = async () => {
   try {
     const roomId = await AsyncStorage.getItem("roomId");
@@ -29,8 +36,7 @@ const loadGameCode = async () => {
 
 export default function Code() {
   const [gameCode, setGameCode] = useState("");
-
-  const [players, setPlayers] = useState<any[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
 
   useEffect(() => {
     const fetchGameCode = async () => {
@@ -44,19 +50,20 @@ export default function Code() {
 
   useEffect(() => {
     if (gameCode) {
-      getplayers();
+      const fetchAndListenToPlayers = async () => {
+        const game = await getGameRoom(gameCode);
+        if (game) {
+          const unsubscribe = await getPlayers(game, setPlayers);
+          return () => {
+            if (unsubscribe) {
+              unsubscribe();
+            }
+          };
+        }
+      };
+      fetchAndListenToPlayers();
     }
   }, [gameCode]);
-
-  const getplayers = async () => {
-    const game = await getGameRoom(gameCode);
-
-    if (game) {
-      const playersList = await getPlayers(game);
-
-      void setPlayers(playersList);
-    }
-  };
 
   return (
     <>

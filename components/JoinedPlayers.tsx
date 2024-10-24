@@ -5,22 +5,18 @@ import { TextField } from "./TextField";
 import { ThemedText } from "./ThemedText";
 import { Sizes } from "@/constants/Theme";
 import { Key, useEffect, useState } from "react";
-
-interface Player {
-  playerName: string;
-  points?: number;
-  isAdmin?: boolean;
-  playerId: string;
-}
+import { Player } from "@/app/code";
 
 interface JoinedPlayersProps {
   heading: string;
   topPlayers?: boolean;
+  showPoints?: boolean;
   players: Player[] | undefined;
 }
 export function JoinedPlayers({
   heading,
   topPlayers,
+  showPoints,
   players,
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
@@ -40,13 +36,21 @@ export function JoinedPlayers({
     <CardComponent heading={heading}>
       {playerList ? (
         playerList.map((player, index) => (
-          <TextField
-            key={index}
-            value={player.playerName}
-            points={player.points}
-          >
-            <PlayerIcon size={20} />
-          </TextField>
+          <View key={index}>
+            {showPoints ? (
+              <TextField
+                key={index}
+                value={player.playerName}
+                points={player.points.toString()}
+              >
+                <PlayerIcon size={20} />
+              </TextField>
+            ) : (
+              <TextField key={index} value={player.playerName}>
+                <PlayerIcon size={20} />
+              </TextField>
+            )}
+          </View>
         ))
       ) : (
         <View style={{ paddingVertical: Sizes.Spacings.medium }}>

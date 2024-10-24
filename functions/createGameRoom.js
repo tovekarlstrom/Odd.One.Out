@@ -11,7 +11,7 @@ export const createGameRoom = async () => {
         {
           playerId: Math.random().toString(36).substring(4),
           playerName: "Admin",
-          points: null,
+          points: 0,
           isAdmin: true,
         },
       ],

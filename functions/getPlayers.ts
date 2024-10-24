@@ -1,32 +1,27 @@
 import { getDoc, collection, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import { Player } from "@/app/code";
 
-export const getPlayers = async (documentId: string) => {
+export const getPlayers = async (
+  documentId: string,
+  setPlayers: (players: Player[]) => void
+) => {
   try {
     const gameRoomRef = doc(db, "gameRooms", documentId);
 
     const gameRoomDoc = await getDoc(gameRoomRef);
-    // Set up listener for real-time updates
     const unsub = onSnapshot(gameRoomRef, (doc) => {
       if (doc.exists()) {
         const playersList = doc.data().players || [];
-        console.log("Updated Player List:", playersList);
+        setPlayers(playersList);
       } else {
         console.log("No such document!");
+        setPlayers([]);
       }
     });
-
-    console.log("Unsub:", unsub);
-    if (gameRoomDoc.exists()) {
-      const playersList = gameRoomDoc.data().players || [];
-      console.log("Player List:", playersList);
-      return playersList;
-    } else {
-      console.log("No such document!");
-      return [];
-    }
+    return unsub;
   } catch (error) {
     console.error("Error fetching players:", error);
-    return [];
+    return setPlayers([]);
   }
 };

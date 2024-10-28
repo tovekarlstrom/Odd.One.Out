@@ -1,7 +1,7 @@
 import { arrayUnion, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
-export const addPlayers = async (documentId, name) => {
+export const addPlayers = async (documentId: string, name: string) => {
   try {
     const gameRoomRef = doc(db, "gameRooms", documentId);
 

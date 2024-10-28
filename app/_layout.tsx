@@ -11,7 +11,6 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QuestionsProvider } from "@/contexts/QuestionsProvider";
-import { AnswersProvider } from "@/contexts/AnswersProvider";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,18 +38,17 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <QuestionsProvider>
-        <AnswersProvider>
-          <Stack screenOptions={{ animation: "none" }}>
-            {pages.map((page) => (
-              <Stack.Screen
-                key={page}
-                name={page}
-                options={{ headerShown: false }}
-              />
-            ))}
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          {/* <ThemedView style={styles.container}>
+        <Stack screenOptions={{ animation: "none" }}>
+          {pages.map((page) => (
+            <Stack.Screen
+              key={page}
+              name={page}
+              options={{ headerShown: false }}
+            />
+          ))}
+          <Stack.Screen name="+not-found" />
+        </Stack>
+        {/* <ThemedView style={styles.container}>
             <TouchableOpacity
               onPress={() => {
                 router.back();
@@ -59,7 +57,6 @@ export default function RootLayout() {
               <Text>Back</Text>
             </TouchableOpacity>
           </ThemedView> */}
-        </AnswersProvider>
       </QuestionsProvider>
     </ThemeProvider>
   );

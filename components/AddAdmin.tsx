@@ -10,6 +10,7 @@ import { InputComponent } from "./InputComponent";
 import { GradientContainer } from "./GradientContainer";
 import SlideAnimation from "./SlideAnimation";
 import { useQuestions } from "@/contexts/QuestionsProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface AddAdminProps {
   showAddAdmin: boolean;
@@ -25,6 +26,7 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
       alert("Your player name has to contain at least three characters");
     } else {
       await createGameRoom(playerName, questions);
+      AsyncStorage.setItem("isAdmin", "true");
     }
   };
 

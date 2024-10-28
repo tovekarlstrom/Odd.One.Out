@@ -9,6 +9,7 @@ interface TextFieldProps {
   children?: React.ReactNode;
   points?: string;
   isClickable?: boolean;
+  answer?: string;
 }
 
 export function TextField({
@@ -16,6 +17,7 @@ export function TextField({
   children,
   points,
   isClickable,
+  answer,
 }: TextFieldProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const Wrapper: React.ElementType = isClickable ? TouchableOpacity : View;
@@ -25,7 +27,7 @@ export function TextField({
   };
 
   const styling =
-    children && points
+    children && (points || answer)
       ? styles.threeItems
       : children
       ? styles.twoItems
@@ -40,7 +42,9 @@ export function TextField({
         {children ? (
           <ThemedView style={styles.innerBox}>
             {children}
-            <ThemedText type="defaultSemiBold">{value}</ThemedText>
+            <ThemedText type={answer ? "defaultSmall" : "defaultSemiBold"}>
+              {value}
+            </ThemedText>
           </ThemedView>
         ) : (
           <ThemedText type="defaultSemiBold">{value}</ThemedText>
@@ -48,6 +52,11 @@ export function TextField({
         {points && (
           <ThemedText style={styles.points} type="defaultSemiBold">
             {points}p
+          </ThemedText>
+        )}
+        {answer && (
+          <ThemedText style={styles.points} type="defaultSemiBold">
+            {answer}
           </ThemedText>
         )}
       </View>
@@ -76,7 +85,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     display: "flex",
     flexDirection: "row",
-    paddingHorizontal: Sizes.Spacings.small,
+    alignItems: "center",
+    gap: Sizes.Spacings.small,
   },
   twoItems: {
     justifyContent: "flex-start",

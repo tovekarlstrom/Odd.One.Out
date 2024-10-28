@@ -40,7 +40,7 @@ export default function Join() {
         <View style={styles.titleContainer}>
           <ThemedText type="heading32">Ready to play?</ThemedText>
           <ThemedText type="default">
-            Your task is to match the majority's answers—let’s see how well you
+            Your task is to match the majority's answers—let's see how well you
             can sync up!
           </ThemedText>
         </View>

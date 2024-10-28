@@ -6,6 +6,7 @@ import { InputComponent } from "./InputComponent";
 import { getQuestion } from "../functions/getQuestion";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { updateIndex } from "../functions/updateIndex";
+import { useRouter } from "expo-router";
 
 export function AddAnswer() {
   const [newAnswer, setNewAnswer] = useState<string>("");
@@ -14,10 +15,12 @@ export function AddAnswer() {
   const [questionsLength, setQuestionsLength] = useState<number>(0);
   const { addAnswer } = useAnswers();
 
+  const router = useRouter();
+
   const fetchQuestion = async () => {
     const gameRoom = await AsyncStorage.getItem("gameRoom");
-    console.log(gameRoom);
     if (gameRoom) {
+      await updateIndex(gameRoom, setIndex);
       const unsubscribe = await getQuestion(
         gameRoom,
         setQuestion,
@@ -35,18 +38,17 @@ export function AddAnswer() {
     fetchQuestion();
   }, []);
 
-  useEffect(() => {
-    console.log(questionsLength);
-  });
-
   const addNewAnswer = async () => {
     const gameRoom = await AsyncStorage.getItem("gameRoom");
     if (gameRoom && index < questionsLength - 1) {
-      await updateIndex(gameRoom);
+      await updateIndex(gameRoom, setIndex, true);
     }
     alert(newAnswer);
     addAnswer(newAnswer);
     setNewAnswer("");
+    if (index === questionsLength - 1) {
+      router.push("/");
+    }
   };
 
   return (
@@ -63,7 +65,6 @@ export function AddAnswer() {
         variant="primary"
         text="Send answer"
         onSubmit={() => {
-          setIndex(index + 1);
           addNewAnswer();
         }}
       />

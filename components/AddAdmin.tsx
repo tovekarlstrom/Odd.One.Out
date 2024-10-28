@@ -9,6 +9,7 @@ import { createGameRoom } from "../functions/createGameRoom";
 import { InputComponent } from "./InputComponent";
 import { GradientContainer } from "./GradientContainer";
 import SlideAnimation from "./SlideAnimation";
+import { useQuestions } from "@/contexts/QuestionsProvider";
 
 interface AddAdminProps {
   showAddAdmin: boolean;
@@ -16,13 +17,14 @@ interface AddAdminProps {
 }
 
 export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
+  const { questions } = useQuestions();
   const [playerName, setPlayerName] = useState<string>("");
 
   const handlePress = async () => {
     if (playerName.length < 3) {
       alert("Your player name has to contain at least three characters");
     } else {
-      await createGameRoom(playerName);
+      await createGameRoom(playerName, questions);
     }
   };
 

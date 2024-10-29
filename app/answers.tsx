@@ -9,8 +9,9 @@ import { getAnswer } from "@/functions/getAnswer";
 import { getPlayers } from "@/functions/getPlayers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { Player } from "./code";
+import { Colors, Sizes } from "@/constants/Theme";
 
 interface PlayerAnswer {
   playerId: string;
@@ -77,7 +78,8 @@ export default function Answers() {
   return (
     <>
       <ParallaxScrollView>
-        <View>
+        <PlayerIcon size={80} />
+        <View style={{ paddingTop: Sizes.Spacings.large }}>
           <CardComponent
             heading={isAdmin ? "Mark the right answers" : "The answers"}
             fullWidth
@@ -99,6 +101,17 @@ export default function Answers() {
               ))}
           </CardComponent>
         </View>
+        {!isAdmin && (
+          <Text
+            style={{
+              textAlign: "center",
+              paddingVertical: 50,
+              color: Colors.light.placeholder,
+            }}
+          >
+            Waiting for admin to enter points..
+          </Text>
+        )}
       </ParallaxScrollView>
       {isAdmin && (
         <GradientContainer>

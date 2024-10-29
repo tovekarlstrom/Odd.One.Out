@@ -1,7 +1,6 @@
-import { getDocs, query, doc, where, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
-// Function to get a specific game room from the roomId and returning the documentID used for fireStore
 export const getAnswer = async (documentId: string, setAnswers: any) => {
   try {
     const gameRoomRef = doc(db, "gameRooms", documentId);

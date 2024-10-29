@@ -5,7 +5,7 @@ import { ThemedView } from "./ThemedView";
 import { useState } from "react";
 
 interface TextFieldProps {
-  value: any;
+  value: string;
   children?: React.ReactNode;
   points?: string;
   isClickable?: boolean;

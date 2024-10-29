@@ -19,11 +19,12 @@ export const createGameRoom = async (
   });
 
   try {
+    const playerId = Math.random().toString(36).substring(4);
     const gameRoomRef = await addDoc(collection(db, "gameRooms"), {
       roomId: roomId,
       players: [
         {
-          playerId: Math.random().toString(36).substring(4),
+          playerId: playerId,
           playerName: playerName,
           points: 0,
           isAdmin: true,
@@ -32,7 +33,7 @@ export const createGameRoom = async (
       questions: questionArray,
       qIndex: 0,
     });
-
+    await AsyncStorage.setItem("playerId", playerId);
     await AsyncStorage.setItem("roomId", roomId);
     await AsyncStorage.setItem("gameRoom", gameRoomRef.id);
 

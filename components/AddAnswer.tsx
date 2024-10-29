@@ -46,7 +46,8 @@ export function AddAnswer() {
         setNewAnswer("");
       }
       if (index < questionsLength - 1) {
-        await updateIndex(gameRoom, setIndex, true);
+        router.push("/answers");
+        // await updateIndex(gameRoom, setIndex, true);
       }
     }
     if (index === questionsLength - 1) {

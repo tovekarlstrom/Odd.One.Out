@@ -5,11 +5,12 @@ import { ThemedView } from "./ThemedView";
 import { useState } from "react";
 
 interface TextFieldProps {
-  value: string;
+  value: any;
   children?: React.ReactNode;
   points?: string;
   isClickable?: boolean;
   answer?: string;
+  onPress: () => void;
 }
 
 export function TextField({
@@ -18,12 +19,14 @@ export function TextField({
   points,
   isClickable,
   answer,
+  onPress,
 }: TextFieldProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const Wrapper: React.ElementType = isClickable ? TouchableOpacity : View;
 
-  const onPress = () => {
+  const handlePress = () => {
     setIsClicked(!isClicked);
+    onPress();
   };
 
   const styling =
@@ -35,7 +38,7 @@ export function TextField({
 
   return (
     <Wrapper
-      onPress={isClickable ? onPress : undefined}
+      onPress={isClickable ? handlePress : undefined}
       style={isClicked ? styles.clicked : styles.textBox}
     >
       <View style={styling}>

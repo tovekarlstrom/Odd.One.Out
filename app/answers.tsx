@@ -5,36 +5,39 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import PlayerIcon from "@/components/PlayerIcon";
 import { TextField } from "@/components/TextField";
 import { addPoints } from "@/functions/addPoints";
+import { getAnswer } from "@/functions/getAnswer";
+import { getPlayers } from "@/functions/getPlayers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { documentId } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { View } from "react-native";
+import { Player } from "./code";
+
+interface PlayerAnswer {
+  playerId: string;
+  playerAnswer: string;
+}
 
 export default function Answers() {
   const [isAdmin, setIsAdmin] = useState(false);
-  const [playerAnswers, setPlayerAnswers] = useState([
-    {
-      playerName: "Vilma",
-      playerId: "44",
-      playerAnswer: "Orange",
-    },
-    {
-      playerName: "Hanna",
-      playerId: "23",
-      playerAnswer: "Den runda söta frukten",
-    },
-    {
-      playerName: "Karl",
-      playerId: "23",
-      playerAnswer: "Citrus",
-    },
-    {
-      playerName: "Johannes",
-      playerId: "4",
-      playerAnswer: "Orange",
-    },
-  ]);
+  const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
+
+  const getPlayerName = (playerId: string) => {
+    if (!players.length) return "";
+    const player = players.find((player) => player.playerId === playerId);
+    return player ? player.playerName : "Unknown Player";
+  };
+
+  useEffect(() => {
+    const getAnswers = async () => {
+      const documentId = await AsyncStorage.getItem("gameRoom");
+      if (documentId) {
+        getAnswer(documentId, setAnswers);
+        getPlayers(documentId, setPlayers);
+      }
+    };
+    getAnswers();
+  }, []);
 
   useEffect(() => {
     const getAdmin = async () => {
@@ -49,18 +52,25 @@ export default function Answers() {
           console.log("adminFalse", parsedAdmin);
           setIsAdmin(false);
         }
-      } else {
-        console.error("No isAdmin in storage");
-        setIsAdmin(false);
       }
     };
     getAdmin();
   }, []);
 
-  const handleSelectedAnswers = async (playerId: string) => {
+  const playerGetPoints: string[] = [];
+
+  const handleSelectedAnswers = (playerId: string) => {
+    playerGetPoints.push(playerId);
+  };
+
+  const enterPoints = async () => {
     const documentId = await AsyncStorage.getItem("gameRoom");
-    if (documentId) {
-      addPoints(documentId, playerId);
+    if (playerGetPoints.length > 0) {
+      if (documentId) {
+        addPoints(documentId, playerGetPoints);
+      }
+    } else {
+      console.log("No marked answes, no points added");
     }
   };
 
@@ -72,20 +82,19 @@ export default function Answers() {
             heading={isAdmin ? "Mark the right answers" : "The answers"}
             fullWidth
           >
-            {playerAnswers &&
-              playerAnswers.map((answer, index) => (
+            {answers &&
+              answers.map((answer, index) => (
                 <View key={index}>
-                  <TouchableOpacity
-                    onPress={() => handleSelectedAnswers(answer.playerId)}
+                  <TextField
+                    value={getPlayerName(answer.playerId)}
+                    isClickable={isAdmin}
+                    answer={answer.playerAnswer}
+                    onPress={() => {
+                      handleSelectedAnswers(answer.playerId);
+                    }}
                   >
-                    <TextField
-                      value={answer.playerName}
-                      isClickable={isAdmin}
-                      answer={answer.playerAnswer}
-                    >
-                      <PlayerIcon size={17} />
-                    </TextField>
-                  </TouchableOpacity>
+                    <PlayerIcon size={17} />
+                  </TextField>
                 </View>
               ))}
           </CardComponent>
@@ -93,7 +102,12 @@ export default function Answers() {
       </ParallaxScrollView>
       {isAdmin && (
         <GradientContainer>
-          <ButtonComponent text="Start Game" variant="primary" route="/game" />
+          <ButtonComponent
+            onSubmit={enterPoints}
+            text="Enter points"
+            variant="primary"
+            route="/game"
+          />
         </GradientContainer>
       )}
     </>

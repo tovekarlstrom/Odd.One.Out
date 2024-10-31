@@ -10,6 +10,7 @@ import { GradientContainer } from "@/components/GradientContainer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getGameRoom } from "@/functions/getGameRoom";
 import { getPlayers } from "@/functions/getPlayers";
+import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 
 export interface Player {
   playerName: string;
@@ -65,6 +66,13 @@ export default function Code() {
     }
   }, [gameCode]);
 
+  const startGame = async () => {
+    const gameRoom = await AsyncStorage.getItem("gameRoom");
+    if (gameRoom) {
+      await getOrUpdateStatus(gameRoom, true);
+    }
+  };
+
   return (
     <>
       <ParallaxScrollView>
@@ -82,7 +90,14 @@ export default function Code() {
         </View>
       </ParallaxScrollView>
       <GradientContainer>
-        <ButtonComponent text="Start Game" variant="primary" route="/game" />
+        <ButtonComponent
+          text="Start Game"
+          variant="primary"
+          onSubmit={() => {
+            startGame();
+          }}
+          route="/game"
+        />
       </GradientContainer>
     </>
   );

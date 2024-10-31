@@ -4,7 +4,7 @@ import { ButtonComponent } from "./ButtonComponent";
 import { InputComponent } from "./InputComponent";
 import { getQuestion } from "../functions/getQuestion";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { updateIndex } from "../functions/updateIndex";
+import { updateIndex } from "../functions/getOrUpdateIndex";
 import { useRouter } from "expo-router";
 import { addAnswerToQuestion } from "@/functions/addAnswers";
 

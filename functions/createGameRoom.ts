@@ -32,6 +32,7 @@ export const createGameRoom = async (
       ],
       questions: questionArray,
       qIndex: 0,
+      status: "waiting",
     });
     await AsyncStorage.setItem("playerId", playerId);
     await AsyncStorage.setItem("roomId", roomId);

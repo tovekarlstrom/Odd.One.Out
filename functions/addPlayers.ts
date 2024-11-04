@@ -11,7 +11,7 @@ export const addPlayers = async (documentId: string, name: string) => {
     const player = {
       playerId: playerId,
       playerName: name,
-      points: 0,
+      points: [0],
       isAdmin: false,
     };
 

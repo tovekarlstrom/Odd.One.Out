@@ -13,7 +13,7 @@ export const addPoints = async (
       const players = gameRoomDoc.data().players;
       const updatedPlayers = players.map((player: any) => {
         if (playersGetPoints.includes(player.playerId)) {
-          return { ...player, points: player.points + 1 };
+          return { ...player, points: [...(player.points || []), 1] };
         }
         return player;
       });

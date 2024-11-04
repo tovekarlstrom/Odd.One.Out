@@ -26,7 +26,7 @@ export const createGameRoom = async (
         {
           playerId: playerId,
           playerName: playerName,
-          points: 0,
+          points: [0],
           isAdmin: true,
         },
       ],

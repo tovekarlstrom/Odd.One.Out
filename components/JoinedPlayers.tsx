@@ -11,12 +11,14 @@ interface JoinedPlayersProps {
   heading: string;
   topPlayers?: boolean;
   showPoints?: boolean;
+  showListLength?: boolean;
   players: Player[] | undefined;
 }
 export function JoinedPlayers({
   heading,
   topPlayers,
   showPoints,
+  showListLength,
   players,
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
@@ -39,8 +41,10 @@ export function JoinedPlayers({
     }
   }, [playerList]);
 
+  const topHeading = showListLength ? `${heading} ${listLength}` : heading;
+
   return (
-    <CardComponent heading={`${heading} ${listLength}`}>
+    <CardComponent heading={topHeading}>
       {playerList &&
         playerList.map((player, index) => (
           <View key={index}>

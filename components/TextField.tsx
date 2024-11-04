@@ -10,7 +10,7 @@ interface TextFieldProps {
   points?: string;
   isClickable?: boolean;
   answer?: string;
-  onPress: () => void;
+  onPress?: () => void;
 }
 
 export function TextField({
@@ -26,7 +26,9 @@ export function TextField({
 
   const handlePress = () => {
     setIsClicked(!isClicked);
-    onPress();
+    if (onPress) {
+      onPress();
+    }
   };
 
   const styling =

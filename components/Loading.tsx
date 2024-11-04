@@ -24,8 +24,10 @@ export default function Loading() {
         getAnswer(documentId, setAnswers);
       }
     };
-    getAnswers();
-  }, []);
+    if (status === "active") {
+      getAnswers();
+    }
+  }, [status]);
 
   const getGameRoomPlayers = async () => {
     const gameRoom = await AsyncStorage.getItem("gameRoom");

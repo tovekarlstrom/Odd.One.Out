@@ -17,7 +17,15 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const pages = ["index", "code", "game", "create", "join", "answers"];
+  const pages = [
+    "index",
+    "code",
+    "game",
+    "create",
+    "join",
+    "answers",
+    "scoreboard",
+  ];
   const [loaded] = useFonts({
     "Abril Fat": require("../assets/fonts/AbrilFatface.ttf"),
     "Instrument Sans Regular": require("../assets/fonts/InstrumentSans-Regular.ttf"),

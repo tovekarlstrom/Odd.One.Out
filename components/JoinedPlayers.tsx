@@ -44,7 +44,7 @@ export function JoinedPlayers({
   const topHeading = showListLength ? `${heading} ${listLength}` : heading;
 
   return (
-    <CardComponent heading={topHeading}>
+    <CardComponent heading={topHeading} fullWidth={showPoints || false}>
       {playerList &&
         playerList.map((player, index) => (
           <View key={index}>

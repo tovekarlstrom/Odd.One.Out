@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import IconGreen from "../assets/playerIcon.svg";
-import IconOrange from "../assets/icon2.svg";
-import IconBlue from "../assets/icon3.svg";
+import IconGreen from "../assets/greenIcon.svg";
+import IconOrange from "../assets/orangeIcon.svg";
+import IconBlue from "../assets/blueIcon.svg";
 
 interface IconProps {
   size: number;

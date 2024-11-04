@@ -41,7 +41,7 @@ export default function LoadingIcons() {
         <PlayerIcon size={50} />
       </Animated.View>
       <Animated.View style={{ transform: [{ translateY: bounce3 }] }}>
-        <PlayerIcon size={60} color="blue" />
+        <PlayerIcon size={50} color="blue" />
       </Animated.View>
     </ThemedView>
   );

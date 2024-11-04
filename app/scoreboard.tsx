@@ -1,33 +1,15 @@
 import { ButtonComponent } from "@/components/ButtonComponent";
-import { CardComponent } from "@/components/CardComponent";
 import { StyleSheet } from "react-native";
 import { GradientContainer } from "@/components/GradientContainer";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import PlayerIcon from "@/components/PlayerIcon";
-import { TextField } from "@/components/TextField";
-import { addPoints } from "@/functions/addPoints";
-import { getAnswer } from "@/functions/getAnswer";
 import { getPlayers } from "@/functions/getPlayers";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { Player } from "./code";
 import { Colors, Sizes } from "@/constants/Theme";
-import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
-import Loading from "@/components/Loading";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 
-export default function Answers() {
-  // const [players, setPlayers] = useState<Player[]>([]);
-
-  // const getPlayerName = (playerId: string) => {
-  //   if (!players.length) return "";
-  //   const player = players.find((player) => player.playerId === playerId);
-  //   return player ? player.playerName : "Unknown Player";
-  // };
-
+export default function Score() {
   const players = [
     { playerName: "Klara", points: 3, isAdmin: false, playerId: "jfe739s" },
     { playerName: "Tove", points: 5, isAdmin: false, playerId: "jfe7ksws" },
@@ -36,29 +18,6 @@ export default function Answers() {
     { playerName: "Edvin", points: 0, isAdmin: false, playerId: "jfe73cf" },
   ];
 
-  // useEffect(() => {
-  //   const getAnswers = async () => {
-  //     const documentId = await AsyncStorage.getItem("gameRoom");
-  //     if (documentId) {
-  //       getPlayers(documentId, setPlayers);
-  //     }
-  //   };
-  //   getAnswers();
-  // }, []);
-
-  const playerGetPoints: string[] = [];
-
-  const enterPoints = async () => {
-    const documentId = await AsyncStorage.getItem("gameRoom");
-    if (playerGetPoints.length > 0) {
-      if (documentId) {
-        addPoints(documentId, playerGetPoints);
-      }
-    } else {
-      console.log("No marked answes, no points added");
-    }
-  };
-
   return (
     <>
       <ParallaxScrollView>
@@ -66,13 +25,57 @@ export default function Answers() {
           <ThemedText type="heading32">Congratulations, Allan!</ThemedText>
           <ThemedText>You've claimed the top spot on the podium.</ThemedText>
         </ThemedView>
-        <View style={{ paddingTop: Sizes.Spacings.large }}>
-          <JoinedPlayers
-            players={players}
-            heading="Players"
-            showPoints={true}
-          />
-        </View>
+        <ThemedView style={styles.podiumWrapper}>
+          <ThemedView style={styles.podiumContainer}>
+            <ThemedView style={styles.playerBox}>
+              <PlayerIcon size={20} />
+              <ThemedText type="defaultSemiBold">
+                {players[0].playerName}
+              </ThemedText>
+            </ThemedView>
+            <ThemedView style={[styles.podiumBox, { height: 60 }]}>
+              <ThemedText
+                type="defaultSemiBold"
+                textColor={Colors.light.contrastText}
+              >
+                2
+              </ThemedText>
+            </ThemedView>
+          </ThemedView>
+          <ThemedView style={styles.podiumContainer}>
+            <ThemedView style={styles.playerBox}>
+              <PlayerIcon size={20} />
+              <ThemedText type="defaultSemiBold">
+                {players[0].playerName}
+              </ThemedText>
+            </ThemedView>
+            <ThemedView style={[styles.podiumBox, { height: 90 }]}>
+              <ThemedText
+                type="defaultSemiBold"
+                textColor={Colors.light.contrastText}
+              >
+                1
+              </ThemedText>
+            </ThemedView>
+          </ThemedView>
+          <ThemedView style={styles.podiumContainer}>
+            <ThemedView style={styles.playerBox}>
+              <PlayerIcon size={20} />
+              <ThemedText type="defaultSemiBold">
+                {players[0].playerName}
+              </ThemedText>
+            </ThemedView>
+            <ThemedView style={[styles.podiumBox, { height: 40 }]}>
+              <ThemedText
+                type="defaultSemiBold"
+                textColor={Colors.light.contrastText}
+              >
+                3
+              </ThemedText>
+            </ThemedView>
+          </ThemedView>
+        </ThemedView>
+        <JoinedPlayers players={players} heading="Players" showPoints={true} />
       </ParallaxScrollView>
       <GradientContainer>
         <ButtonComponent text="Create a new game" variant="primary" route="/" />
@@ -82,6 +85,29 @@ export default function Answers() {
 }
 
 const styles = StyleSheet.create({
+  podiumWrapper: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 8,
+    marginTop: Sizes.Spacings.xxLarge,
+  },
+  podiumContainer: {
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: 6,
+  },
+  podiumBox: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    backgroundColor: Colors.light.contrastBlue,
+    width: 95,
+    paddingTop: Sizes.Spacings.small,
+    alignItems: "center",
+  },
+  playerBox: {
+    flexDirection: "row",
+    gap: 5,
+  },
   textBox: {
     margin: "auto",
     gap: 15,

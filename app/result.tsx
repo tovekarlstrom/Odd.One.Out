@@ -108,7 +108,7 @@ export default function RoundResult() {
               return prevCountDown - 1;
             } else {
               clearInterval(intervalId);
-              if (index === questionsLength - 1) {
+              if (index === questionsLength) {
                 router.push("/");
                 return 0;
               } else {
@@ -156,7 +156,7 @@ export default function RoundResult() {
       </ParallaxScrollView>
 
       <GradientContainer>
-        {index === questionsLength - 1 ? (
+        {index === questionsLength ? (
           <ButtonComponent variant="primary" text="End game" route="/" />
         ) : isAdmin && !countdownStarted ? (
           <ButtonComponent

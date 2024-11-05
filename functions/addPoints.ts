@@ -17,7 +17,6 @@ export const addPoints = async (
         } else {
           return { ...player, points: [...(player.points || []), 0] };
         }
-        return player;
       });
       await updateDoc(gameRoomRef, {
         players: updatedPlayers,

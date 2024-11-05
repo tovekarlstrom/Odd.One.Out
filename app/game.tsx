@@ -10,30 +10,24 @@ import Loading from "@/components/Loading";
 
 export default function Game() {
   const [status, setStatus] = useState<string>("");
-  const [gameRoom, setGameRoom] = useState<string>("");
-
-  const getGameRoom = async () => {
-    const documentId = await AsyncStorage.getItem("gameRoom");
-    if (documentId) {
-      setGameRoom(documentId);
-    }
-  };
-
-  useEffect(() => {
-    getGameRoom();
-  }, []);
 
   useEffect(() => {
     const ListenAndGetStatus = async () => {
-      const unsubscribe = await getOrUpdateStatus(gameRoom, false, setStatus);
-      return () => {
-        if (unsubscribe) {
-          unsubscribe();
-        }
-      };
+      const documentId = await AsyncStorage.getItem("gameRoom");
+      if (documentId) {
+        const unsubscribe = await getOrUpdateStatus({
+          documentId,
+          setStatus,
+        });
+        return () => {
+          if (unsubscribe) {
+            unsubscribe();
+          }
+        };
+      }
     };
     ListenAndGetStatus();
-  }, [gameRoom]);
+  }, []);
 
   return (
     <ParallaxScrollView>

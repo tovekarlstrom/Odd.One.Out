@@ -2,9 +2,8 @@ import { View } from "react-native";
 import { CardComponent } from "./CardComponent";
 import PlayerIcon from "./PlayerIcon";
 import { TextField } from "./TextField";
-import { ThemedText } from "./ThemedText";
-import { Sizes } from "@/constants/Theme";
-import { Key, useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { Player } from "@/app/code";
 
 interface JoinedPlayersProps {
@@ -12,12 +11,14 @@ interface JoinedPlayersProps {
   topPlayers?: boolean;
   showPoints?: boolean;
   players: Player[] | undefined;
+  fullWidth?: boolean;
 }
 export function JoinedPlayers({
   heading,
   topPlayers,
   showPoints,
   players,
+  fullWidth,
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
   const [listLength, setListLength] = useState<string>("");
@@ -25,11 +26,19 @@ export function JoinedPlayers({
   useEffect(() => {
     if (!players) return;
 
+    const playersWithTotalPoints = players.map((player) => ({
+      ...player,
+      totalPoints: player.points.reduce((acc, point) => acc + point, 0),
+    }));
+
+    const sortedPlayers = playersWithTotalPoints.sort(
+      (a, b) => b.totalPoints - a.totalPoints
+    );
+
     if (topPlayers) {
-      players.sort((a, b) => (a.points || 0) - (b.points || 0)).reverse();
-      setPlayerList(players.slice(0, 3));
+      setPlayerList(sortedPlayers.slice(0, 3));
     } else {
-      setPlayerList([...players].reverse());
+      setPlayerList(sortedPlayers);
     }
   }, [topPlayers, players]);
 
@@ -40,7 +49,10 @@ export function JoinedPlayers({
   }, [playerList]);
 
   return (
-    <CardComponent heading={`${heading} ${listLength}`}>
+    <CardComponent
+      heading={`${heading} ${listLength}`}
+      fullWidth={fullWidth ? true : false}
+    >
       {playerList &&
         playerList.map((player, index) => (
           <View key={index}>
@@ -48,7 +60,7 @@ export function JoinedPlayers({
               <TextField
                 key={index}
                 value={player.playerName}
-                points={player.points.toString()}
+                points={player.totalPoints.toString()}
               >
                 <PlayerIcon size={20} />
               </TextField>

@@ -14,6 +14,7 @@ import { Player } from "./code";
 import { Colors, Sizes } from "@/constants/Theme";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import Loading from "@/components/Loading";
+import { router } from "expo-router";
 
 export interface PlayerAnswer {
   playerId: string;
@@ -24,20 +25,14 @@ export default function Answers() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
+  const playerGetPoints: string[] = [];
 
   const getPlayerName = (playerId: string) => {
     if (!players.length) return "";
     const player = players.find((player) => player.playerId === playerId);
     return player ? player.playerName : "Unknown Player";
-  };
-
-  const getStatus = async () => {
-    const gameRoom = await AsyncStorage.getItem("gameRoom");
-    if (gameRoom) {
-      await getOrUpdateStatus(gameRoom, false, setStatus);
-    }
   };
 
   useEffect(() => {
@@ -54,16 +49,19 @@ export default function Answers() {
   useEffect(() => {
     const getAdmin = async () => {
       const admin = await AsyncStorage.getItem("isAdmin");
-
       if (admin) {
         const parsedAdmin = JSON.parse(admin);
         if (parsedAdmin === true) {
-          console.log("admin", parsedAdmin);
           setIsAdmin(parsedAdmin);
         } else {
-          console.log("adminFalse", parsedAdmin);
           setIsAdmin(false);
         }
+      }
+    };
+    const getStatus = async () => {
+      const gameRoom = await AsyncStorage.getItem("gameRoom");
+      if (gameRoom) {
+        await getOrUpdateStatus({ documentId: gameRoom, setStatus });
       }
     };
     getStatus();
@@ -76,9 +74,10 @@ export default function Answers() {
         setIsLoading(false);
       }
     }
+    if (status === "idle") {
+      router.push("/result");
+    }
   }, [status, answers, players]);
-
-  const playerGetPoints: string[] = [];
 
   const handleSelectedAnswers = (playerId: string) => {
     playerGetPoints.push(playerId);
@@ -86,12 +85,11 @@ export default function Answers() {
 
   const enterPoints = async () => {
     const documentId = await AsyncStorage.getItem("gameRoom");
-    if (playerGetPoints.length > 0) {
-      if (documentId) {
-        addPoints(documentId, playerGetPoints);
-      }
-    } else {
-      console.log("No marked answes, no points added");
+
+    if (documentId) {
+      getOrUpdateStatus({ documentId, changeStatus: "idle" });
+
+      addPoints(documentId, playerGetPoints);
     }
   };
 
@@ -143,7 +141,6 @@ export default function Answers() {
                 onSubmit={enterPoints}
                 text="Enter points"
                 variant="primary"
-                route="/result"
               />
             </GradientContainer>
           )}

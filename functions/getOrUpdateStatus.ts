@@ -1,33 +1,51 @@
 import { doc, updateDoc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
-export const getOrUpdateStatus = async (
-  documentId: string,
-  changeStatus: boolean,
-  setStatus?: (arg0: string) => void
-) => {
+type Status = "waiting" | "active" | "idle";
+
+interface getOrUpdateStatusProps {
+  documentId: string;
+  changeStatus?: Status;
+  setStatus?: (status: Status) => void;
+}
+
+export const getOrUpdateStatus = async ({
+  documentId,
+  changeStatus,
+  setStatus,
+}: getOrUpdateStatusProps) => {
   try {
+    if (!documentId || typeof documentId !== "string") {
+      console.error("Invalid documentId provided:", documentId);
+      return;
+    }
+
     const gameRoomRef = doc(db, "gameRooms", documentId);
 
-    const unsubscribe = onSnapshot(gameRoomRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        const gameRoomData = snapshot.data();
-        const localStatus = gameRoomData.status;
+    // Check if the document exists
+    const gameRoomDoc = await getDoc(gameRoomRef);
+    if (!gameRoomDoc.exists()) {
+      console.error("No game room found!");
+      return;
+    }
 
-        if (setStatus) {
+    if (setStatus) {
+      const unsubscribe = onSnapshot(gameRoomRef, (snapshot) => {
+        if (snapshot.exists()) {
+          const gameRoomData = snapshot.data();
+          const localStatus = gameRoomData.status;
           setStatus(localStatus);
+        } else {
+          console.error("No game room found!");
         }
+      });
+      return unsubscribe;
+    }
 
-        if (changeStatus && localStatus !== "active") {
-          await updateDoc(gameRoomRef, { status: "active" });
-        }
-      } else {
-        console.error("No game room found!");
-      }
-    });
-
-    return unsubscribe;
+    if (changeStatus) {
+      await updateDoc(gameRoomRef, { status: changeStatus });
+    }
   } catch (e) {
-    console.error("Error updating index:", e);
+    console.error("Error updating or getting status:", e);
   }
 };

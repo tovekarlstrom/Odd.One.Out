@@ -3,83 +3,118 @@ import { StyleSheet } from "react-native";
 import { GradientContainer } from "@/components/GradientContainer";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import PlayerIcon from "@/components/PlayerIcon";
-import { getPlayers } from "@/functions/getPlayers";
 import { Colors, Sizes } from "@/constants/Theme";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { useSortedPlayers } from "@/hooks/useSortedPlayers";
+import Loading from "@/components/Loading";
+import { useEffect, useState } from "react";
+
+interface TopPlayer {
+  playerName: string;
+  place: number;
+  height: number;
+}
 
 export default function Score() {
-  const players = [
-    { playerName: "Klara", points: 3, isAdmin: false, playerId: "jfe739s" },
-    { playerName: "Tove", points: 5, isAdmin: false, playerId: "jfe7ksws" },
-    { playerName: "Allan", points: 8, isAdmin: false, playerId: "o4e739s" },
-    { playerName: "Ruben", points: 2, isAdmin: false, playerId: "jf9f39s" },
-    { playerName: "Edvin", points: 0, isAdmin: false, playerId: "jfe73cf" },
-  ];
+  const [playerList, setPlayerList] = useState<TopPlayer[]>([]);
+  const players = useSortedPlayers();
+
+  useEffect(() => {
+    if (players.length === 0) return;
+    const topPlayers = players.slice(0, 3);
+
+    const formattedPlayers = topPlayers.map((player, index) => {
+      let place, height;
+      if (index === 0) {
+        place = 1;
+        height = 90;
+      } else if (index === 1) {
+        if (topPlayers[0].totalPoints === topPlayers[1].totalPoints) {
+          place = 1;
+          height = 90;
+        } else {
+          place = 2;
+          height = 60;
+        }
+      } else {
+        if (topPlayers[0].totalPoints === topPlayers[2].totalPoints) {
+          place = 1;
+          height = 90;
+        } else if (
+          topPlayers[1].totalPoints === topPlayers[2].totalPoints ||
+          topPlayers[0].totalPoints === topPlayers[1].totalPoints
+        ) {
+          place = 2;
+          height = 60;
+        } else {
+          place = 3;
+          height = 40;
+        }
+      }
+      return { playerName: player.playerName, place, height };
+    });
+
+    setPlayerList([
+      formattedPlayers[1],
+      formattedPlayers[0],
+      formattedPlayers[2],
+    ]);
+  }, [players]);
 
   return (
     <>
-      <ParallaxScrollView>
-        <ThemedView style={styles.textBox}>
-          <ThemedText type="heading32">Congratulations, Allan!</ThemedText>
-          <ThemedText>You've claimed the top spot on the podium.</ThemedText>
-        </ThemedView>
-        <ThemedView style={styles.podiumWrapper}>
-          <ThemedView style={styles.podiumContainer}>
-            <ThemedView style={styles.playerBox}>
-              <PlayerIcon size={20} />
-              <ThemedText type="defaultSemiBold">
-                {players[0].playerName}
+      {players.length > 0 ? (
+        <>
+          <ParallaxScrollView>
+            <ThemedView style={styles.textBox}>
+              <ThemedText type="heading32">
+                Congratulations, {players[0].playerName}
+              </ThemedText>
+              <ThemedText>
+                You've claimed the top spot on the podium.
               </ThemedText>
             </ThemedView>
-            <ThemedView style={[styles.podiumBox, { height: 60 }]}>
-              <ThemedText
-                type="defaultSemiBold"
-                textColor={Colors.light.contrastText}
-              >
-                2
-              </ThemedText>
+            <ThemedView style={styles.podiumWrapper}>
+              {playerList.map((player, index) => (
+                <ThemedView key={index} style={styles.podiumContainer}>
+                  <ThemedView style={styles.playerBox}>
+                    <PlayerIcon size={20} />
+                    <ThemedText type="defaultSemiBold">
+                      {player.playerName}
+                    </ThemedText>
+                  </ThemedView>
+                  <ThemedView
+                    style={[styles.podiumBox, { height: player.height }]}
+                  >
+                    <ThemedText
+                      type="defaultSemiBold"
+                      textColor={Colors.light.contrastText}
+                    >
+                      {player.place}
+                    </ThemedText>
+                  </ThemedView>
+                </ThemedView>
+              ))}
             </ThemedView>
-          </ThemedView>
-          <ThemedView style={styles.podiumContainer}>
-            <ThemedView style={styles.playerBox}>
-              <PlayerIcon size={20} />
-              <ThemedText type="defaultSemiBold">
-                {players[0].playerName}
-              </ThemedText>
-            </ThemedView>
-            <ThemedView style={[styles.podiumBox, { height: 90 }]}>
-              <ThemedText
-                type="defaultSemiBold"
-                textColor={Colors.light.contrastText}
-              >
-                1
-              </ThemedText>
-            </ThemedView>
-          </ThemedView>
-          <ThemedView style={styles.podiumContainer}>
-            <ThemedView style={styles.playerBox}>
-              <PlayerIcon size={20} />
-              <ThemedText type="defaultSemiBold">
-                {players[0].playerName}
-              </ThemedText>
-            </ThemedView>
-            <ThemedView style={[styles.podiumBox, { height: 40 }]}>
-              <ThemedText
-                type="defaultSemiBold"
-                textColor={Colors.light.contrastText}
-              >
-                3
-              </ThemedText>
-            </ThemedView>
-          </ThemedView>
-        </ThemedView>
-        <JoinedPlayers players={players} heading="Players" showPoints={true} />
-      </ParallaxScrollView>
-      <GradientContainer>
-        <ButtonComponent text="Create a new game" variant="primary" route="/" />
-      </GradientContainer>
+            <JoinedPlayers
+              players={players}
+              heading="Players"
+              showPoints={true}
+            />
+          </ParallaxScrollView>
+          <GradientContainer>
+            <ButtonComponent
+              text="Create a new game"
+              variant="primary"
+              route="/"
+            />
+          </GradientContainer>
+        </>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }

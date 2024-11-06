@@ -5,16 +5,15 @@ import { Sizes } from "@/constants/Theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemedView } from "@/components/ThemedView";
 import LoadingIcons from "@/components/LoadingIcons";
-import { getPlayers } from "@/functions/getPlayers";
-import { Player } from "../app/code";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import { getAnswer } from "@/functions/getAnswer";
 import { PlayerAnswer } from "@/app/answers";
+import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 
 export default function Loading() {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [status, setStatus] = useState<string>("");
-  const [players, setPlayers] = useState<Player[]>([]);
+  const players = useSortedPlayers();
 
   useEffect(() => {
     const getAnswers = async () => {
@@ -28,18 +27,6 @@ export default function Loading() {
     }
   }, [status]);
 
-  const getGameRoomPlayers = async () => {
-    const gameRoom = await AsyncStorage.getItem("gameRoom");
-    if (gameRoom) {
-      const unsubscribe = await getPlayers(gameRoom, setPlayers);
-      return () => {
-        if (unsubscribe) {
-          unsubscribe();
-        }
-      };
-    }
-  };
-
   const getStatus = async () => {
     const gameRoom = await AsyncStorage.getItem("gameRoom");
     if (gameRoom) {
@@ -49,7 +36,6 @@ export default function Loading() {
 
   useEffect(() => {
     getStatus();
-    getGameRoomPlayers();
   }, []);
 
   return (

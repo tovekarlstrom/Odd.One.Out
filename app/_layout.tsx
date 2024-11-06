@@ -19,15 +19,10 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const pages = [
     "index",
-
     "code",
-
     "game",
-
     "create",
-
     "join",
-
     "answers",
     "scoreboard",
     "result",

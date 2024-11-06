@@ -12,7 +12,6 @@ interface JoinedPlayersProps {
   showPoints?: boolean;
   showListLength?: boolean;
   players: Player[] | undefined;
-  fullWidth?: boolean;
 }
 export function JoinedPlayers({
   heading,
@@ -20,7 +19,6 @@ export function JoinedPlayers({
   showPoints,
   showListLength,
   players,
-  fullWidth,
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
   const [listLength, setListLength] = useState<string>("");
@@ -28,19 +26,10 @@ export function JoinedPlayers({
   useEffect(() => {
     if (!players) return;
 
-    const playersWithTotalPoints = players.map((player) => ({
-      ...player,
-      totalPoints: player.points.reduce((acc, point) => acc + point, 0),
-    }));
-
-    const sortedPlayers = playersWithTotalPoints.sort(
-      (a, b) => b.totalPoints - a.totalPoints
-    );
-
     if (topPlayers) {
-      setPlayerList(sortedPlayers.slice(0, 3));
+      setPlayerList(players.slice(0, 3));
     } else {
-      setPlayerList(sortedPlayers);
+      setPlayerList(players);
     }
   }, [topPlayers, players]);
 

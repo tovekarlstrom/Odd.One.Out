@@ -3,7 +3,7 @@ import { db } from "../firebaseConfig";
 
 export const updateIndex = async (
   documentId: string,
-  setIndex: (arg0: number) => void,
+  setIndex?: (arg0: number) => void,
   changeIndex?: boolean
 ) => {
   try {
@@ -17,9 +17,13 @@ export const updateIndex = async (
         await updateDoc(gameRoomRef, {
           qIndex: localIndex + 1,
         });
-        setIndex(localIndex + 1);
+        if (setIndex) {
+          setIndex(localIndex + 1);
+        }
       } else {
-        setIndex(localIndex);
+        if (setIndex) {
+          setIndex(localIndex);
+        }
       }
     } else {
       console.error("No game room found");

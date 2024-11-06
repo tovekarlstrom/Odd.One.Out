@@ -19,12 +19,18 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
   const pages = [
     "index",
+
     "code",
+
     "game",
+
     "create",
+
     "join",
+
     "answers",
     "scoreboard",
+    "result",
   ];
   const [loaded] = useFonts({
     "Abril Fat": require("../assets/fonts/AbrilFatface.ttf"),

@@ -14,9 +14,10 @@ import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 
 export interface Player {
   playerName: string;
-  points: number;
+  points: number[];
   isAdmin: boolean;
   playerId: string;
+  totalPoints: number;
 }
 
 const loadGameCode = async () => {
@@ -69,7 +70,7 @@ export default function Code() {
   const startGame = async () => {
     const gameRoom = await AsyncStorage.getItem("gameRoom");
     if (gameRoom) {
-      await getOrUpdateStatus(gameRoom, true);
+      await getOrUpdateStatus({ documentId: gameRoom, changeStatus: "active" });
     }
   };
 

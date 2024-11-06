@@ -4,27 +4,20 @@ import { ButtonComponent } from "./ButtonComponent";
 import { InputComponent } from "./InputComponent";
 import { getQuestion } from "../functions/getQuestion";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { updateIndex } from "../functions/getOrUpdateIndex";
 import { useRouter } from "expo-router";
 import { addAnswerToQuestion } from "@/functions/addAnswers";
 
 export function AddAnswer() {
   const [newAnswer, setNewAnswer] = useState<string>("");
-  const [index, setIndex] = useState<number>(0);
   const [question, setQuestion] = useState<string>("");
-  const [questionsLength, setQuestionsLength] = useState<number>(0);
 
   const router = useRouter();
 
   const fetchQuestion = async () => {
     const gameRoom = await AsyncStorage.getItem("gameRoom");
     if (gameRoom) {
-      await updateIndex(gameRoom, setIndex);
-      const unsubscribe = await getQuestion(
-        gameRoom,
-        setQuestion,
-        setQuestionsLength
-      );
+      const unsubscribe = await getQuestion(gameRoom, setQuestion, undefined);
+
       return () => {
         if (unsubscribe) {
           unsubscribe();
@@ -45,13 +38,7 @@ export function AddAnswer() {
         alert(newAnswer);
         setNewAnswer("");
       }
-      if (index < questionsLength - 1) {
-        router.push("/answers");
-        // await updateIndex(gameRoom, setIndex, true);
-      }
-    }
-    if (index === questionsLength - 1) {
-      router.push("/");
+      router.push("/answers");
     }
   };
 

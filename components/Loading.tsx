@@ -1,5 +1,4 @@
 import { StyleSheet } from "react-native";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { useEffect, useState } from "react";
 import { Sizes } from "@/constants/Theme";
@@ -44,7 +43,7 @@ export default function Loading() {
   const getStatus = async () => {
     const gameRoom = await AsyncStorage.getItem("gameRoom");
     if (gameRoom) {
-      await getOrUpdateStatus(gameRoom, false, setStatus);
+      await getOrUpdateStatus({ documentId: gameRoom, setStatus });
     }
   };
 

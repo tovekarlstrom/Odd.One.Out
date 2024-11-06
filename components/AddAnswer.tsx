@@ -7,28 +7,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { addAnswerToQuestion } from "@/functions/addAnswers";
 
-export function AddAnswer() {
+export function AddAnswer({ question }: { question: string }) {
   const [newAnswer, setNewAnswer] = useState<string>("");
-  const [question, setQuestion] = useState<string>("");
 
   const router = useRouter();
-
-  const fetchQuestion = async () => {
-    const gameRoom = await AsyncStorage.getItem("gameRoom");
-    if (gameRoom) {
-      const unsubscribe = await getQuestion(gameRoom, setQuestion, undefined);
-
-      return () => {
-        if (unsubscribe) {
-          unsubscribe();
-        }
-      };
-    }
-  };
-
-  useEffect(() => {
-    fetchQuestion();
-  }, []);
 
   const addNewAnswer = async () => {
     const gameRoom = await AsyncStorage.getItem("gameRoom");

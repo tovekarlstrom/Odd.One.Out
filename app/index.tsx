@@ -34,13 +34,6 @@ export default function HomeScreen() {
             route="/create"
           />
         </ThemedView>
-        <ThemedView style={styles.stepContainer}>
-          <ButtonComponent
-            text={"Test"}
-            variant="secondary"
-            route="/scoreboard"
-          />
-        </ThemedView>
       </ParallaxScrollView>
       <LearnMore />
     </ImageBackground>

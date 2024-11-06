@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Sizes } from "@/constants/Theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemedView } from "@/components/ThemedView";
@@ -14,6 +14,8 @@ export default function Loading() {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [status, setStatus] = useState<string>("");
   const players = useSortedPlayers();
+
+  const memoizedPlayers = useMemo(() => players, [players]);
 
   useEffect(() => {
     const getAnswers = async () => {
@@ -51,7 +53,7 @@ export default function Loading() {
               </ThemedText>
             </ThemedView>
             <ThemedView style={styles.progressBox}>
-              <ThemedText type="heading24">{`${answers.length}/${players.length}`}</ThemedText>
+              <ThemedText type="heading24">{`${answers.length}/${memoizedPlayers.length}`}</ThemedText>
             </ThemedView>
           </>
         )}

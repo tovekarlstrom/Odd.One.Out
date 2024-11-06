@@ -108,9 +108,7 @@ export default function RoundResult() {
   return (
     <>
       <ParallaxScrollView>
-        {scored === undefined ? (
-          <Loading />
-        ) : (
+        {scored !== undefined && (
           <View>
             <ThemedText style={{ paddingBottom: 57 }} type="heading32">
               {scored

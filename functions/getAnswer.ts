@@ -9,8 +9,8 @@ export const getAnswer = async (documentId: string, setAnswers: any) => {
       if (doc.exists()) {
         const questions = doc.data().questions;
         const index = doc.data().qIndex;
-        const guestionAnswers = questions[index].answers;
-        setAnswers(guestionAnswers);
+        const questionAnswers = questions[index].answers;
+        setAnswers(questionAnswers);
       } else {
         setAnswers([]);
       }

@@ -14,7 +14,6 @@ export const getPlayers = async (
         const playersList = doc.data().players || [];
         setPlayers(playersList);
       } else {
-        console.log("No such document!");
         setPlayers([]);
       }
     });

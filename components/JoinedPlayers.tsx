@@ -62,11 +62,11 @@ export function JoinedPlayers({
                 value={player.playerName}
                 points={player.totalPoints.toString()}
               >
-                <PlayerIcon size={20} />
+                <PlayerIcon size={20} color="green" />
               </TextField>
             ) : (
               <TextField key={index} value={player.playerName}>
-                <PlayerIcon size={20} />
+                <PlayerIcon size={20} color="blue" />
               </TextField>
             )}
           </View>

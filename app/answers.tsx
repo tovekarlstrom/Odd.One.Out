@@ -100,7 +100,7 @@ export default function Answers() {
       ) : (
         <>
           <ParallaxScrollView>
-            <PlayerIcon size={80} />
+            <PlayerIcon size={80} color="red" />
             <View style={{ paddingTop: Sizes.Spacings.large }}>
               <CardComponent
                 heading={isAdmin ? "Mark the right answers" : "The answers"}
@@ -117,7 +117,7 @@ export default function Answers() {
                           handleSelectedAnswers(answer.playerId);
                         }}
                       >
-                        <PlayerIcon size={17} />
+                        <PlayerIcon size={17} color="white" />
                       </TextField>
                     </View>
                   ))}

@@ -35,7 +35,7 @@ export default function Game() {
         <Loading />
       ) : (
         <>
-          <PlayerIcon size={80} />
+          <PlayerIcon size={80} color={"pink"} />
           <AddAnswer />
         </>
       )}

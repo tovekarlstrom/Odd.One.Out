@@ -1,5 +1,5 @@
 import { Colors, Sizes } from "@/constants/Theme";
-import { StyleSheet, View, Alert, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, TouchableOpacity, Text } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { Href, useRouter } from "expo-router";
 

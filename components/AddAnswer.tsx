@@ -35,7 +35,6 @@ export function AddAnswer() {
     if (gameRoom) {
       if (newAnswer) {
         await addAnswerToQuestion(gameRoom, newAnswer);
-        alert(newAnswer);
         setNewAnswer("");
       }
       router.push("/answers");

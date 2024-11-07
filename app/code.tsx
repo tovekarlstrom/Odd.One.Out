@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getGameRoom } from "@/functions/getGameRoom";
 import { getPlayers } from "@/functions/getPlayers";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
+import { useGameRoom } from "@/hooks/useGameRoom";
 
 export interface Player {
   playerName: string;
@@ -39,6 +40,7 @@ const loadGameCode = async () => {
 export default function Code() {
   const [gameCode, setGameCode] = useState("");
   const [players, setPlayers] = useState<Player[]>([]);
+  const { data: documentId } = useGameRoom();
 
   useEffect(() => {
     const fetchGameCode = async () => {
@@ -68,9 +70,8 @@ export default function Code() {
   }, [gameCode]);
 
   const startGame = async () => {
-    const gameRoom = await AsyncStorage.getItem("gameRoom");
-    if (gameRoom) {
-      await getOrUpdateStatus({ documentId: gameRoom, changeStatus: "active" });
+    if (documentId) {
+      await getOrUpdateStatus({ documentId, changeStatus: "active" });
     }
   };
 

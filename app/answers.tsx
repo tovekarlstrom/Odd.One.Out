@@ -15,6 +15,7 @@ import { Colors, Sizes } from "@/constants/Theme";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import Loading from "@/components/Loading";
 import { router } from "expo-router";
+import { useGameRoom } from "@/hooks/useGameRoom";
 
 export interface PlayerAnswer {
   playerId: string;
@@ -28,6 +29,7 @@ export default function Answers() {
   const [status, setStatus] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
   const playerGetPoints: string[] = [];
+  const { data: documentId } = useGameRoom();
 
   const getPlayerName = (playerId: string) => {
     if (!players.length) return "";
@@ -37,14 +39,13 @@ export default function Answers() {
 
   useEffect(() => {
     const getAnswers = async () => {
-      const documentId = await AsyncStorage.getItem("gameRoom");
       if (documentId) {
         getAnswer(documentId, setAnswers);
         getPlayers(documentId, setPlayers);
       }
     };
     getAnswers();
-  }, []);
+  }, [documentId]);
 
   useEffect(() => {
     const getAdmin = async () => {
@@ -59,14 +60,13 @@ export default function Answers() {
       }
     };
     const getStatus = async () => {
-      const gameRoom = await AsyncStorage.getItem("gameRoom");
-      if (gameRoom) {
-        await getOrUpdateStatus({ documentId: gameRoom, setStatus });
+      if (documentId) {
+        await getOrUpdateStatus({ documentId, setStatus });
       }
     };
     getStatus();
     getAdmin();
-  }, []);
+  }, [documentId]);
 
   useEffect(() => {
     if (status === "active") {
@@ -84,8 +84,6 @@ export default function Answers() {
   };
 
   const enterPoints = async () => {
-    const documentId = await AsyncStorage.getItem("gameRoom");
-
     if (documentId) {
       getOrUpdateStatus({ documentId, changeStatus: "idle" });
 
@@ -95,11 +93,11 @@ export default function Answers() {
 
   return (
     <>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <ParallaxScrollView>
+      <ParallaxScrollView>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
             <PlayerIcon size={80} />
             <View style={{ paddingTop: Sizes.Spacings.large }}>
               <CardComponent
@@ -134,17 +132,18 @@ export default function Answers() {
                 Waiting for admin to enter points..
               </Text>
             )}
-          </ParallaxScrollView>
-          {isAdmin && (
-            <GradientContainer>
-              <ButtonComponent
-                onSubmit={enterPoints}
-                text="Enter points"
-                variant="primary"
-              />
-            </GradientContainer>
-          )}
-        </>
+          </>
+        )}
+      </ParallaxScrollView>
+      {isAdmin && !isLoading && (
+        <GradientContainer>
+          <ButtonComponent
+            onSubmit={enterPoints}
+            text="Enter points"
+            variant="primary"
+            route="/game"
+          />
+        </GradientContainer>
       )}
     </>
   );

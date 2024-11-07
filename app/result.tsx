@@ -13,6 +13,8 @@ import { updateIndex } from "@/functions/getOrUpdateIndex";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { getQuestion } from "@/functions/getQuestion";
 import Loading from "@/components/Loading";
+import { useGameRoom } from "@/hooks/useGameRoom";
+
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
   const [players, setPlayers] = useState<Player[]>([]);
@@ -22,18 +24,17 @@ export default function RoundResult() {
   const [countDown, setCountDown] = useState(5);
   const [index, setIndex] = useState<number | undefined>(undefined);
   const [countdownStarted, setCountdownStarted] = useState(false);
+  const { data: documentId } = useGameRoom();
 
   useEffect(() => {
     const getAllPlayers = async () => {
-      const gameRoom = await AsyncStorage.getItem("gameRoom");
-      if (gameRoom) {
-        await getPlayers(gameRoom, setPlayers);
+      if (documentId) {
+        await getPlayers(documentId, setPlayers);
       }
     };
     const getQuestionLength = async () => {
-      const gameRoom = await AsyncStorage.getItem("gameRoom");
-      if (gameRoom) {
-        await getQuestion(gameRoom, undefined, setQuestionsLength);
+      if (documentId) {
+        await getQuestion(documentId, undefined, setQuestionsLength);
       }
     };
     const getAdmin = async () => {
@@ -46,7 +47,6 @@ export default function RoundResult() {
       }
     };
     const getStatusAndIndex = async () => {
-      const documentId = await AsyncStorage.getItem("gameRoom");
       if (documentId) {
         await updateIndex(documentId, setIndex);
         const unsubscribe = await getOrUpdateStatus({
@@ -64,7 +64,7 @@ export default function RoundResult() {
     getAdmin();
     getStatusAndIndex();
     getAllPlayers();
-  }, []);
+  }, [documentId]);
 
   useEffect(() => {
     const checkScore = async () => {
@@ -106,7 +106,6 @@ export default function RoundResult() {
   }, [status]);
 
   const nextQuestion = useCallback(async () => {
-    const documentId = await AsyncStorage.getItem("gameRoom");
     if (documentId) {
       await getOrUpdateStatus({ documentId, changeStatus: "active" });
       await updateIndex(documentId, undefined, true);

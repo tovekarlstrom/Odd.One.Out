@@ -10,15 +10,15 @@ interface JoinedPlayersProps {
   heading: string;
   topPlayers?: boolean;
   showPoints?: boolean;
+  showListLength?: boolean;
   players: Player[] | undefined;
-  fullWidth?: boolean;
 }
 export function JoinedPlayers({
   heading,
   topPlayers,
   showPoints,
+  showListLength,
   players,
-  fullWidth,
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
   const [listLength, setListLength] = useState<string>("");
@@ -26,19 +26,10 @@ export function JoinedPlayers({
   useEffect(() => {
     if (!players) return;
 
-    const playersWithTotalPoints = players.map((player) => ({
-      ...player,
-      totalPoints: player.points.reduce((acc, point) => acc + point, 0),
-    }));
-
-    const sortedPlayers = playersWithTotalPoints.sort(
-      (a, b) => b.totalPoints - a.totalPoints
-    );
-
     if (topPlayers) {
-      setPlayerList(sortedPlayers.slice(0, 3));
+      setPlayerList(players.slice(0, 3));
     } else {
-      setPlayerList(sortedPlayers);
+      setPlayerList(players);
     }
   }, [topPlayers, players]);
 
@@ -48,11 +39,10 @@ export function JoinedPlayers({
     }
   }, [playerList]);
 
+  const topHeading = showListLength ? `${heading} ${listLength}` : heading;
+
   return (
-    <CardComponent
-      heading={`${heading} ${listLength}`}
-      fullWidth={fullWidth ? true : false}
-    >
+    <CardComponent heading={topHeading} fullWidth={showPoints || false}>
       {playerList &&
         playerList.map((player, index) => (
           <View key={index}>

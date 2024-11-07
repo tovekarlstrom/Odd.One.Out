@@ -1,10 +1,8 @@
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
-import { getPlayers } from "@/functions/getPlayers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect, useCallback } from "react";
 import { View, Vibration } from "react-native";
-import { Player } from "./code";
 import { GradientContainer } from "@/components/GradientContainer";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
@@ -13,23 +11,18 @@ import { updateIndex } from "@/functions/getOrUpdateIndex";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { getQuestion } from "@/functions/getQuestion";
 import Loading from "@/components/Loading";
+import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
-  const [players, setPlayers] = useState<Player[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [status, setStatus] = useState<string>();
   const [questionsLength, setQuestionsLength] = useState<number>(0);
   const [countDown, setCountDown] = useState(5);
   const [index, setIndex] = useState<number | undefined>(undefined);
   const [countdownStarted, setCountdownStarted] = useState(false);
+  const players = useSortedPlayers();
 
   useEffect(() => {
-    const getAllPlayers = async () => {
-      const gameRoom = await AsyncStorage.getItem("gameRoom");
-      if (gameRoom) {
-        await getPlayers(gameRoom, setPlayers);
-      }
-    };
     const getQuestionLength = async () => {
       const gameRoom = await AsyncStorage.getItem("gameRoom");
       if (gameRoom) {
@@ -63,7 +56,6 @@ export default function RoundResult() {
     getQuestionLength();
     getAdmin();
     getStatusAndIndex();
-    getAllPlayers();
   }, []);
 
   useEffect(() => {
@@ -116,9 +108,7 @@ export default function RoundResult() {
   return (
     <>
       <ParallaxScrollView>
-        {scored === undefined ? (
-          <Loading />
-        ) : (
+        {scored !== undefined && (
           <View>
             <ThemedText style={{ paddingBottom: 57 }} type="heading32">
               {scored
@@ -135,7 +125,6 @@ export default function RoundResult() {
               players={players}
               showPoints
               topPlayers
-              fullWidth
             />
           </View>
         )}
@@ -147,7 +136,11 @@ export default function RoundResult() {
             Game starts in {countDown}
           </ThemedText>
         ) : index && index === questionsLength - 1 ? (
-          <ButtonComponent variant="primary" text="End game" route="/" />
+          <ButtonComponent
+            variant="primary"
+            text="End game"
+            route="/scoreboard"
+          />
         ) : isAdmin ? (
           <ButtonComponent
             text="Next round"

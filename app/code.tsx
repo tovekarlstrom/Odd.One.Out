@@ -69,23 +69,22 @@ export default function Code() {
   }, [gameCode]);
 
   const startGame = async () => {
-    // if (players.length >= 3) {
-    const gameRoom = await AsyncStorage.getItem("gameRoom");
-    if (gameRoom) {
-      await getOrUpdateStatus({
-        documentId: gameRoom,
-        changeStatus: "active",
-      });
+    if (players.length >= 3) {
+      const gameRoom = await AsyncStorage.getItem("gameRoom");
+      if (gameRoom) {
+        await getOrUpdateStatus({
+          documentId: gameRoom,
+          changeStatus: "active",
+        });
+      }
+      router.push("/game");
+    } else {
+      Alert.alert(
+        "Not enough players",
+        "You need at least 3 players to start the game",
+        [{ text: "OK", onPress: () => {} }]
+      );
     }
-    router.push("/game");
-    // }
-    // else {
-    //   Alert.alert(
-    //     "Not enough players",
-    //     "You need at least 3 players to start the game",
-    //     [{ text: "OK", onPress: () => {} }]
-    //   );
-    // }
   };
 
   return (

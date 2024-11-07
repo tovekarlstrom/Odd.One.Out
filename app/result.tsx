@@ -10,7 +10,6 @@ import { router } from "expo-router";
 import { updateIndex } from "@/functions/getOrUpdateIndex";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { getQuestion } from "@/functions/getQuestion";
-import Loading from "@/components/Loading";
 import { useGameRoom } from "@/hooks/useGameRoom";
 
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
@@ -57,7 +56,7 @@ export default function RoundResult() {
     getQuestionLength();
     getAdmin();
     getStatusAndIndex();
-  }, []);
+  }, [documentId]);
 
   useEffect(() => {
     const checkScore = async () => {

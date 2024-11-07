@@ -10,7 +10,8 @@ import { router } from "expo-router";
 import { updateIndex } from "@/functions/getOrUpdateIndex";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { getQuestion } from "@/functions/getQuestion";
-import Loading from "@/components/Loading";
+import { useGameRoom } from "@/hooks/useGameRoom";
+
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
@@ -20,13 +21,13 @@ export default function RoundResult() {
   const [countDown, setCountDown] = useState(5);
   const [index, setIndex] = useState<number | undefined>(undefined);
   const [countdownStarted, setCountdownStarted] = useState(false);
+  const { data: documentId } = useGameRoom();
   const players = useSortedPlayers();
 
   useEffect(() => {
     const getQuestionLength = async () => {
-      const gameRoom = await AsyncStorage.getItem("gameRoom");
-      if (gameRoom) {
-        await getQuestion(gameRoom, undefined, setQuestionsLength);
+      if (documentId) {
+        await getQuestion(documentId, undefined, setQuestionsLength);
       }
     };
     const getAdmin = async () => {
@@ -39,7 +40,6 @@ export default function RoundResult() {
       }
     };
     const getStatusAndIndex = async () => {
-      const documentId = await AsyncStorage.getItem("gameRoom");
       if (documentId) {
         await updateIndex(documentId, setIndex);
         const unsubscribe = await getOrUpdateStatus({
@@ -56,7 +56,7 @@ export default function RoundResult() {
     getQuestionLength();
     getAdmin();
     getStatusAndIndex();
-  }, []);
+  }, [documentId]);
 
   useEffect(() => {
     const checkScore = async () => {
@@ -98,7 +98,6 @@ export default function RoundResult() {
   }, [status]);
 
   const nextQuestion = useCallback(async () => {
-    const documentId = await AsyncStorage.getItem("gameRoom");
     if (documentId) {
       await getOrUpdateStatus({ documentId, changeStatus: "active" });
       await updateIndex(documentId, undefined, true);

@@ -1,19 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useCallback, useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
-export function useGameRoom() {
-  const [documentId, setDocumentId] = useState<string | null>(null);
+const getGameRoom = async () => {
+  const gameRoom = await AsyncStorage.getItem("gameRoom");
+  return gameRoom;
+};
 
-  const getGameRoom = useCallback(async () => {
-    const gameRoom = await AsyncStorage.getItem("gameRoom");
-    if (gameRoom) {
-      setDocumentId(gameRoom);
-    }
-  }, []);
-
-  useEffect(() => {
-    getGameRoom();
-  }, []);
-
-  return documentId;
-}
+export const useGameRoom = () => {
+  return useQuery("gameRoom", getGameRoom);
+};

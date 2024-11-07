@@ -8,6 +8,7 @@ import LoadingIcons from "@/components/LoadingIcons";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import { getAnswer } from "@/functions/getAnswer";
 import { PlayerAnswer } from "@/app/answers";
+import { useGameRoom } from "@/hooks/useGameRoom";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 
 export default function Loading() {
@@ -16,23 +17,20 @@ export default function Loading() {
   const players = useSortedPlayers();
 
   const memoizedPlayers = useMemo(() => players, [players]);
+  const { data: documentId } = useGameRoom();
 
   useEffect(() => {
     const getAnswers = async () => {
-      const documentId = await AsyncStorage.getItem("gameRoom");
       if (documentId) {
         getAnswer(documentId, setAnswers);
       }
     };
-    if (status === "active") {
-      getAnswers();
-    }
-  }, [status]);
+    getAnswers();
+  }, [documentId]);
 
   const getStatus = async () => {
-    const gameRoom = await AsyncStorage.getItem("gameRoom");
-    if (gameRoom) {
-      await getOrUpdateStatus({ documentId: gameRoom, setStatus });
+    if (documentId) {
+      await getOrUpdateStatus({ documentId, setStatus });
     }
   };
 
@@ -44,7 +42,7 @@ export default function Loading() {
     <>
       <ThemedView style={styles.outerBox}>
         <LoadingIcons />
-        {status === "active" && (
+        {status === "active" ? (
           <>
             <ThemedView style={styles.textBox}>
               <ThemedText type="heading24">Patience!</ThemedText>
@@ -56,12 +54,13 @@ export default function Loading() {
               <ThemedText type="heading24">{`${answers.length}/${memoizedPlayers.length}`}</ThemedText>
             </ThemedView>
           </>
-        )}
-        {status === "waiting" && (
+        ) : status === "waiting" ? (
           <ThemedView style={styles.textBox}>
             <ThemedText type="heading24">Hold tight!</ThemedText>
             <ThemedText type="heading24">The fun is about to start</ThemedText>
           </ThemedView>
+        ) : (
+          <></>
         )}
       </ThemedView>
     </>

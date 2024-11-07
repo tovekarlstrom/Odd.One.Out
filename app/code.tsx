@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getGameRoom } from "@/functions/getGameRoom";
 import { getPlayers } from "@/functions/getPlayers";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
+import { useGameRoom } from "@/hooks/useGameRoom";
 import { router } from "expo-router";
 
 export interface Player {
@@ -40,6 +41,7 @@ const loadGameCode = async () => {
 export default function Code() {
   const [gameCode, setGameCode] = useState("");
   const [players, setPlayers] = useState<Player[]>([]);
+  const { data: documentId } = useGameRoom();
 
   useEffect(() => {
     const fetchGameCode = async () => {
@@ -70,10 +72,9 @@ export default function Code() {
 
   const startGame = async () => {
     if (players.length >= 3) {
-      const gameRoom = await AsyncStorage.getItem("gameRoom");
-      if (gameRoom) {
+      if (documentId) {
         await getOrUpdateStatus({
-          documentId: gameRoom,
+          documentId,
           changeStatus: "active",
         });
       }

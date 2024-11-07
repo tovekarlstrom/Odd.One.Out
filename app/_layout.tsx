@@ -11,6 +11,8 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { QuestionsProvider } from "@/contexts/QuestionsProvider";
+import { QueryClientProvider } from "react-query";
+import queryClient from "@/contexts/queryClient";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -46,18 +48,20 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <QuestionsProvider>
-        <Stack screenOptions={{ animation: "none" }}>
-          {pages.map((page) => (
-            <Stack.Screen
-              key={page}
-              name={page}
-              options={{ headerShown: false }}
-            />
-          ))}
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </QuestionsProvider>
+      <QueryClientProvider client={queryClient}>
+        <QuestionsProvider>
+          <Stack screenOptions={{ animation: "none" }}>
+            {pages.map((page) => (
+              <Stack.Screen
+                key={page}
+                name={page}
+                options={{ headerShown: false }}
+              />
+            ))}
+            <Stack.Screen name="+not-found" />
+          </Stack>
+        </QuestionsProvider>
+      </QueryClientProvider>
     </ThemeProvider>
   );
 }

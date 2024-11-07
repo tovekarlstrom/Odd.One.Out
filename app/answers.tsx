@@ -14,6 +14,7 @@ import { Colors, Sizes } from "@/constants/Theme";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import Loading from "@/components/Loading";
 import { router } from "expo-router";
+import { useGameRoom } from "@/hooks/useGameRoom";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 
 export interface PlayerAnswer {
@@ -27,6 +28,7 @@ export default function Answers() {
   const [status, setStatus] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
   const playerGetPoints: string[] = [];
+  const { data: documentId } = useGameRoom();
   const players = useSortedPlayers();
 
   const getPlayerName = (playerId: string) => {
@@ -37,13 +39,12 @@ export default function Answers() {
 
   useEffect(() => {
     const getAnswers = async () => {
-      const documentId = await AsyncStorage.getItem("gameRoom");
       if (documentId) {
         getAnswer(documentId, setAnswers);
       }
     };
     getAnswers();
-  }, []);
+  }, [documentId]);
 
   useEffect(() => {
     const getAdmin = async () => {
@@ -58,14 +59,13 @@ export default function Answers() {
       }
     };
     const getStatus = async () => {
-      const gameRoom = await AsyncStorage.getItem("gameRoom");
-      if (gameRoom) {
-        await getOrUpdateStatus({ documentId: gameRoom, setStatus });
+      if (documentId) {
+        await getOrUpdateStatus({ documentId, setStatus });
       }
     };
     getStatus();
     getAdmin();
-  }, []);
+  }, [documentId]);
 
   useEffect(() => {
     if (status === "active") {
@@ -83,8 +83,6 @@ export default function Answers() {
   };
 
   const enterPoints = async () => {
-    const documentId = await AsyncStorage.getItem("gameRoom");
-
     if (documentId) {
       getOrUpdateStatus({ documentId, changeStatus: "idle" });
 

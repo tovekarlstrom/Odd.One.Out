@@ -3,20 +3,21 @@ import { CardComponent } from "./CardComponent";
 import { ButtonComponent } from "./ButtonComponent";
 import { InputComponent } from "./InputComponent";
 import { getQuestion } from "../functions/getQuestion";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { addAnswerToQuestion } from "@/functions/addAnswers";
+import { useGameRoom } from "@/hooks/useGameRoom";
 
 export function AddAnswer({ question }: { question: string }) {
   const [newAnswer, setNewAnswer] = useState<string>("");
+  const { data: documentId } = useGameRoom();
 
   const router = useRouter();
 
   const addNewAnswer = async () => {
-    const gameRoom = await AsyncStorage.getItem("gameRoom");
-    if (gameRoom) {
+    if (documentId) {
       if (newAnswer) {
-        await addAnswerToQuestion(gameRoom, newAnswer);
+        await addAnswerToQuestion(documentId, newAnswer);
+        alert(newAnswer);
         setNewAnswer("");
       }
       router.push("/answers");

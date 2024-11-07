@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -12,6 +12,7 @@ import { getGameRoom } from "@/functions/getGameRoom";
 import { getPlayers } from "@/functions/getPlayers";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import { useGameRoom } from "@/hooks/useGameRoom";
+import { router } from "expo-router";
 
 export interface Player {
   playerName: string;
@@ -70,8 +71,20 @@ export default function Code() {
   }, [gameCode]);
 
   const startGame = async () => {
-    if (documentId) {
-      await getOrUpdateStatus({ documentId, changeStatus: "active" });
+    if (players.length >= 3) {
+      if (documentId) {
+        await getOrUpdateStatus({
+          documentId,
+          changeStatus: "active",
+        });
+      }
+      router.push("/game");
+    } else {
+      Alert.alert(
+        "Not enough players",
+        "You need at least 3 players to start the game",
+        [{ text: "OK", onPress: () => {} }]
+      );
     }
   };
 
@@ -88,7 +101,11 @@ export default function Code() {
         </ThemedView>
         <CopyComponent gameCode={gameCode} />
         <View style={styles.cardContainer}>
-          <JoinedPlayers players={players} heading="Joined Players" />
+          <JoinedPlayers
+            players={players}
+            heading="Joined Players"
+            showListLength={true}
+          />
         </View>
       </ParallaxScrollView>
       <GradientContainer>
@@ -98,7 +115,6 @@ export default function Code() {
           onSubmit={() => {
             startGame();
           }}
-          route="/game"
         />
       </GradientContainer>
     </>

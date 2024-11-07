@@ -4,7 +4,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { Stack, router } from "expo-router";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
@@ -26,6 +26,7 @@ export default function RootLayout() {
     "create",
     "join",
     "answers",
+    "scoreboard",
     "result",
   ];
   const [loaded] = useFonts({
@@ -59,26 +60,8 @@ export default function RootLayout() {
             ))}
             <Stack.Screen name="+not-found" />
           </Stack>
-          {/* <ThemedView style={styles.container}>
-            <TouchableOpacity
-              onPress={() => {
-                router.back();
-              }}
-            >
-              <Text>Back</Text>
-            </TouchableOpacity>
-          </ThemedView> */}
         </QuestionsProvider>
       </QueryClientProvider>
     </ThemeProvider>
   );
 }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     height: 40,
-//     width: "100%",
-//     justifyContent: "flex-start",
-//     alignItems: "center",
-//   },
-// });

@@ -1,21 +1,22 @@
 import { StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Sizes } from "@/constants/Theme";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemedView } from "@/components/ThemedView";
 import LoadingIcons from "@/components/LoadingIcons";
-import { getPlayers } from "@/functions/getPlayers";
-import { Player } from "../app/code";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import { getAnswer } from "@/functions/getAnswer";
 import { PlayerAnswer } from "@/app/answers";
 import { useGameRoom } from "@/hooks/useGameRoom";
+import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 
 export default function Loading() {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [status, setStatus] = useState<string>("");
-  const [players, setPlayers] = useState<Player[]>([]);
+  const players = useSortedPlayers();
+
+  const memoizedPlayers = useMemo(() => players, [players]);
   const { data: documentId } = useGameRoom();
 
   useEffect(() => {
@@ -27,17 +28,6 @@ export default function Loading() {
     getAnswers();
   }, [documentId]);
 
-  const getGameRoomPlayers = async () => {
-    if (documentId) {
-      const unsubscribe = await getPlayers(documentId, setPlayers);
-      return () => {
-        if (unsubscribe) {
-          unsubscribe();
-        }
-      };
-    }
-  };
-
   const getStatus = async () => {
     if (documentId) {
       await getOrUpdateStatus({ documentId, setStatus });
@@ -46,7 +36,6 @@ export default function Loading() {
 
   useEffect(() => {
     getStatus();
-    getGameRoomPlayers();
   }, []);
 
   return (
@@ -62,7 +51,7 @@ export default function Loading() {
               </ThemedText>
             </ThemedView>
             <ThemedView style={styles.progressBox}>
-              <ThemedText type="heading24">{`${answers.length}/${players.length}`}</ThemedText>
+              <ThemedText type="heading24">{`${answers.length}/${memoizedPlayers.length}`}</ThemedText>
             </ThemedView>
           </>
         ) : status === "waiting" ? (

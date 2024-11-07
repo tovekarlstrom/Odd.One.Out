@@ -6,7 +6,6 @@ import PlayerIcon from "@/components/PlayerIcon";
 import { TextField } from "@/components/TextField";
 import { addPoints } from "@/functions/addPoints";
 import { getAnswer } from "@/functions/getAnswer";
-import { getPlayers } from "@/functions/getPlayers";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
@@ -16,6 +15,7 @@ import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import Loading from "@/components/Loading";
 import { router } from "expo-router";
 import { useGameRoom } from "@/hooks/useGameRoom";
+import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 
 export interface PlayerAnswer {
   playerId: string;
@@ -25,11 +25,11 @@ export interface PlayerAnswer {
 export default function Answers() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
-  const [players, setPlayers] = useState<Player[]>([]);
   const [status, setStatus] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
   const playerGetPoints: string[] = [];
   const { data: documentId } = useGameRoom();
+  const players = useSortedPlayers();
 
   const getPlayerName = (playerId: string) => {
     if (!players.length) return "";
@@ -41,7 +41,6 @@ export default function Answers() {
     const getAnswers = async () => {
       if (documentId) {
         getAnswer(documentId, setAnswers);
-        getPlayers(documentId, setPlayers);
       }
     };
     getAnswers();

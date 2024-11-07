@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { Colors, Sizes } from "@/constants/Theme";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
@@ -22,7 +22,7 @@ export function TextField({
   onPress,
 }: TextFieldProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const Wrapper: React.ElementType = isClickable ? TouchableOpacity : View;
+  const Wrapper: React.ElementType = isClickable ? Pressable : View;
 
   const handlePress = () => {
     setIsClicked(!isClicked);

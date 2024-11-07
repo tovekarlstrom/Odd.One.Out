@@ -7,28 +7,11 @@ import { useRouter } from "expo-router";
 import { addAnswerToQuestion } from "@/functions/addAnswers";
 import { useGameRoom } from "@/hooks/useGameRoom";
 
-export function AddAnswer() {
+export function AddAnswer({ question }: { question: string }) {
   const [newAnswer, setNewAnswer] = useState<string>("");
-  const [question, setQuestion] = useState<string>("");
   const { data: documentId } = useGameRoom();
 
   const router = useRouter();
-
-  const fetchQuestion = async () => {
-    if (documentId) {
-      const unsubscribe = await getQuestion(documentId, setQuestion, undefined);
-
-      return () => {
-        if (unsubscribe) {
-          unsubscribe();
-        }
-      };
-    }
-  };
-
-  useEffect(() => {
-    fetchQuestion();
-  }, []);
 
   const addNewAnswer = async () => {
     if (documentId) {

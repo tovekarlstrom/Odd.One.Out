@@ -7,10 +7,12 @@ import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import { useGameRoom } from "@/hooks/useGameRoom";
+import { getQuestion } from "@/functions/getQuestion";
 
 export default function Game() {
   const [status, setStatus] = useState<string>("");
   const { data: documentId, isLoading: isLoadingGame } = useGameRoom();
+  const [question, setQuestion] = useState<string>("");
 
   useEffect(() => {
     const ListenAndGetStatus = async () => {
@@ -26,32 +28,37 @@ export default function Game() {
         };
       }
     };
+
+    const fetchQuestion = async () => {
+      if (documentId) {
+        const unsubscribe = await getQuestion(
+          documentId,
+          setQuestion,
+          undefined
+        );
+
+        return () => {
+          if (unsubscribe) {
+            unsubscribe();
+          }
+        };
+      }
+    };
+
     ListenAndGetStatus();
+    fetchQuestion();
   }, [documentId]);
 
   return (
     <ParallaxScrollView>
-      {isLoadingGame || !status || status === "waiting" ? (
+      {status === "waiting" ? (
         <Loading />
       ) : (
         <>
           <PlayerIcon size={80} />
-          <AddAnswer />
+          <AddAnswer question={question} />
         </>
       )}
     </ParallaxScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerImage: {
-    color: "#808080",
-    bottom: -90,
-    left: -35,
-    position: "absolute",
-  },
-  titleContainer: {
-    flexDirection: "row",
-    gap: 8,
-  },
-});

@@ -1,4 +1,4 @@
-import { type TextProps, StyleSheet, TouchableOpacity } from "react-native";
+import { type TextProps, Pressable, StyleSheet } from "react-native";
 
 import { Colors } from "@/constants/Theme";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,13 +10,13 @@ export type RoundButtonProps = TextProps & {
 
 export function RoundButton({ isAdding, onPress }: RoundButtonProps) {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <Pressable style={styles.button} onPress={onPress}>
       <Ionicons
         name={isAdding ? "add-outline" : "remove-outline"}
         size={30}
         color={Colors.light.text}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 

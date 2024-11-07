@@ -28,7 +28,6 @@ export default function Join() {
       await AsyncStorage.setItem("gameRoom", gameRoom);
       await addPlayers(gameRoom, playerName);
       await AsyncStorage.setItem("isAdmin", "false");
-      alert("Joined the game");
       router.push("/game");
     } else {
       alert("Wrong game code!");

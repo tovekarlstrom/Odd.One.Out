@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -26,7 +26,7 @@ export default function LearnMore() {
       }}
     >
       <ThemedView>
-        <TouchableOpacity onPress={clickLearnMore}>
+        <Pressable onPress={clickLearnMore}>
           <ThemedView style={styles.learnMoreButton}>
             <Ionicons
               name={
@@ -39,7 +39,7 @@ export default function LearnMore() {
               Learn more
             </ThemedText>
           </ThemedView>
-        </TouchableOpacity>
+        </Pressable>
         {openLearnMore && (
           <>
             <ThemedView style={styles.learnMoreContainer}>

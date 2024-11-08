@@ -36,6 +36,9 @@ export const Colors = {
     icon: dullBlack,
     tabIconDefault: "#687076",
     tabIconSelected: dullBlack,
+    iconGreen: brightGreen,
+    iconBlue: brightBlue,
+    iconOrange: brightOrange,
   },
 };
 

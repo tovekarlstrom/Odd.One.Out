@@ -13,6 +13,8 @@ import { getQuestion } from "@/functions/getQuestion";
 import { useGameRoom } from "@/hooks/useGameRoom";
 
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
+import PlayerIcon from "@/components/PlayerIcon";
+import { usePlayerIcon } from "@/hooks/usePlayerIcon";
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -22,6 +24,7 @@ export default function RoundResult() {
   const [index, setIndex] = useState<number | undefined>(undefined);
   const [countdownStarted, setCountdownStarted] = useState(false);
   const { data: documentId } = useGameRoom();
+  const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
 
   useEffect(() => {
@@ -106,9 +109,14 @@ export default function RoundResult() {
 
   return (
     <>
-      <ParallaxScrollView>
+      <ParallaxScrollView paddingTop={20}>
         {scored !== undefined && (
           <View>
+            <PlayerIcon
+              size={80}
+              color={playerIcon.color}
+              shape={playerIcon.shape}
+            />
             <ThemedText style={{ paddingBottom: 57 }} type="heading32">
               {scored
                 ? "You’re in sync with the group, points for you!"

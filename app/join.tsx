@@ -10,6 +10,7 @@ import { addPlayers } from "../functions/addPlayers";
 import { getGameRoom } from "@/functions/getGameRoom";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import { getIconColorAndShape } from "@/utils/getIconColorAndShape";
 
 export default function Join() {
   const [gameCode, setGameCode] = useState("");
@@ -17,16 +18,15 @@ export default function Join() {
 
   const router = useRouter();
 
-  const handleNewGame = (text: string) => {
-    setGameCode(text);
-  };
   const joinGame = async () => {
     const gameRoom = await getGameRoom(gameCode);
+
     if (playerName.length < 3) {
       alert("Your player name has to contain at least three characters");
     } else if (gameRoom) {
+      const playerIcon = await getIconColorAndShape();
       await AsyncStorage.setItem("gameRoom", gameRoom);
-      await addPlayers(gameRoom, playerName);
+      await addPlayers(gameRoom, playerName, playerIcon);
       await AsyncStorage.setItem("isAdmin", "false");
       router.push("/game");
     } else {
@@ -48,7 +48,9 @@ export default function Join() {
           <CardComponent heading="Enter game code and your name" fullWidth>
             <InputComponent
               placeholder="Code"
-              onChangeText={handleNewGame}
+              onChangeText={(value) => {
+                setGameCode(value);
+              }}
               value={gameCode}
             />
             <InputComponent

@@ -8,10 +8,14 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { getQuestion } from "@/functions/getQuestion";
+import { shape } from "@/utils/getIconColorAndShape";
+import { usePlayerIcon } from "@/hooks/usePlayerIcon";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function Game() {
   const [status, setStatus] = useState<string>("");
   const { data: documentId, isLoading: isLoadingGame } = useGameRoom();
+  const { data: playerIcon, isLoading: isLoadingPlayerIcon } = usePlayerIcon();
   const [question, setQuestion] = useState<string>("");
 
   useEffect(() => {
@@ -50,12 +54,17 @@ export default function Game() {
   }, [documentId]);
 
   return (
-    <ParallaxScrollView>
-      {status === "waiting" ? (
+    <ParallaxScrollView paddingTop={20}>
+      {status === "waiting" || isLoadingPlayerIcon ? (
         <Loading />
       ) : (
         <>
-          <PlayerIcon size={80} />
+          <PlayerIcon
+            paddingBottom={120}
+            size={80}
+            color={playerIcon.color}
+            shape={playerIcon.shape}
+          />
           <AddAnswer question={question} />
         </>
       )}

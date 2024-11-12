@@ -4,12 +4,12 @@ import { useQuestions } from "@/contexts/QuestionsProvider";
 import { Sizes } from "@/constants/Theme";
 import { CardComponent } from "./CardComponent";
 
-export function AddedQuestions() {
+export function AddedQuestions({ heading }: { heading: string }) {
   const { questions } = useQuestions();
 
   return (
     <View style={styled.outerConteiner}>
-      <CardComponent heading="Added Questions" fullWidth>
+      <CardComponent heading={heading} fullWidth>
         <View style={styled.container}>
           {questions
             .slice()

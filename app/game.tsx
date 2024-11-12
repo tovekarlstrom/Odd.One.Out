@@ -1,5 +1,3 @@
-import { StyleSheet } from "react-native";
-
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import PlayerIcon from "@/components/PlayerIcon";
 import { AddAnswer } from "@/components/AddAnswer";
@@ -8,10 +6,12 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { getQuestion } from "@/functions/getQuestion";
+import { usePlayerIcon } from "@/hooks/usePlayerIcon";
 
 export default function Game() {
   const [status, setStatus] = useState<string>("");
   const { data: documentId, isLoading: isLoadingGame } = useGameRoom();
+  const { data: playerIcon, isLoading: isLoadingPlayerIcon } = usePlayerIcon();
   const [question, setQuestion] = useState<string>("");
 
   useEffect(() => {
@@ -50,10 +50,15 @@ export default function Game() {
   }, [documentId]);
 
   return (
-    <ParallaxScrollView>
-      {status === "active" ? (
+    <ParallaxScrollView paddingTop={20}>
+      {status === "active" || isLoadingPlayerIcon ? (
         <>
-          <PlayerIcon size={80} />
+          <PlayerIcon
+            paddingBottom={120}
+            size={80}
+            color={playerIcon.color}
+            shape={playerIcon.shape}
+          />
           <AddAnswer question={question} />
         </>
       ) : (

@@ -9,13 +9,15 @@ import { getAnswer } from "@/functions/getAnswer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
-import { Player } from "./code";
 import { Colors, Sizes } from "@/constants/Theme";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import Loading from "@/components/Loading";
 import { router } from "expo-router";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
+import data from "../public/content.json";
+import { usePlayerIcon } from "@/hooks/usePlayerIcon";
+import { shape } from "@/utils/getIconColorAndShape";
 
 export interface PlayerAnswer {
   playerId: string;
@@ -29,12 +31,15 @@ export default function Answers() {
   const [isLoading, setIsLoading] = useState(true);
   const playerGetPoints: string[] = [];
   const { data: documentId } = useGameRoom();
+  const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
+  const labels = data.content.labels;
+  const button = data.content.buttons;
 
-  const getPlayerName = (playerId: string) => {
-    if (!players.length) return "";
-    const player = players.find((player) => player.playerId === playerId);
-    return player ? player.playerName : "Unknown Player";
+  const getPlayerAnswer = (playerId: string) => {
+    if (!answers.length) return "";
+    const answer = answers.find((answer) => answer.playerId === playerId);
+    return answer ? answer.playerAnswer : "Unknown Answer";
   };
 
   useEffect(() => {
@@ -92,29 +97,38 @@ export default function Answers() {
 
   return (
     <>
-      <ParallaxScrollView>
+      <ParallaxScrollView paddingTop={20}>
         {isLoading ? (
           <Loading prelStatus="active" />
         ) : (
           <>
-            <PlayerIcon size={80} />
+            <PlayerIcon
+              paddingBottom={20}
+              size={80}
+              color={playerIcon.color}
+              shape={playerIcon.shape}
+            />
             <View style={{ paddingTop: Sizes.Spacings.large }}>
               <CardComponent
-                heading={isAdmin ? "Mark the right answers" : "The answers"}
+                heading={isAdmin ? labels.answersAdmin : labels.answersPlayer}
                 fullWidth
               >
-                {answers &&
-                  answers.map((answer, index) => (
+                {players &&
+                  players.map((player, index) => (
                     <View key={index}>
                       <TextField
-                        value={getPlayerName(answer.playerId)}
+                        value={player.playerName}
                         isClickable={isAdmin}
-                        answer={answer.playerAnswer}
+                        answer={getPlayerAnswer(player.playerId)}
                         onPress={() => {
-                          handleSelectedAnswers(answer.playerId);
+                          handleSelectedAnswers(player.playerId);
                         }}
                       >
-                        <PlayerIcon size={17} />
+                        <PlayerIcon
+                          size={17}
+                          color={player.playerIcon.color}
+                          shape={player.playerIcon.shape as shape}
+                        />
                       </TextField>
                     </View>
                   ))}
@@ -128,7 +142,7 @@ export default function Answers() {
                   color: Colors.light.placeholder,
                 }}
               >
-                Waiting for admin to enter points..
+                {labels.waitForAdmin}
               </Text>
             )}
           </>
@@ -138,7 +152,7 @@ export default function Answers() {
         <GradientContainer>
           <ButtonComponent
             onSubmit={enterPoints}
-            text="Enter points"
+            text={button.enterPoints}
             variant="primary"
             route="/game"
           />

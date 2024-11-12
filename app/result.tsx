@@ -2,7 +2,7 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect, useCallback } from "react";
-import { View, Vibration } from "react-native";
+import { View } from "react-native";
 import { GradientContainer } from "@/components/GradientContainer";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
@@ -11,8 +11,12 @@ import { updateIndex } from "@/functions/getOrUpdateIndex";
 import { JoinedPlayers } from "@/components/JoinedPlayers";
 import { getQuestion } from "@/functions/getQuestion";
 import { useGameRoom } from "@/hooks/useGameRoom";
-
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
+import data from "../public/content.json";
+
+import PlayerIcon from "@/components/PlayerIcon";
+import { usePlayerIcon } from "@/hooks/usePlayerIcon";
+import { getRandomString } from "@/utils/getRandomString";
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -22,7 +26,10 @@ export default function RoundResult() {
   const [index, setIndex] = useState<number | undefined>(undefined);
   const [countdownStarted, setCountdownStarted] = useState(false);
   const { data: documentId } = useGameRoom();
+  const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
+  const labels = data.content.labels;
+  const button = data.content.buttons;
 
   useEffect(() => {
     const getQuestionLength = async () => {
@@ -106,21 +113,27 @@ export default function RoundResult() {
 
   return (
     <>
-      <ParallaxScrollView>
+      <ParallaxScrollView paddingTop={20}>
         {scored !== undefined && (
           <View>
+            <PlayerIcon
+              size={80}
+              color={playerIcon.color}
+              shape={playerIcon.shape}
+              paddingBottom={30}
+            />
             <ThemedText style={{ paddingBottom: 57 }} type="heading32">
               {scored
-                ? "You’re in sync with the group, points for you!"
-                : "You went your own way, no points this time"}
+                ? getRandomString(labels.score.right)
+                : getRandomString(labels.score.wrong)}
             </ThemedText>
 
             <ThemedText style={{ marginBottom: 47 }} type="default">
-              {scored ? 1 : 0} point added to your score
+              {scored ? 1 : 0} {labels.pointsAdded}
             </ThemedText>
 
             <JoinedPlayers
-              heading="Top 3 players"
+              heading={labels.topThree}
               players={players}
               showPoints
               topPlayers
@@ -132,17 +145,17 @@ export default function RoundResult() {
       <GradientContainer>
         {countdownStarted ? (
           <ThemedText type="defaultSemiBold" style={{ marginBottom: 10 }}>
-            Game starts in {countDown}
+            {labels.gameCountdown} {countDown}
           </ThemedText>
         ) : index && index === questionsLength - 1 ? (
           <ButtonComponent
             variant="primary"
-            text="End game"
+            text={button.endGame}
             route="/scoreboard"
           />
         ) : isAdmin ? (
           <ButtonComponent
-            text="Next round"
+            text={button.nextRound}
             variant="primary"
             onSubmit={nextQuestion}
           />

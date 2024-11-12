@@ -10,11 +10,14 @@ import { addPlayers } from "../functions/addPlayers";
 import { getGameRoom } from "@/functions/getGameRoom";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
+import data from "../public/content.json";
 import { getIconColorAndShape } from "@/utils/getIconColorAndShape";
 
 export default function Join() {
   const [gameCode, setGameCode] = useState("");
   const [playerName, setPlayerName] = useState<string>("");
+  const content = data.content.joinGame;
+  const button = data.content.buttons;
 
   const router = useRouter();
 
@@ -38,14 +41,11 @@ export default function Join() {
     <>
       <ParallaxScrollView>
         <View style={styles.titleContainer}>
-          <ThemedText type="heading32">Ready to play?</ThemedText>
-          <ThemedText type="default">
-            Your task is to match the majority's answers—let's see how well you
-            can sync up!
-          </ThemedText>
+          <ThemedText type="heading32">{content.title}</ThemedText>
+          <ThemedText type="default">{content.description}</ThemedText>
         </View>
         <View style={{ marginVertical: 40 }}>
-          <CardComponent heading="Enter game code and your name" fullWidth>
+          <CardComponent heading={content.subHeading} fullWidth>
             <InputComponent
               placeholder="Code"
               onChangeText={(value) => {
@@ -62,7 +62,7 @@ export default function Join() {
             />
             <ButtonComponent
               variant="primary"
-              text="Join Game"
+              text={button.joinGame}
               onSubmit={joinGame}
             />
           </CardComponent>

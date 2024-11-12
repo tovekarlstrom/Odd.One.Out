@@ -10,11 +10,13 @@ import { getAnswer } from "@/functions/getAnswer";
 import { PlayerAnswer } from "@/app/answers";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
+import data from "../public/content.json";
 
 export default function Loading() {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [status, setStatus] = useState<string>("");
   const players = useSortedPlayers();
+  const content = data.content.loading;
 
   const memoizedPlayers = useMemo(() => players, [players]);
   const { data: documentId } = useGameRoom();
@@ -45,10 +47,11 @@ export default function Loading() {
         {status === "active" ? (
           <>
             <ThemedView style={styles.textBox}>
-              <ThemedText type="heading24">Patience!</ThemedText>
-              <ThemedText type="heading24">
-                Someone is still thinking..
-              </ThemedText>
+              {content.title.active.map((text, index) => (
+                <ThemedText key={index} type="heading24">
+                  {text}
+                </ThemedText>
+              ))}
             </ThemedView>
             <ThemedView style={styles.progressBox}>
               <ThemedText type="heading24">{`${answers.length}/${memoizedPlayers.length}`}</ThemedText>
@@ -56,8 +59,11 @@ export default function Loading() {
           </>
         ) : status === "waiting" ? (
           <ThemedView style={styles.textBox}>
-            <ThemedText type="heading24">Hold tight!</ThemedText>
-            <ThemedText type="heading24">The fun is about to start</ThemedText>
+            {content.title.waiting.map((text, index) => (
+              <ThemedText key={index} type="heading24">
+                {text}
+              </ThemedText>
+            ))}
           </ThemedView>
         ) : (
           <></>

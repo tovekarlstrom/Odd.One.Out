@@ -6,8 +6,12 @@ import { ThemedView } from "@/components/ThemedView";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { Sizes } from "@/constants/Theme";
 import LearnMore from "@/components/LearnMore";
+import data from "../public/content.json";
 
 export default function HomeScreen() {
+  const content = data.content.startPage;
+  const button = data.content.buttons;
+
   return (
     <ImageBackground
       source={require("../assets/images/startBackground.png")}
@@ -16,20 +20,19 @@ export default function HomeScreen() {
     >
       <ParallaxScrollView isHomePage={true}>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="title">
-            Blend in or stand out - What's your strategy?
-          </ThemedText>
+          <ThemedText type="title">{content.title}</ThemedText>
         </ThemedView>
         <ThemedView style={styles.stepContainer}>
-          <ThemedText type="default">
-            It's not about what's right, it's about what most people think.
-            Let's get started!
-          </ThemedText>
+          <ThemedText type="default">{content.description}</ThemedText>
         </ThemedView>
         <ThemedView style={styles.stepContainer}>
-          <ButtonComponent text={"Join Game"} variant="primary" route="/join" />
           <ButtonComponent
-            text={"Create Game"}
+            text={button.joinGame}
+            variant="primary"
+            route="/join"
+          />
+          <ButtonComponent
+            text={button.createGame}
             variant="secondary"
             route="/create"
           />

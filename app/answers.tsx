@@ -9,13 +9,13 @@ import { getAnswer } from "@/functions/getAnswer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
-import { Player } from "./code";
 import { Colors, Sizes } from "@/constants/Theme";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import Loading from "@/components/Loading";
 import { router } from "expo-router";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
+import data from "../public/content.json";
 import { usePlayerIcon } from "@/hooks/usePlayerIcon";
 import { shape } from "@/utils/getIconColorAndShape";
 
@@ -33,6 +33,8 @@ export default function Answers() {
   const { data: documentId } = useGameRoom();
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
+  const labels = data.content.labels;
+  const button = data.content.buttons;
 
   const getPlayerAnswer = (playerId: string) => {
     if (!answers.length) return "";
@@ -108,7 +110,7 @@ export default function Answers() {
             />
             <View style={{ paddingTop: Sizes.Spacings.large }}>
               <CardComponent
-                heading={isAdmin ? "Mark the right answers" : "The answers"}
+                heading={isAdmin ? labels.answersAdmin : labels.answersPlayer}
                 fullWidth
               >
                 {players &&
@@ -140,7 +142,7 @@ export default function Answers() {
                   color: Colors.light.placeholder,
                 }}
               >
-                Waiting for admin to enter points..
+                {labels.waitForAdmin}
               </Text>
             )}
           </>
@@ -150,7 +152,7 @@ export default function Answers() {
         <GradientContainer>
           <ButtonComponent
             onSubmit={enterPoints}
-            text="Enter points"
+            text={button.enterPoints}
             variant="primary"
             route="/game"
           />

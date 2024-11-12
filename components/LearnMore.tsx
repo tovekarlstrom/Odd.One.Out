@@ -7,9 +7,12 @@ import { Colors, Sizes } from "@/constants/Theme";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import SlideAnimation from "./SlideAnimation";
+import data from "../public/content.json";
 
 export default function LearnMore() {
   const [openLearnMore, setOpenLearnMore] = useState<boolean>(false);
+  const content = data.content.learnMorePage;
+  const button = data.content.buttons;
 
   const clickLearnMore = () => {
     setOpenLearnMore(!openLearnMore);
@@ -36,31 +39,23 @@ export default function LearnMore() {
               color={Colors.light.text}
             />
             <ThemedText type="link" style={styles.learnMoreText}>
-              Learn more
+              {button.learnMore}
             </ThemedText>
           </ThemedView>
         </Pressable>
         {openLearnMore && (
           <>
             <ThemedView style={styles.learnMoreContainer}>
-              <ThemedText type="title">
-                Learn more about Odd One Out!
-              </ThemedText>
+              <ThemedText type="title">{content.title}</ThemedText>
               <ThemedView style={styles.textBox}>
                 <ThemedText type="defaultLarge">
-                  Think oddly together
+                  {content.subHeading}
                 </ThemedText>
-                <ThemedText type="default">
-                  In this mode, the goal is to NOT be the odd one out! Try to
-                  think like the other players and give the same answer as
-                  someone else. You'll only score points if someone else thinks
-                  the same way. The challenge is to guess what others will
-                  pick—can you predict what they'll choose?
-                </ThemedText>
+                <ThemedText type="default">{content.description}</ThemedText>
               </ThemedView>
             </ThemedView>
             <ButtonComponent
-              text={"Create Game"}
+              text={button.createGame}
               variant="primary"
               route="/create"
             />

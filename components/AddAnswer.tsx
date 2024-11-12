@@ -6,10 +6,12 @@ import { getQuestion } from "../functions/getQuestion";
 import { useRouter } from "expo-router";
 import { addAnswerToQuestion } from "@/functions/addAnswers";
 import { useGameRoom } from "@/hooks/useGameRoom";
+import data from "../public/content.json";
 
 export function AddAnswer({ question }: { question: string }) {
   const [newAnswer, setNewAnswer] = useState<string>("");
   const { data: documentId } = useGameRoom();
+  const button = data.content.buttons;
 
   const router = useRouter();
 
@@ -34,7 +36,7 @@ export function AddAnswer({ question }: { question: string }) {
       />
       <ButtonComponent
         variant="primary"
-        text="Send answer"
+        text={button.sendAnswer}
         onSubmit={() => {
           addNewAnswer();
         }}

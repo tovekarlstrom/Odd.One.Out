@@ -82,7 +82,6 @@ export default function Score() {
               {playerList.map((player, index) => (
                 <ThemedView key={index} style={styles.podiumContainer}>
                   <ThemedView style={styles.playerBox}>
-                    <PlayerIcon size={20} />
                     <ThemedText type="defaultSemiBold">
                       {player.playerName}
                     </ThemedText>

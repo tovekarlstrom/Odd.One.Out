@@ -14,13 +14,9 @@ import { useGameRoom } from "@/hooks/useGameRoom";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 import data from "../public/content.json";
 
-export const getRandomString = (arr: string[]): string => {
-  const randomIndex = Math.floor(Math.random() * arr.length);
-  return arr[randomIndex];
-};
-
 import PlayerIcon from "@/components/PlayerIcon";
 import { usePlayerIcon } from "@/hooks/usePlayerIcon";
+import { getRandomString } from "@/utils/getRandomString";
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
   const [isAdmin, setIsAdmin] = useState(false);

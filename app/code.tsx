@@ -14,6 +14,7 @@ import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { router } from "expo-router";
 import data from "../public/content.json";
+import { getRandomString } from "@/utils/getRandomString";
 
 export type PlayerIconType = {
   color: string;
@@ -100,7 +101,9 @@ export default function Code() {
     <>
       <ParallaxScrollView>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="heading32">{content.title[0]}</ThemedText>
+          <ThemedText type="heading32">
+            {getRandomString(content.title)}
+          </ThemedText>
           <ThemedText type="default">{content.description}</ThemedText>
         </ThemedView>
         <CopyComponent gameCode={gameCode} />

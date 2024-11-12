@@ -13,6 +13,7 @@ import { getPlayers } from "@/functions/getPlayers";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { router } from "expo-router";
+import data from "../public/content.json";
 
 export interface Player {
   playerName: string;
@@ -42,6 +43,8 @@ export default function Code() {
   const [gameCode, setGameCode] = useState("");
   const [players, setPlayers] = useState<Player[]>([]);
   const { data: documentId } = useGameRoom();
+  const content = data.content.code;
+  const button = data.content.buttons;
 
   useEffect(() => {
     const fetchGameCode = async () => {
@@ -92,25 +95,21 @@ export default function Code() {
     <>
       <ParallaxScrollView>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="heading32">
-            The stage is set! Start when you're ready.
-          </ThemedText>
-          <ThemedText type="default">
-            Share the code with all players who need to join
-          </ThemedText>
+          <ThemedText type="heading32">{content.title[0]}</ThemedText>
+          <ThemedText type="default">{content.description}</ThemedText>
         </ThemedView>
         <CopyComponent gameCode={gameCode} />
         <View style={styles.cardContainer}>
           <JoinedPlayers
             players={players}
-            heading="Joined Players"
+            heading={content.subHeading}
             showListLength={true}
           />
         </View>
       </ParallaxScrollView>
       <GradientContainer>
         <ButtonComponent
-          text="Start Game"
+          text={button.start}
           variant="primary"
           onSubmit={() => {
             startGame();

@@ -9,13 +9,13 @@ import { getAnswer } from "@/functions/getAnswer";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
-import { Player } from "./code";
 import { Colors, Sizes } from "@/constants/Theme";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
 import Loading from "@/components/Loading";
 import { router } from "expo-router";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
+import data from "../public/content.json";
 
 export interface PlayerAnswer {
   playerId: string;
@@ -30,6 +30,8 @@ export default function Answers() {
   const playerGetPoints: string[] = [];
   const { data: documentId } = useGameRoom();
   const players = useSortedPlayers();
+  const labels = data.content.labels;
+  const button = data.content.buttons;
 
   const getPlayerName = (playerId: string) => {
     if (!players.length) return "";
@@ -100,7 +102,7 @@ export default function Answers() {
             <PlayerIcon size={80} />
             <View style={{ paddingTop: Sizes.Spacings.large }}>
               <CardComponent
-                heading={isAdmin ? "Mark the right answers" : "The answers"}
+                heading={isAdmin ? labels.answersAdmin : labels.answersPlayer}
                 fullWidth
               >
                 {answers &&
@@ -128,7 +130,7 @@ export default function Answers() {
                   color: Colors.light.placeholder,
                 }}
               >
-                Waiting for admin to enter points..
+                {labels.waitForAdmin}
               </Text>
             )}
           </>
@@ -138,7 +140,7 @@ export default function Answers() {
         <GradientContainer>
           <ButtonComponent
             onSubmit={enterPoints}
-            text="Enter points"
+            text={button.enterPoints}
             variant="primary"
             route="/game"
           />

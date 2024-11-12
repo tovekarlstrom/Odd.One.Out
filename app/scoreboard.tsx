@@ -10,6 +10,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 import Loading from "@/components/Loading";
 import { useEffect, useState } from "react";
+import data from "../public/content.json";
 
 interface TopPlayer {
   playerName: string;
@@ -20,6 +21,9 @@ interface TopPlayer {
 export default function Score() {
   const [playerList, setPlayerList] = useState<TopPlayer[]>([]);
   const players = useSortedPlayers();
+  const content = data.content.results;
+  const labels = data.content.labels;
+  const button = data.content.buttons;
 
   useEffect(() => {
     if (players.length === 0) return;
@@ -70,11 +74,9 @@ export default function Score() {
           <ParallaxScrollView>
             <ThemedView style={styles.textBox}>
               <ThemedText type="heading32">
-                Congratulations, {players[0].playerName}
+                {content.winner.title} {players[0].playerName}
               </ThemedText>
-              <ThemedText>
-                You've claimed the top spot on the podium.
-              </ThemedText>
+              <ThemedText>{content.winner.description}</ThemedText>
             </ThemedView>
             <ThemedView style={styles.podiumWrapper}>
               {playerList.map((player, index) => (
@@ -100,13 +102,13 @@ export default function Score() {
             </ThemedView>
             <JoinedPlayers
               players={players}
-              heading="Players"
+              heading={labels.players}
               showPoints={true}
             />
           </ParallaxScrollView>
           <GradientContainer>
             <ButtonComponent
-              text="Create a new game"
+              text={button.newGame}
               variant="primary"
               route="/"
             />

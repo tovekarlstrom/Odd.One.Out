@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Animated, StyleSheet } from "react-native";
 import { ThemedView } from "./ThemedView";
 import PlayerIcon from "./PlayerIcon";
-import { Sizes } from "@/constants/Theme";
+import { Colors, Sizes } from "@/constants/Theme";
 
 export default function LoadingIcons() {
   const bounce1 = useRef(new Animated.Value(0)).current;
@@ -35,13 +35,13 @@ export default function LoadingIcons() {
   return (
     <ThemedView style={styles.iconBox}>
       <Animated.View style={{ transform: [{ translateY: bounce1 }] }}>
-        <PlayerIcon size={50} color="orange" />
+        <PlayerIcon size={50} color={Colors.light.iconOrange} shape="star" />
       </Animated.View>
       <Animated.View style={{ transform: [{ translateY: bounce2 }] }}>
-        <PlayerIcon size={50} />
+        <PlayerIcon size={50} color={Colors.light.iconGreen} shape="cloud" />
       </Animated.View>
       <Animated.View style={{ transform: [{ translateY: bounce3 }] }}>
-        <PlayerIcon size={50} color="blue" />
+        <PlayerIcon size={50} color={Colors.light.iconBlue} shape="hexagon" />
       </Animated.View>
     </ThemedView>
   );

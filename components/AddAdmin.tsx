@@ -12,6 +12,7 @@ import SlideAnimation from "./SlideAnimation";
 import { useQuestions } from "@/contexts/QuestionsProvider";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import data from "../public/content.json";
+import { getIconColorAndShape } from "@/utils/getIconColorAndShape";
 
 interface AddAdminProps {
   showAddAdmin: boolean;
@@ -27,7 +28,8 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
     if (playerName.length < 3) {
       alert("Your player name has to contain at least three characters");
     } else {
-      await createGameRoom(playerName, questions);
+      const playerIcon = await getIconColorAndShape();
+      await createGameRoom(playerName, questions, playerIcon);
       AsyncStorage.setItem("isAdmin", "true");
     }
   };

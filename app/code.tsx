@@ -15,12 +15,17 @@ import { useGameRoom } from "@/hooks/useGameRoom";
 import { router } from "expo-router";
 import data from "../public/content.json";
 
+export type PlayerIconType = {
+  color: string;
+  shape: string;
+};
 export interface Player {
   playerName: string;
   points: number[];
   isAdmin: boolean;
   playerId: string;
   totalPoints: number;
+  playerIcon: PlayerIconType;
 }
 
 const loadGameCode = async () => {
@@ -74,21 +79,21 @@ export default function Code() {
   }, [gameCode]);
 
   const startGame = async () => {
-    if (players.length >= 3) {
-      if (documentId) {
-        await getOrUpdateStatus({
-          documentId,
-          changeStatus: "active",
-        });
-      }
-      router.push("/game");
-    } else {
-      Alert.alert(
-        "Not enough players",
-        "You need at least 3 players to start the game",
-        [{ text: "OK", onPress: () => {} }]
-      );
+    //   if (players.length >= 3) {
+    if (documentId) {
+      getOrUpdateStatus({
+        documentId,
+        changeStatus: "active",
+      });
     }
+    router.push("/game");
+    // } else {
+    //   Alert.alert(
+    //     "Not enough players",
+    //     "You need at least 3 players to start the game",
+    //     [{ text: "OK", onPress: () => {} }]
+    //   );
+    // }
   };
 
   return (

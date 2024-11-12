@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import { PlayerIconType } from "@/app/code";
 
 interface QuestionsObject {
   question: string;
@@ -9,7 +10,8 @@ interface QuestionsObject {
 
 export const createGameRoom = async (
   playerName: string,
-  questions: string[]
+  questions: string[],
+  playerIcon: PlayerIconType
 ) => {
   const roomId = Math.random().toString(36).substring(4);
   const questionArray: QuestionsObject[] = [];
@@ -28,6 +30,7 @@ export const createGameRoom = async (
           playerName: playerName,
           points: [],
           isAdmin: true,
+          playerIcon: playerIcon,
         },
       ],
       questions: questionArray,

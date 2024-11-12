@@ -17,7 +17,6 @@ export function AddAnswer({ question }: { question: string }) {
     if (documentId) {
       if (newAnswer) {
         await addAnswerToQuestion(documentId, newAnswer);
-        alert(newAnswer);
         setNewAnswer("");
       }
       router.push("/answers");

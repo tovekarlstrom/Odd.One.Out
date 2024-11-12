@@ -20,7 +20,12 @@ export default function ParallaxScrollView({
     <ThemedView style={isHomePage ? styles.homePage : styles.container}>
       <LogoIcon style={styles.header} size={60} />
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
-        <ThemedView style={[styles.content, { paddingTop: paddingTop }]}>
+        <ThemedView
+          style={[
+            styles.content,
+            { paddingTop: paddingTop ? paddingTop : 100 },
+          ]}
+        >
           {children}
         </ThemedView>
       </Animated.ScrollView>
@@ -46,7 +51,6 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   content: {
-    paddingTop: 100,
     flex: 1,
     padding: Sizes.Spacings.large,
     overflow: "hidden",

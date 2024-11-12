@@ -2,7 +2,7 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState, useEffect, useCallback } from "react";
-import { View, Vibration } from "react-native";
+import { View } from "react-native";
 import { GradientContainer } from "@/components/GradientContainer";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
@@ -116,6 +116,7 @@ export default function RoundResult() {
               size={80}
               color={playerIcon.color}
               shape={playerIcon.shape}
+              paddingBottom={30}
             />
             <ThemedText style={{ paddingBottom: 57 }} type="heading32">
               {scored

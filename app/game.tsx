@@ -1,5 +1,3 @@
-import { StyleSheet } from "react-native";
-
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import PlayerIcon from "@/components/PlayerIcon";
 import { AddAnswer } from "@/components/AddAnswer";
@@ -8,9 +6,7 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/Loading";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { getQuestion } from "@/functions/getQuestion";
-import { shape } from "@/utils/getIconColorAndShape";
 import { usePlayerIcon } from "@/hooks/usePlayerIcon";
-import { ThemedText } from "@/components/ThemedText";
 
 export default function Game() {
   const [status, setStatus] = useState<string>("");

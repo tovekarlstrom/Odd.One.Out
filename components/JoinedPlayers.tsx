@@ -5,6 +5,7 @@ import { TextField } from "./TextField";
 
 import { useEffect, useState } from "react";
 import { Player } from "@/app/code";
+import { shape } from "@/utils/getIconColorAndShape";
 
 interface JoinedPlayersProps {
   heading: string;
@@ -52,11 +53,19 @@ export function JoinedPlayers({
                 value={player.playerName}
                 points={player.totalPoints.toString()}
               >
-                <PlayerIcon size={20} />
+                <PlayerIcon
+                  size={20}
+                  color={player.playerIcon.color}
+                  shape={player.playerIcon.shape as shape}
+                />
               </TextField>
             ) : (
               <TextField key={index} value={player.playerName}>
-                <PlayerIcon size={20} />
+                <PlayerIcon
+                  size={20}
+                  color={player.playerIcon.color}
+                  shape={player.playerIcon.shape as shape}
+                />
               </TextField>
             )}
           </View>

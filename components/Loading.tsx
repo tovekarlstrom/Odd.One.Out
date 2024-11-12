@@ -11,9 +11,11 @@ import { PlayerAnswer } from "@/app/answers";
 import { useGameRoom } from "@/hooks/useGameRoom";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 
-export default function Loading() {
+type status = "active" | "waiting";
+
+export default function Loading({ prelStatus }: { prelStatus?: status }) {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
-  const [status, setStatus] = useState<string>("");
+  const [status, setStatus] = useState<string>(prelStatus || "");
   const players = useSortedPlayers();
 
   const memoizedPlayers = useMemo(() => players, [players]);

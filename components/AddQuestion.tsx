@@ -4,6 +4,7 @@ import { RoundButton } from "./RoundButton";
 import { useState } from "react";
 
 import { useQuestions } from "@/contexts/QuestionsProvider";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function AddQuestion() {
   const [newQuestion, setNewQuestion] = useState<string>("");
@@ -13,6 +14,15 @@ export function AddQuestion() {
     setNewQuestion(text);
   };
   const addNewQuestion = async () => {
+    if (!newQuestion) return;
+
+    const questions = await AsyncStorage.getItem("questions");
+    const parsedQuestions = questions ? JSON.parse(questions) : [];
+
+    if (parsedQuestions.includes(newQuestion)) {
+      return alert("This question has already been added.");
+    }
+
     addQuestion(newQuestion);
     setNewQuestion("");
   };

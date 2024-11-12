@@ -94,7 +94,7 @@ export default function Answers() {
     <>
       <ParallaxScrollView>
         {isLoading ? (
-          <Loading />
+          <Loading prelStatus="active" />
         ) : (
           <>
             <PlayerIcon size={80} />

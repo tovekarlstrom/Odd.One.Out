@@ -51,13 +51,13 @@ export default function Game() {
 
   return (
     <ParallaxScrollView>
-      {status === "waiting" ? (
-        <Loading />
-      ) : (
+      {status === "active" ? (
         <>
           <PlayerIcon size={80} />
           <AddAnswer question={question} />
         </>
+      ) : (
+        <Loading prelStatus="waiting" />
       )}
     </ParallaxScrollView>
   );

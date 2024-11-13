@@ -1,17 +1,18 @@
-import { getDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { getDoc, doc, updateDoc } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+import { Player } from '@/app/code';
 
 export const addPoints = async (
   documentId: string,
-  playersGetPoints: string[]
+  playersGetPoints: string[],
 ) => {
   try {
-    const gameRoomRef = doc(db, "gameRooms", documentId);
+    const gameRoomRef = doc(db, 'gameRooms', documentId);
     const gameRoomDoc = await getDoc(gameRoomRef);
 
     if (gameRoomDoc.exists()) {
       const players = gameRoomDoc.data().players;
-      const updatedPlayers = players.map((player: any) => {
+      const updatedPlayers = players.map((player: Player) => {
         if (playersGetPoints.includes(player.playerId)) {
           return { ...player, points: [...(player.points || []), 1] };
         } else {
@@ -23,6 +24,6 @@ export const addPoints = async (
       });
     }
   } catch (e) {
-    console.error("ERROR updating player points:", e);
+    console.error('ERROR updating player points:', e);
   }
 };

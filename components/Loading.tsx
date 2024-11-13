@@ -1,22 +1,21 @@
-import { StyleSheet } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { useEffect, useMemo, useState } from "react";
-import { Sizes } from "@/constants/Theme";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { ThemedView } from "@/components/ThemedView";
-import LoadingIcons from "@/components/LoadingIcons";
-import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
-import { getAnswer } from "@/functions/getAnswer";
-import { PlayerAnswer } from "@/app/answers";
-import { useGameRoom } from "@/hooks/useGameRoom";
-import { useSortedPlayers } from "@/hooks/useSortedPlayers";
-import data from "../public/content.json";
+import { StyleSheet } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
+import { useEffect, useMemo, useState } from 'react';
+import { Sizes } from '@/constants/Theme';
+import { ThemedView } from '@/components/ThemedView';
+import LoadingIcons from '@/components/LoadingIcons';
+import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
+import { getAnswer } from '@/functions/getAnswer';
+import { PlayerAnswer } from '@/app/answers';
+import { useGameRoom } from '@/hooks/useGameRoom';
+import { useSortedPlayers } from '@/hooks/useSortedPlayers';
+import data from '../public/content.json';
 
-type status = "active" | "waiting";
+type status = 'active' | 'waiting';
 
 export default function Loading({ prelStatus }: { prelStatus?: status }) {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
-  const [status, setStatus] = useState<string>(prelStatus || "");
+  const [status, setStatus] = useState<string>(prelStatus || '');
   const players = useSortedPlayers();
   const content = data.content.loading;
 
@@ -46,23 +45,23 @@ export default function Loading({ prelStatus }: { prelStatus?: status }) {
     <>
       <ThemedView style={styles.outerBox}>
         <LoadingIcons />
-        {status === "active" ? (
+        {status === 'active' ? (
           <>
             <ThemedView style={styles.textBox}>
               {content.title.active.map((text, index) => (
-                <ThemedText key={index} type="heading24">
+                <ThemedText key={index} type='heading24'>
                   {text}
                 </ThemedText>
               ))}
             </ThemedView>
             <ThemedView style={styles.progressBox}>
-              <ThemedText type="heading24">{`${answers.length}/${memoizedPlayers.length}`}</ThemedText>
+              <ThemedText type='heading24'>{`${answers.length}/${memoizedPlayers.length}`}</ThemedText>
             </ThemedView>
           </>
-        ) : status === "waiting" ? (
+        ) : status === 'waiting' ? (
           <ThemedView style={styles.textBox}>
             {content.title.waiting.map((text, index) => (
-              <ThemedText key={index} type="heading24">
+              <ThemedText key={index} type='heading24'>
                 {text}
               </ThemedText>
             ))}
@@ -77,21 +76,21 @@ export default function Loading({ prelStatus }: { prelStatus?: status }) {
 
 const styles = StyleSheet.create({
   outerBox: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: Sizes.Spacings.xxLarge,
     paddingTop: 100,
   },
   progressBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: Sizes.Spacings.small,
   },
   textBox: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: Sizes.Spacings.small,
-    width: "90%",
+    width: '90%',
   },
 });

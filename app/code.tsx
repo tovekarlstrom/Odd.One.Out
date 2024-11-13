@@ -1,20 +1,20 @@
-import { Alert, StyleSheet, View } from "react-native";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
-import { CopyComponent } from "@/components/CopyComponent";
-import { useEffect, useState } from "react";
-import { ButtonComponent } from "@/components/ButtonComponent";
-import { JoinedPlayers } from "@/components/JoinedPlayers";
-import { GradientContainer } from "@/components/GradientContainer";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getGameRoom } from "@/functions/getGameRoom";
-import { getPlayers } from "@/functions/getPlayers";
-import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
-import { useGameRoom } from "@/hooks/useGameRoom";
-import { router } from "expo-router";
-import data from "../public/content.json";
-import { getRandomString } from "@/utils/getRandomString";
+import { StyleSheet, View } from 'react-native';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { CopyComponent } from '@/components/CopyComponent';
+import { useEffect, useState } from 'react';
+import { ButtonComponent } from '@/components/ButtonComponent';
+import { JoinedPlayers } from '@/components/JoinedPlayers';
+import { GradientContainer } from '@/components/GradientContainer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getGameRoom } from '@/functions/getGameRoom';
+import { getPlayers } from '@/functions/getPlayers';
+import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
+import { useGameRoom } from '@/hooks/useGameRoom';
+import { router } from 'expo-router';
+import data from '../public/content.json';
+import { getRandomString } from '@/utils/getRandomString';
 
 export type PlayerIconType = {
   color: string;
@@ -31,22 +31,22 @@ export interface Player {
 
 const loadGameCode = async () => {
   try {
-    const roomId = await AsyncStorage.getItem("roomId");
+    const roomId = await AsyncStorage.getItem('roomId');
 
     if (!roomId) {
-      console.error("No roomId in storage");
+      console.error('No roomId in storage');
       return null;
     }
 
     return roomId;
   } catch (e) {
-    console.error("Error loading from storage", e);
+    console.error('Error loading from storage', e);
     return null;
   }
 };
 
 export default function Code() {
-  const [gameCode, setGameCode] = useState("");
+  const [gameCode, setGameCode] = useState('');
   const [players, setPlayers] = useState<Player[]>([]);
   const { data: documentId } = useGameRoom();
   const content = data.content.code;
@@ -84,10 +84,10 @@ export default function Code() {
     if (documentId) {
       getOrUpdateStatus({
         documentId,
-        changeStatus: "active",
+        changeStatus: 'active',
       });
     }
-    router.push("/game");
+    router.push('/game');
     // } else {
     //   Alert.alert(
     //     "Not enough players",
@@ -101,10 +101,10 @@ export default function Code() {
     <>
       <ParallaxScrollView>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="heading32">
+          <ThemedText type='heading32'>
             {getRandomString(content.title)}
           </ThemedText>
-          <ThemedText type="default">{content.description}</ThemedText>
+          <ThemedText type='default'>{content.description}</ThemedText>
         </ThemedView>
         <CopyComponent gameCode={gameCode} />
         <View style={styles.cardContainer}>
@@ -118,7 +118,7 @@ export default function Code() {
       <GradientContainer>
         <ButtonComponent
           text={button.start}
-          variant="primary"
+          variant='primary'
           onSubmit={() => {
             startGame();
           }}
@@ -130,10 +130,10 @@ export default function Code() {
 
 const styles = StyleSheet.create({
   titleContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     gap: 8,
     marginBottom: 35,
-    width: "90%",
+    width: '90%',
   },
   cardContainer: {
     marginTop: 35,

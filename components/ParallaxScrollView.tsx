@@ -1,9 +1,9 @@
-import { Platform, StyleSheet } from "react-native";
-import Animated, { useAnimatedRef } from "react-native-reanimated";
+import { StyleSheet } from 'react-native';
+import Animated, { useAnimatedRef } from 'react-native-reanimated';
 
-import { ThemedView } from "@/components/ThemedView";
-import { Colors, Sizes } from "@/constants/Theme";
-import LogoIcon from "./LogoIcon";
+import { ThemedView } from '@/components/ThemedView';
+import { Colors, Sizes } from '@/constants/Theme';
+import LogoIcon from './LogoIcon';
 
 export default function ParallaxScrollView({
   children,
@@ -41,11 +41,11 @@ const styles = StyleSheet.create({
   },
   homePage: {
     flex: 1,
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     paddingTop: 80,
   },
   header: {
-    position: "absolute",
+    position: 'absolute',
     top: 30,
     left: 0,
     zIndex: 10,
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: Sizes.Spacings.large,
-    overflow: "hidden",
-    backgroundColor: "transparent",
+    overflow: 'hidden',
+    backgroundColor: 'transparent',
   },
 });

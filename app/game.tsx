@@ -62,7 +62,7 @@ export default function Game() {
           <AddAnswer question={question} />
         </>
       ) : (
-        <Loading prelStatus='waiting' />
+        <Loading />
       )}
     </ParallaxScrollView>
   );

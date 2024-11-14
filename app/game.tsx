@@ -48,10 +48,12 @@ export default function Game() {
     ListenAndGetStatus();
     fetchQuestion();
   }, [documentId]);
-
+  // useEffect(() => {
+  //   console.log("statusUseEffect", status);
+  // }, [status]);
   return (
     <ParallaxScrollView paddingTop={20}>
-      {status === "active" || isLoadingPlayerIcon ? (
+      {status === "active" ? (
         <>
           <PlayerIcon
             paddingBottom={120}

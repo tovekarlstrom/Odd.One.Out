@@ -27,10 +27,10 @@ export default function Join() {
     if (playerName.length < 3) {
       alert("Your player name has to contain at least three characters");
     } else if (gameRoom) {
-      const playerIcon = await getIconColorAndShape();
       await AsyncStorage.setItem("gameRoom", gameRoom);
-      await addPlayers(gameRoom, playerName, playerIcon);
+      await addPlayers(gameRoom, playerName);
       await AsyncStorage.setItem("isAdmin", "false");
+
       router.push("/game");
     } else {
       alert("Wrong game code!");

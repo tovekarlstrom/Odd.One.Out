@@ -51,9 +51,7 @@ export default function Game() {
 
   return (
     <ParallaxScrollView paddingTop={20}>
-      {status === "waiting" || isLoadingPlayerIcon ? (
-        <Loading />
-      ) : (
+      {status === "active" ? (
         <>
           <PlayerIcon
             paddingBottom={120}
@@ -63,6 +61,8 @@ export default function Game() {
           />
           <AddAnswer question={question} />
         </>
+      ) : (
+        <Loading />
       )}
     </ParallaxScrollView>
   );

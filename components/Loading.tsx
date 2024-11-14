@@ -48,7 +48,11 @@ export default function Loading() {
           <>
             <ThemedView style={styles.textBox}>
               {content.title.active.map((text, index) => (
-                <ThemedText key={index} type="heading24">
+                <ThemedText
+                  key={index}
+                  type="heading24"
+                  style={styles.textAlign}
+                >
                   {text}
                 </ThemedText>
               ))}
@@ -91,5 +95,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: Sizes.Spacings.small,
     width: "90%",
+  },
+  textAlign: {
+    textAlign: "center",
   },
 });

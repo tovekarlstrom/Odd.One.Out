@@ -106,8 +106,8 @@ export default function RoundResult() {
 
   const nextQuestion = useCallback(async () => {
     if (documentId) {
-      await getOrUpdateStatus({ documentId, changeStatus: "active" });
       await updateIndex(documentId, undefined, true);
+      await getOrUpdateStatus({ documentId, changeStatus: "active" });
     }
   }, []);
 

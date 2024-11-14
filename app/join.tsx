@@ -1,7 +1,7 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { Sizes } from "@/constants/Theme";
 import { CardComponent } from "@/components/CardComponent";
@@ -18,6 +18,7 @@ export default function Join() {
   const [playerName, setPlayerName] = useState<string>("");
   const content = data.content.joinGame;
   const button = data.content.buttons;
+  const inputRef = useRef<TextInput | null>(null);
 
   const router = useRouter();
 
@@ -27,19 +28,25 @@ export default function Join() {
     if (playerName.length < 3) {
       alert("Your player name has to contain at least three characters");
     } else if (gameRoom) {
-      const playerIcon = await getIconColorAndShape();
       await AsyncStorage.setItem("gameRoom", gameRoom);
-      await addPlayers(gameRoom, playerName, playerIcon);
+      await addPlayers(gameRoom, playerName);
       await AsyncStorage.setItem("isAdmin", "false");
+
       router.push("/game");
     } else {
       alert("Wrong game code!");
     }
   };
 
+  const focusOnNextInput = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   return (
     <>
-      <ParallaxScrollView>
+      <ParallaxScrollView paddingTop={50}>
         <View style={styles.titleContainer}>
           <ThemedText type="heading32">{content.title}</ThemedText>
           <ThemedText type="default">{content.description}</ThemedText>
@@ -52,6 +59,8 @@ export default function Join() {
                 setGameCode(value);
               }}
               value={gameCode}
+              returnKeyType="next"
+              onSubmitEditing={focusOnNextInput}
             />
             <InputComponent
               placeholder="Name"
@@ -59,6 +68,9 @@ export default function Join() {
                 setPlayerName(value);
               }}
               value={playerName}
+              ref={inputRef}
+              returnKeyType="join"
+              onSubmitEditing={joinGame}
             />
             <ButtonComponent
               variant="primary"

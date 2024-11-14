@@ -154,7 +154,7 @@ export default function Answers() {
             onSubmit={enterPoints}
             text={button.enterPoints}
             variant="primary"
-            route="/game"
+            route="/result"
           />
         </GradientContainer>
       )}

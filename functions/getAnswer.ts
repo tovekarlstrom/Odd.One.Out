@@ -1,9 +1,10 @@
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
+import { PlayerAnswer } from '@/app/answers';
 
 export const getAnswer = async (
   documentId: string,
-  setAnswers: (answers: string[]) => void,
+  setAnswers: (answers: PlayerAnswer[]) => void,
 ) => {
   try {
     const gameRoomRef = doc(db, 'gameRooms', documentId);

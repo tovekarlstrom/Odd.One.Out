@@ -99,7 +99,7 @@ export default function Answers() {
     <>
       <ParallaxScrollView paddingTop={20}>
         {isLoading ? (
-          <Loading prelStatus="active" />
+          <Loading />
         ) : (
           <>
             <PlayerIcon
@@ -154,7 +154,7 @@ export default function Answers() {
             onSubmit={enterPoints}
             text={button.enterPoints}
             variant="primary"
-            route="/game"
+            route="/result"
           />
         </GradientContainer>
       )}

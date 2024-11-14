@@ -12,11 +12,9 @@ import { useGameRoom } from "@/hooks/useGameRoom";
 import { useSortedPlayers } from "@/hooks/useSortedPlayers";
 import data from "../public/content.json";
 
-type status = "active" | "waiting";
-
-export default function Loading({ prelStatus }: { prelStatus?: status }) {
+export default function Loading() {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
-  const [status, setStatus] = useState<string>(prelStatus || "");
+  const [status, setStatus] = useState<string>("");
   const players = useSortedPlayers();
   const content = data.content.loading;
 
@@ -50,7 +48,11 @@ export default function Loading({ prelStatus }: { prelStatus?: status }) {
           <>
             <ThemedView style={styles.textBox}>
               {content.title.active.map((text, index) => (
-                <ThemedText key={index} type="heading24">
+                <ThemedText
+                  key={index}
+                  type="heading24"
+                  style={styles.textAlign}
+                >
                   {text}
                 </ThemedText>
               ))}
@@ -93,5 +95,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     gap: Sizes.Spacings.small,
     width: "90%",
+  },
+  textAlign: {
+    textAlign: "center",
   },
 });

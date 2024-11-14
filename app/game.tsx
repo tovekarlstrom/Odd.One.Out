@@ -48,9 +48,7 @@ export default function Game() {
     ListenAndGetStatus();
     fetchQuestion();
   }, [documentId]);
-  // useEffect(() => {
-  //   console.log("statusUseEffect", status);
-  // }, [status]);
+
   return (
     <ParallaxScrollView paddingTop={20}>
       {status === "active" ? (
@@ -64,7 +62,7 @@ export default function Game() {
           <AddAnswer question={question} />
         </>
       ) : (
-        <Loading prelStatus="waiting" />
+        <Loading />
       )}
     </ParallaxScrollView>
   );

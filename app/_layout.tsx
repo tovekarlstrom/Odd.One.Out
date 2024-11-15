@@ -6,7 +6,7 @@ import {
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import AbrilFatFace from '../assets/fonts/AbrilFatface.ttf';
 import InstrumentSansRegular from '../assets/fonts/InstrumentSans-Regular.ttf';
@@ -16,6 +16,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { QuestionsProvider } from '@/contexts/QuestionsProvider';
 import { QueryClientProvider } from 'react-query';
 import queryClient from '@/contexts/queryClient';
+import { StartAnimation } from '@/components/StartAnimation';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -39,14 +40,19 @@ export default function RootLayout() {
     'Instrument Sans Bold': InstrumentSansBold,
   });
 
+  const [showAnimation, setShowAnimation] = useState(true);
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();
+      setTimeout(() => {
+        console.log('Hide animation');
+        setShowAnimation(false);
+      }, 3000); // Show the animation for 3 seconds
     }
   }, [loaded]);
 
-  if (!loaded) {
-    return null;
+  if (showAnimation) {
+    return <StartAnimation />;
   }
 
   return (

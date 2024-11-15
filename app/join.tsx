@@ -1,44 +1,81 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { Sizes } from "@/constants/Theme";
 import { CardComponent } from "@/components/CardComponent";
 import { InputComponent } from "@/components/InputComponent";
+import { addPlayers } from "../functions/addPlayers";
+import { getGameRoom } from "@/functions/getGameRoom";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
+import data from "../public/content.json";
+import { getIconColorAndShape } from "@/utils/getIconColorAndShape";
 
 export default function Join() {
   const [gameCode, setGameCode] = useState("");
+  const [playerName, setPlayerName] = useState<string>("");
+  const content = data.content.joinGame;
+  const button = data.content.buttons;
+  const inputRef = useRef<TextInput | null>(null);
 
-  const handleNewGame = (text: string) => {
-    setGameCode(text);
+  const router = useRouter();
+
+  const joinGame = async () => {
+    const gameRoom = await getGameRoom(gameCode);
+
+    if (playerName.length < 3) {
+      alert("Your player name has to contain at least three characters");
+    } else if (gameRoom) {
+      await AsyncStorage.setItem("gameRoom", gameRoom);
+      await addPlayers(gameRoom, playerName);
+      await AsyncStorage.setItem("isAdmin", "false");
+
+      router.push("/game");
+    } else {
+      alert("Wrong game code!");
+    }
   };
-  const joinGame = () => {
-    alert("Joined the game");
+
+  const focusOnNextInput = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   return (
     <>
-      <ParallaxScrollView>
+      <ParallaxScrollView paddingTop={50}>
         <View style={styles.titleContainer}>
-          <ThemedText type="heading32">Ready to play?</ThemedText>
-          <ThemedText type="default">
-            Your task is to match the majority's answers—let’s see how well you
-            can sync up!
-          </ThemedText>
+          <ThemedText type="heading32">{content.title}</ThemedText>
+          <ThemedText type="default">{content.description}</ThemedText>
         </View>
         <View style={{ marginVertical: 40 }}>
-          <CardComponent heading="Enter game code" fullWidth>
+          <CardComponent heading={content.subHeading} fullWidth>
             <InputComponent
               placeholder="Code"
-              onChangeText={handleNewGame}
+              onChangeText={(value) => {
+                setGameCode(value);
+              }}
               value={gameCode}
+              returnKeyType="next"
+              onSubmitEditing={focusOnNextInput}
+            />
+            <InputComponent
+              placeholder="Name"
+              onChangeText={(value) => {
+                setPlayerName(value);
+              }}
+              value={playerName}
+              ref={inputRef}
+              returnKeyType="join"
               onSubmitEditing={joinGame}
             />
             <ButtonComponent
               variant="primary"
-              text="Join Game"
-              route={"/game"}
+              text={button.joinGame}
+              onSubmit={joinGame}
             />
           </CardComponent>
         </View>

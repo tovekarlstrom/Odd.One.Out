@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, ViewProps } from "react-native";
+import { TouchableOpacity, ViewProps } from "react-native";
 import Icon from "../assets/oddOneOutIcon.svg";
 import { router } from "expo-router";
 import { ThemedView } from "./ThemedView";

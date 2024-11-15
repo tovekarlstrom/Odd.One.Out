@@ -1,0 +1,22 @@
+{
+  "env": {
+    "react-native/react-native": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react-native/all",
+    "airbnb",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["react", "react-native"],
+  "rules": {
+    "react-native/no-unused-styles": "warn", // Warn about unused styles
+    "react-native/no-inline-styles": "off", // Allow inline styles
+    "react/no-array-index-key": "warn", // Avoid using array index as keys in lists
+    "no-unused-vars": "warn", // Warn about unused variables and imports
+    "no-console": "off", // Allow console logs (you can turn it on in production builds)
+    "react/prop-types": "warn" // If using TypeScript or you don't need PropTypes validation
+  }
+}

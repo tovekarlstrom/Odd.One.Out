@@ -1,4 +1,4 @@
-import { StyleSheet, Platform, Button, TouchableOpacity } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -6,71 +6,67 @@ import { ButtonComponent } from "@/components/ButtonComponent";
 import { Colors, Sizes } from "@/constants/Theme";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import SlideAnimation from "./SlideAnimation";
+import data from "../public/content.json";
 
 export default function LearnMore() {
-  const [openLearnMore, setOpenlearnMore] = useState<boolean>(false);
+  const [openLearnMore, setOpenLearnMore] = useState<boolean>(false);
+  const content = data.content.learnMorePage;
+  const button = data.content.buttons;
+
   const clickLearnMore = () => {
-    setOpenlearnMore(!openLearnMore);
+    setOpenLearnMore(!openLearnMore);
   };
 
   return (
-    <ThemedView
-      style={
-        openLearnMore ? styles.learnMoreBoxOpen : styles.learnMoreBoxClosed
-      }
+    <SlideAnimation
+      startHeight={70}
+      height={700}
+      showSlider={openLearnMore}
+      style={styles.learnMoreBoxOpen}
+      onClose={() => {
+        setOpenLearnMore(false);
+      }}
     >
-      <TouchableOpacity onPress={clickLearnMore}>
-        <ThemedView style={styles.learnMoreButton}>
-          <Ionicons
-            name={openLearnMore ? "chevron-down-outline" : "chevron-up-outline"}
-            size={20}
-            color={Colors.light.text}
-          />
-          <ThemedText type="link" style={styles.learnMoreText}>
-            Learn more
-          </ThemedText>
-        </ThemedView>
-      </TouchableOpacity>
-      {openLearnMore && (
-        <>
-          <ThemedView style={styles.learnMoreContainer}>
-            <ThemedText type="title">Learn more about Odd One Out!</ThemedText>
-            <ThemedView style={styles.textBox}>
-              <ThemedText type="defaultLarge">Think oddly together</ThemedText>
-              <ThemedText type="default">
-                In this mode, the goal is to NOT be the odd one out! Try to
-                think like the other players and give the same answer as someone
-                else. You'll only score points if someone else thinks the same
-                way. The challenge is to guess what others will pick—can you
-                predict what they'll choose?
-              </ThemedText>
-            </ThemedView>
+      <ThemedView>
+        <Pressable onPress={clickLearnMore}>
+          <ThemedView style={styles.learnMoreButton}>
+            <Ionicons
+              name={
+                openLearnMore ? "chevron-down-outline" : "chevron-up-outline"
+              }
+              size={20}
+              color={Colors.light.text}
+            />
+            <ThemedText type="link" style={styles.learnMoreText}>
+              {button.learnMore}
+            </ThemedText>
           </ThemedView>
-          <ButtonComponent
-            text={"Create Game"}
-            variant="primary"
-            route="/create"
-          />
-        </>
-      )}
-    </ThemedView>
+        </Pressable>
+        {openLearnMore && (
+          <>
+            <ThemedView style={styles.learnMoreContainer}>
+              <ThemedText type="title">{content.title}</ThemedText>
+              <ThemedView style={styles.textBox}>
+                <ThemedText type="defaultLarge">
+                  {content.subHeading}
+                </ThemedText>
+                <ThemedText type="default">{content.description}</ThemedText>
+              </ThemedView>
+            </ThemedView>
+            <ButtonComponent
+              text={button.createGame}
+              variant="primary"
+              route="/create"
+            />
+          </>
+        )}
+      </ThemedView>
+    </SlideAnimation>
   );
 }
 
 const styles = StyleSheet.create({
-  learnMoreBoxClosed: {
-    position: "absolute",
-    bottom: 0,
-    height: 70,
-    // height: Platform.OS === "ios" ? 70 : 30,
-    width: "100%",
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    backgroundColor: Colors.light.Card,
-    borderTopRightRadius: 30,
-    borderTopLeftRadius: 30,
-  },
   learnMoreBoxOpen: {
     position: "absolute",
     bottom: 0,

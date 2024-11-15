@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -7,29 +7,60 @@ import { AddedQuestions } from "@/components/AddedQuestions";
 import { Colors } from "@/constants/Theme";
 import { ButtonComponent } from "@/components/ButtonComponent";
 import { GradientContainer } from "@/components/GradientContainer";
+import AddAdmin from "@/components/AddAdmin";
+import { useState } from "react";
+import BackdropContainer from "@/components/BackdropContainer";
+import data from "../public/content.json";
 
 export default function TabThreeScreen() {
+  const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);
+  const [renderAdmin, setRenderAdmin] = useState<boolean>(false);
+  const content = data.content.createGame;
+  const button = data.content.buttons;
+
+  const handlePress = () => {
+    setOpenAddAdmin(true);
+    setRenderAdmin(true);
+  };
+
+  const handleBackdropPress = () => {
+    setOpenAddAdmin(false);
+  };
+
+  const handleAnimation = () => {
+    setRenderAdmin(false);
+  };
+
   return (
-    <>
+    <View style={styles.container}>
       <ParallaxScrollView>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type="heading32">
-            Enter <Text style={styles.titleSpan}>questions</Text> to challenge
-            the crowd.
-          </ThemedText>
+          <ThemedText type="heading32">{content.title}</ThemedText>
         </ThemedView>
         <AddQuestion />
 
-        <AddedQuestions />
+        <AddedQuestions heading={content.subHeading} />
       </ParallaxScrollView>
       <GradientContainer>
-        <ButtonComponent text="Create Game" variant="primary" route="/code" />
+        <ButtonComponent
+          onSubmit={handlePress}
+          text={button.next}
+          variant="primary"
+        />
       </GradientContainer>
-    </>
+      {renderAdmin && (
+        <BackdropContainer handleOnPress={handleBackdropPress}>
+          <AddAdmin showAddAdmin={openAddAdmin} onClose={handleAnimation} />
+        </BackdropContainer>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   titleContainer: {
     flexDirection: "row",
     gap: 8,

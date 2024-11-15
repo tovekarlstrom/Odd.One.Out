@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View } from "react-native";
-import { QuestionItem } from "./QuestionItem";
-import { useQuestions } from "@/contexts/QuestionsProvider";
-import { Sizes } from "@/constants/Theme";
-import { CardComponent } from "./CardComponent";
+import { StyleSheet, View } from 'react-native';
+import { QuestionItem } from './QuestionItem';
+import { useQuestions } from '@/contexts/QuestionsProvider';
+import { Sizes } from '@/constants/Theme';
+import { CardComponent } from './CardComponent';
 
-export function AddedQuestions() {
+export function AddedQuestions({ heading }: { heading: string }) {
   const { questions } = useQuestions();
 
   return (
     <View style={styled.outerConteiner}>
-      <CardComponent heading="Added Questions" fullWidth>
+      <CardComponent heading={heading} fullWidth>
         <View style={styled.container}>
           {questions
             .slice()
@@ -29,7 +29,7 @@ const styled = StyleSheet.create({
     marginBottom: 80,
   },
   container: {
-    flexDirection: "column",
+    flexDirection: 'column',
     gap: Sizes.Spacings.medium,
     flex: 1,
   },

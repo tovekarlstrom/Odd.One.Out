@@ -2,9 +2,9 @@ import { Colors, Sizes } from "@/constants/Theme";
 import { Text, type TextProps, StyleSheet } from "react-native";
 
 export type ThemedTextProps = TextProps & {
-  lightColor?: string;
-  darkColor?: string;
+  textColor?: string;
   type?:
+    | "defaultSmall"
     | "default"
     | "defaultLarge"
     | "title"
@@ -17,17 +17,17 @@ export type ThemedTextProps = TextProps & {
 
 export function ThemedText({
   style,
-  lightColor,
-  darkColor,
+  textColor,
   type = "default",
   ...rest
 }: ThemedTextProps) {
-  const color = lightColor;
+  const color = textColor ?? Colors.light.text;
 
   return (
     <Text
       style={[
         { color },
+        type === "defaultSmall" ? styles.defaultSmall : undefined,
         type === "default" ? styles.default : undefined,
         type === "defaultSemiBold" ? styles.defaultSemiBold : undefined,
         type === "defaultLarge" ? styles.defaultLarge : undefined,
@@ -43,46 +43,43 @@ export function ThemedText({
 }
 
 const styles = StyleSheet.create({
+  defaultSmall: {
+    fontSize: Sizes.XSmallTextSize,
+    fontFamily: "Instrument Sans Regular",
+    lineHeight: 17,
+  },
   default: {
     fontSize: Sizes.SmallTextSize,
     fontFamily: "Instrument Sans Regular",
     lineHeight: 20,
-    color: Colors.light.text,
   },
   defaultSemiBold: {
     fontSize: Sizes.SmallTextSize,
     fontFamily: "Instrument Sans SemiBold",
     lineHeight: 24,
-    color: Colors.light.text,
   },
   defaultLarge: {
     fontSize: Sizes.LargeTextSize,
     fontFamily: "Instrument Sans Bold",
     lineHeight: 24,
-    color: Colors.light.text,
   },
   heading40: {
     fontSize: Sizes.LargeHeading,
     fontFamily: "Abril Fat",
     lineHeight: 40,
-    color: Colors.light.text,
   },
   heading32: {
     fontSize: Sizes.MediumHeading,
     fontFamily: "Instrument Sans Bold",
     lineHeight: 32,
-    color: Colors.light.text,
   },
   heading24: {
     fontSize: Sizes.SmallHeading,
     fontFamily: "Instrument Sans SemiBold",
     lineHeight: 24,
-    color: Colors.light.text,
   },
   link: {
-    // lineHeight: 30,
     fontSize: Sizes.SmallTextSize,
     fontFamily: "Instrument Sans SemiBold",
-    color: Colors.light.text,
   },
 });

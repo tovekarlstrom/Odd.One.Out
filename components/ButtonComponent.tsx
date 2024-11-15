@@ -1,7 +1,8 @@
 import { Colors, Sizes } from "@/constants/Theme";
-import { StyleSheet, View, Alert, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, Pressable } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { Href, useRouter } from "expo-router";
+import { useState } from "react";
 
 type ButtonVariant = "primary" | "secondary";
 
@@ -17,6 +18,7 @@ export function ButtonComponent({
   route,
   onSubmit,
 }: ButtonComponentProps) {
+  const [disable, setDisable] = useState(false);
   const router = useRouter();
   const buttonColor =
     variant === "primary"
@@ -25,6 +27,7 @@ export function ButtonComponent({
 
   const handlePress = async () => {
     if (onSubmit) {
+      setDisable(true);
       await onSubmit();
     }
     if (route) {
@@ -33,14 +36,15 @@ export function ButtonComponent({
   };
 
   return (
-    <TouchableOpacity
+    <Pressable
+      disabled={disable}
       style={[styles.button, { backgroundColor: buttonColor }]}
       onPress={handlePress}
     >
       <ThemedText style={styles.buttonText} type="defaultSemiBold">
         {text}
       </ThemedText>
-    </TouchableOpacity>
+    </Pressable>
   );
 }
 

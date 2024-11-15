@@ -1,39 +1,42 @@
-import { useAnswers } from "@/contexts/AnswersProvider";
-import { useState } from "react";
-import { CardComponent } from "./CardComponent";
-import { ButtonComponent } from "./ButtonComponent";
-import { InputComponent } from "./InputComponent";
-import { useQuestions } from "@/contexts/QuestionsProvider";
+import { useState } from 'react';
+import { CardComponent } from './CardComponent';
+import { ButtonComponent } from './ButtonComponent';
+import { InputComponent } from './InputComponent';
+import { useRouter } from 'expo-router';
+import { addAnswerToQuestion } from '@/functions/addAnswers';
+import { useGameRoom } from '@/hooks/useGameRoom';
+import data from '../public/content.json';
 
-export function AddAnswer() {
-  const [newAnswer, setNewAnswer] = useState<string>("");
-  const [index, setIndex] = useState<number>(0);
-  const { answers, addAnswer } = useAnswers();
-  const { questions } = useQuestions();
+export function AddAnswer({ question }: { question: string }) {
+  const [newAnswer, setNewAnswer] = useState<string>('');
+  const { data: documentId } = useGameRoom();
+  const button = data.content.buttons;
 
-  const handleNewAnswer = (text: string) => {
-    setNewAnswer(text);
-    console.log(text);
-  };
+  const router = useRouter();
+
   const addNewAnswer = async () => {
-    alert(newAnswer);
-    addAnswer(newAnswer);
-    setNewAnswer("");
+    if (documentId) {
+      if (newAnswer) {
+        await addAnswerToQuestion(documentId, newAnswer);
+        setNewAnswer('');
+      }
+      router.push('/answers');
+    }
   };
 
   return (
-    <CardComponent heading={questions[index]} fullWidth>
+    <CardComponent heading={question} fullWidth>
       <InputComponent
-        placeholder="Your answer"
-        onChangeText={handleNewAnswer}
+        placeholder='Your answer'
+        onChangeText={(text) => {
+          setNewAnswer(text);
+        }}
         value={newAnswer}
-        onSubmitEditing={addNewAnswer}
       />
       <ButtonComponent
-        variant="primary"
-        text="Send answer"
+        variant='primary'
+        text={button.sendAnswer}
         onSubmit={() => {
-          setIndex(index + 1);
           addNewAnswer();
         }}
       />

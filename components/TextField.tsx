@@ -1,4 +1,4 @@
-import { View, StyleSheet, TouchableOpacity } from "react-native";
+import { View, StyleSheet, Pressable } from "react-native";
 import { Colors, Sizes } from "@/constants/Theme";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
@@ -7,8 +7,10 @@ import { useState } from "react";
 interface TextFieldProps {
   value: string;
   children?: React.ReactNode;
-  points?: number;
+  points?: string;
   isClickable?: boolean;
+  answer?: string;
+  onPress?: () => void;
 }
 
 export function TextField({
@@ -16,16 +18,21 @@ export function TextField({
   children,
   points,
   isClickable,
+  answer,
+  onPress,
 }: TextFieldProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const Wrapper: React.ElementType = isClickable ? TouchableOpacity : View;
+  const Wrapper: React.ElementType = isClickable ? Pressable : View;
 
-  const onPress = () => {
+  const handlePress = () => {
     setIsClicked(!isClicked);
+    if (onPress) {
+      onPress();
+    }
   };
 
   const styling =
-    children && points
+    children && (points || answer)
       ? styles.threeItems
       : children
       ? styles.twoItems
@@ -33,14 +40,16 @@ export function TextField({
 
   return (
     <Wrapper
-      onPress={isClickable ? onPress : undefined}
+      onPress={isClickable ? handlePress : undefined}
       style={isClicked ? styles.clicked : styles.textBox}
     >
       <View style={styling}>
         {children ? (
           <ThemedView style={styles.innerBox}>
             {children}
-            <ThemedText type="defaultSemiBold">{value}</ThemedText>
+            <ThemedText type={answer ? "defaultSmall" : "defaultSemiBold"}>
+              {value}
+            </ThemedText>
           </ThemedView>
         ) : (
           <ThemedText type="defaultSemiBold">{value}</ThemedText>
@@ -48,6 +57,11 @@ export function TextField({
         {points && (
           <ThemedText style={styles.points} type="defaultSemiBold">
             {points}p
+          </ThemedText>
+        )}
+        {answer && (
+          <ThemedText style={styles.points} type="defaultSemiBold">
+            {answer}
           </ThemedText>
         )}
       </View>
@@ -76,7 +90,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     display: "flex",
     flexDirection: "row",
-    paddingHorizontal: Sizes.Spacings.small,
+    alignItems: "center",
+    gap: Sizes.Spacings.small,
   },
   twoItems: {
     justifyContent: "flex-start",

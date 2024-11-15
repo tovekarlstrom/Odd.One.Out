@@ -1,9 +1,13 @@
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+import { PlayerAnswer } from '@/app/answers';
 
-export const getAnswer = async (documentId: string, setAnswers: any) => {
+export const getAnswer = async (
+  documentId: string,
+  setAnswers: (answers: PlayerAnswer[]) => void,
+) => {
   try {
-    const gameRoomRef = doc(db, "gameRooms", documentId);
+    const gameRoomRef = doc(db, 'gameRooms', documentId);
 
     const unsub = onSnapshot(gameRoomRef, (doc) => {
       if (doc.exists()) {
@@ -17,7 +21,7 @@ export const getAnswer = async (documentId: string, setAnswers: any) => {
     });
     return unsub;
   } catch (error) {
-    console.error("Error fetching answers:", error);
+    console.error('Error fetching answers:', error);
     return setAnswers([]);
   }
 };

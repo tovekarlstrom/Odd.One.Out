@@ -1,21 +1,23 @@
-import { ButtonComponent } from "@/components/ButtonComponent";
-import { StyleSheet } from "react-native";
-import { GradientContainer } from "@/components/GradientContainer";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import PlayerIcon from "@/components/PlayerIcon";
-import { Colors, Sizes } from "@/constants/Theme";
-import { JoinedPlayers } from "@/components/JoinedPlayers";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { useSortedPlayers } from "@/hooks/useSortedPlayers";
-import Loading from "@/components/Loading";
-import { useEffect, useState } from "react";
-import data from "../public/content.json";
+import { ButtonComponent } from '@/components/ButtonComponent';
+import { StyleSheet } from 'react-native';
+import { GradientContainer } from '@/components/GradientContainer';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import PlayerIcon from '@/components/PlayerIcon';
+import { Colors, Sizes } from '@/constants/Theme';
+import { JoinedPlayers } from '@/components/JoinedPlayers';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { useSortedPlayers } from '@/hooks/useSortedPlayers';
+import Loading from '@/components/Loading';
+import { useEffect, useState } from 'react';
+import data from '../public/content.json';
+import { shape } from '@/utils/getIconColorAndShape';
 
 interface TopPlayer {
   playerName: string;
   place: number;
   height: number;
+  playerIcon: { color: string; shape: string };
 }
 
 export default function Score() {
@@ -57,7 +59,15 @@ export default function Score() {
           height = 40;
         }
       }
-      return { playerName: player.playerName, place, height };
+      return {
+        playerName: player.playerName,
+        place,
+        height,
+        playerIcon: {
+          color: player.playerIcon.color,
+          shape: player.playerIcon.shape,
+        },
+      };
     });
 
     setPlayerList([
@@ -73,7 +83,7 @@ export default function Score() {
         <>
           <ParallaxScrollView>
             <ThemedView style={styles.textBox}>
-              <ThemedText type="heading32">
+              <ThemedText type='heading32'>
                 {content.winner.title} {players[0].playerName}
               </ThemedText>
               <ThemedText>{content.winner.description}</ThemedText>
@@ -82,7 +92,12 @@ export default function Score() {
               {playerList.map((player, index) => (
                 <ThemedView key={index} style={styles.podiumContainer}>
                   <ThemedView style={styles.playerBox}>
-                    <ThemedText type="defaultSemiBold">
+                    <PlayerIcon
+                      size={20}
+                      color={player.playerIcon.color}
+                      shape={player.playerIcon.shape as shape}
+                    />
+                    <ThemedText type='defaultSemiBold'>
                       {player.playerName}
                     </ThemedText>
                   </ThemedView>
@@ -90,7 +105,7 @@ export default function Score() {
                     style={[styles.podiumBox, { height: player.height }]}
                   >
                     <ThemedText
-                      type="defaultSemiBold"
+                      type='defaultSemiBold'
                       textColor={Colors.light.contrastText}
                     >
                       {player.place}
@@ -108,8 +123,8 @@ export default function Score() {
           <GradientContainer>
             <ButtonComponent
               text={button.newGame}
-              variant="primary"
-              route="/"
+              variant='primary'
+              route='/'
             />
           </GradientContainer>
         </>
@@ -122,14 +137,14 @@ export default function Score() {
 
 const styles = StyleSheet.create({
   podiumWrapper: {
-    flexDirection: "row",
-    justifyContent: "center",
+    flexDirection: 'row',
+    justifyContent: 'center',
     gap: 8,
     marginTop: Sizes.Spacings.xxLarge,
   },
   podiumContainer: {
-    alignItems: "center",
-    justifyContent: "flex-end",
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     gap: 6,
   },
   podiumBox: {
@@ -138,14 +153,14 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.contrastBlue,
     width: 95,
     paddingTop: Sizes.Spacings.small,
-    alignItems: "center",
+    alignItems: 'center',
   },
   playerBox: {
-    flexDirection: "row",
+    flexDirection: 'row',
     gap: 5,
   },
   textBox: {
-    margin: "auto",
+    margin: 'auto',
     gap: 15,
   },
 });

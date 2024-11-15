@@ -1,30 +1,30 @@
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useState, useEffect, useCallback } from "react";
-import { View } from "react-native";
-import { GradientContainer } from "@/components/GradientContainer";
-import { ButtonComponent } from "@/components/ButtonComponent";
-import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
-import { router } from "expo-router";
-import { updateIndex } from "@/functions/getOrUpdateIndex";
-import { JoinedPlayers } from "@/components/JoinedPlayers";
-import { getQuestion } from "@/functions/getQuestion";
-import { useGameRoom } from "@/hooks/useGameRoom";
-import { useSortedPlayers } from "@/hooks/useSortedPlayers";
-import data from "../public/content.json";
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { ThemedText } from '@/components/ThemedText';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useState, useEffect, useCallback } from 'react';
+import { View } from 'react-native';
+import { GradientContainer } from '@/components/GradientContainer';
+import { ButtonComponent } from '@/components/ButtonComponent';
+import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
+import { router } from 'expo-router';
+import { updateIndex } from '@/functions/getOrUpdateIndex';
+import { JoinedPlayers } from '@/components/JoinedPlayers';
+import { getQuestion } from '@/functions/getQuestion';
+import { useGameRoom } from '@/hooks/useGameRoom';
+import { useSortedPlayers } from '@/hooks/useSortedPlayers';
+import data from '../public/content.json';
 
-import PlayerIcon from "@/components/PlayerIcon";
-import { usePlayerIcon } from "@/hooks/usePlayerIcon";
-import { getRandomString } from "@/utils/getRandomString";
+import PlayerIcon from '@/components/PlayerIcon';
+import { usePlayerIcon } from '@/hooks/usePlayerIcon';
+import { getRandomString } from '@/utils/getRandomString';
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
   const [isAdmin, setIsAdmin] = useState(false);
   const [status, setStatus] = useState<string>();
   const [questionsLength, setQuestionsLength] = useState<number>(0);
-  const [countDown, setCountDown] = useState(5);
+  // const [countDown, setCountDown] = useState(5);
   const [index, setIndex] = useState<number | undefined>(undefined);
-  const [countdownStarted, setCountdownStarted] = useState(false);
+  // const [countdownStarted, setCountdownStarted] = useState(false);
   const { data: documentId } = useGameRoom();
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
@@ -38,7 +38,7 @@ export default function RoundResult() {
       }
     };
     const getAdmin = async () => {
-      const admin = await AsyncStorage.getItem("isAdmin");
+      const admin = await AsyncStorage.getItem('isAdmin');
       if (admin) {
         const parsedAdmin = JSON.parse(admin);
         if (parsedAdmin === true) {
@@ -67,7 +67,7 @@ export default function RoundResult() {
 
   useEffect(() => {
     const checkScore = async () => {
-      const playerId = await AsyncStorage.getItem("playerId");
+      const playerId = await AsyncStorage.getItem('playerId');
       if (playerId && players) {
         const findUser = players.find((player) => player.playerId === playerId);
         if (findUser) {
@@ -83,7 +83,7 @@ export default function RoundResult() {
   }, [players]);
 
   useEffect(() => {
-    if (status === "active") {
+    if (status === 'active') {
       // setCountdownStarted(true);
       // setCountDown(5);
       // const vibrate = () => {
@@ -94,7 +94,7 @@ export default function RoundResult() {
       //         return prevCountDown - 1;
       //       } else {
       //         clearInterval(intervalId);
-      router.push("/game");
+      router.push('/game');
       //           return 0;
       //         }
       //       });
@@ -107,7 +107,7 @@ export default function RoundResult() {
   const nextQuestion = useCallback(async () => {
     if (documentId) {
       await updateIndex(documentId, undefined, true);
-      await getOrUpdateStatus({ documentId, changeStatus: "active" });
+      await getOrUpdateStatus({ documentId, changeStatus: 'active' });
     }
   }, []);
 
@@ -122,13 +122,13 @@ export default function RoundResult() {
               shape={playerIcon.shape}
               paddingBottom={30}
             />
-            <ThemedText style={{ paddingBottom: 57 }} type="heading32">
+            <ThemedText style={{ paddingBottom: 57 }} type='heading32'>
               {scored
                 ? getRandomString(labels.score.right)
                 : getRandomString(labels.score.wrong)}
             </ThemedText>
 
-            <ThemedText style={{ marginBottom: 47 }} type="default">
+            <ThemedText style={{ marginBottom: 47 }} type='default'>
               {scored ? 1 : 0} {labels.pointsAdded}
             </ThemedText>
 
@@ -143,20 +143,21 @@ export default function RoundResult() {
       </ParallaxScrollView>
 
       <GradientContainer>
-        {countdownStarted ? (
-          <ThemedText type="defaultSemiBold" style={{ marginBottom: 10 }}>
+        {/* {countdownStarted ? (
+          <ThemedText type='defaultSemiBold' style={{ marginBottom: 10 }}>
             {labels.gameCountdown} {countDown}
           </ThemedText>
-        ) : index && index === questionsLength - 1 ? (
+        ) :  */}
+        {index && index === questionsLength - 1 ? (
           <ButtonComponent
-            variant="primary"
+            variant='primary'
             text={button.endGame}
-            route="/scoreboard"
+            route='/scoreboard'
           />
         ) : isAdmin ? (
           <ButtonComponent
             text={button.nextRound}
-            variant="primary"
+            variant='primary'
             onSubmit={nextQuestion}
           />
         ) : null}

@@ -1,18 +1,18 @@
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import PlayerIcon from "@/components/PlayerIcon";
-import { AddAnswer } from "@/components/AddAnswer";
-import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
-import { useEffect, useState } from "react";
-import Loading from "@/components/Loading";
-import { useGameRoom } from "@/hooks/useGameRoom";
-import { getQuestion } from "@/functions/getQuestion";
-import { usePlayerIcon } from "@/hooks/usePlayerIcon";
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import PlayerIcon from '@/components/PlayerIcon';
+import { AddAnswer } from '@/components/AddAnswer';
+import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
+import { useEffect, useState } from 'react';
+import Loading from '@/components/Loading';
+import { useGameRoom } from '@/hooks/useGameRoom';
+import { getQuestion } from '@/functions/getQuestion';
+import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 
 export default function Game() {
-  const [status, setStatus] = useState<string>("");
-  const { data: documentId, isLoading: isLoadingGame } = useGameRoom();
-  const { data: playerIcon, isLoading: isLoadingPlayerIcon } = usePlayerIcon();
-  const [question, setQuestion] = useState<string>("");
+  const [status, setStatus] = useState<string>('');
+  const { data: documentId } = useGameRoom();
+  const { data: playerIcon } = usePlayerIcon();
+  const [question, setQuestion] = useState<string>('');
 
   useEffect(() => {
     const ListenAndGetStatus = async () => {
@@ -34,7 +34,7 @@ export default function Game() {
         const unsubscribe = await getQuestion(
           documentId,
           setQuestion,
-          undefined
+          undefined,
         );
 
         return () => {
@@ -51,7 +51,7 @@ export default function Game() {
 
   return (
     <ParallaxScrollView paddingTop={20}>
-      {status === "active" ? (
+      {status === 'active' ? (
         <>
           <PlayerIcon
             paddingBottom={120}

@@ -1,17 +1,21 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
-import { PlayerIconType } from "@/app/code";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+import { PlayerIconType } from '@/app/code';
 
+type answersType = {
+  playerAnswer: string;
+  playerId: string;
+};
 interface QuestionsObject {
   question: string;
-  answers: any[];
+  answers: answersType[];
 }
 
 export const createGameRoom = async (
   playerName: string,
   questions: string[],
-  playerIcon: PlayerIconType
+  playerIcon: PlayerIconType,
 ) => {
   const roomId = Math.random().toString(36).substring(4);
   const questionArray: QuestionsObject[] = [];
@@ -22,7 +26,7 @@ export const createGameRoom = async (
 
   try {
     const playerId = Math.random().toString(36).substring(4);
-    const gameRoomRef = await addDoc(collection(db, "gameRooms"), {
+    const gameRoomRef = await addDoc(collection(db, 'gameRooms'), {
       roomId: roomId,
       players: [
         {
@@ -35,14 +39,14 @@ export const createGameRoom = async (
       ],
       questions: questionArray,
       qIndex: 0,
-      status: "waiting",
+      status: 'waiting',
     });
-    await AsyncStorage.setItem("playerId", playerId);
-    await AsyncStorage.setItem("roomId", roomId);
-    await AsyncStorage.setItem("gameRoom", gameRoomRef.id);
+    await AsyncStorage.setItem('playerId', playerId);
+    await AsyncStorage.setItem('roomId', roomId);
+    await AsyncStorage.setItem('gameRoom', gameRoomRef.id);
 
     return gameRoomRef.id;
   } catch (e) {
-    console.error("ERROR:", e);
+    console.error('ERROR:', e);
   }
 };

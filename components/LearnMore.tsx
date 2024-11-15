@@ -1,13 +1,13 @@
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from 'react-native';
 
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { ButtonComponent } from "@/components/ButtonComponent";
-import { Colors, Sizes } from "@/constants/Theme";
-import { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
-import SlideAnimation from "./SlideAnimation";
-import data from "../public/content.json";
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { ButtonComponent } from '@/components/ButtonComponent';
+import { Colors, Sizes } from '@/constants/Theme';
+import { useState } from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import SlideAnimation from './SlideAnimation';
+import data from '../public/content.json';
 
 export default function LearnMore() {
   const [openLearnMore, setOpenLearnMore] = useState<boolean>(false);
@@ -21,7 +21,7 @@ export default function LearnMore() {
   return (
     <SlideAnimation
       startHeight={70}
-      height={700}
+      height={750}
       showSlider={openLearnMore}
       style={styles.learnMoreBoxOpen}
       onClose={() => {
@@ -33,12 +33,12 @@ export default function LearnMore() {
           <ThemedView style={styles.learnMoreButton}>
             <Ionicons
               name={
-                openLearnMore ? "chevron-down-outline" : "chevron-up-outline"
+                openLearnMore ? 'chevron-down-outline' : 'chevron-up-outline'
               }
               size={20}
               color={Colors.light.text}
             />
-            <ThemedText type="link" style={styles.learnMoreText}>
+            <ThemedText type='link' style={styles.learnMoreText}>
               {button.learnMore}
             </ThemedText>
           </ThemedView>
@@ -46,19 +46,19 @@ export default function LearnMore() {
         {openLearnMore && (
           <>
             <ThemedView style={styles.learnMoreContainer}>
-              <ThemedText type="title">{content.title}</ThemedText>
-              <ThemedView style={styles.textBox}>
-                <ThemedText type="defaultLarge">
-                  {content.subHeading}
-                </ThemedText>
-                <ThemedText type="default">{content.description}</ThemedText>
-              </ThemedView>
+              <ThemedText type='title'>{content.title}</ThemedText>
+              {content.modes.map((mode, index) => (
+                <ThemedView key={index} style={styles.textBox}>
+                  <ThemedText type='defaultLarge'>{mode.subHeading}</ThemedText>
+                  <ThemedText type='default'>{mode.description}</ThemedText>
+                  <ButtonComponent
+                    text={button.createGame}
+                    variant='primary'
+                    route={`/create?mode=${mode.route}`}
+                  />
+                </ThemedView>
+              ))}
             </ThemedView>
-            <ButtonComponent
-              text={button.createGame}
-              variant="primary"
-              route="/create"
-            />
           </>
         )}
       </ThemedView>
@@ -68,35 +68,37 @@ export default function LearnMore() {
 
 const styles = StyleSheet.create({
   learnMoreBoxOpen: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
-    height: 700,
-    width: "100%",
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
+    height: 750,
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     backgroundColor: Colors.light.Card,
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
   },
   learnMoreButton: {
     marginTop: Sizes.Spacings.xSmall,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   learnMoreText: {
-    textAlign: "center",
+    textAlign: 'center',
   },
   learnMoreContainer: {
     padding: 30,
-    paddingVertical: 100,
-    height: 530,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-    alignItems: "center",
+    paddingVertical: 40,
+    // height: 530,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    overflow: 'scroll',
   },
   textBox: {
-    gap: Sizes.Spacings.medium,
+    paddingTop: Sizes.Spacings.xLarge,
+    gap: Sizes.Spacings.small,
   },
 });

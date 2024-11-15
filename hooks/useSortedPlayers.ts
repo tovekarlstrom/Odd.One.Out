@@ -1,16 +1,17 @@
-import { Player } from "@/app/code";
-import { getPlayers } from "@/functions/getPlayers";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useCallback, useEffect, useState } from "react";
+import { Player } from '@/app/code';
+import { getPlayers } from '@/functions/getPlayers';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useCallback, useEffect, useState } from 'react';
 
 export function useSortedPlayers() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [sortedPlayers, setSortedPlayers] = useState<Player[]>([]);
 
   const getAllPlayers = useCallback(async () => {
-    const gameRoom = await AsyncStorage.getItem("gameRoom");
+    const gameRoom = await AsyncStorage.getItem('gameRoom');
     if (gameRoom) {
-      await getPlayers(gameRoom, setPlayers);
+      const parsedGameRoom = JSON.parse(gameRoom);
+      await getPlayers(parsedGameRoom.id, setPlayers);
     }
   }, []);
 
@@ -27,7 +28,7 @@ export function useSortedPlayers() {
     }));
 
     const sorted = playersWithTotalPoints.sort(
-      (a, b) => b.totalPoints - a.totalPoints
+      (a, b) => b.totalPoints - a.totalPoints,
     );
 
     setSortedPlayers(sorted);

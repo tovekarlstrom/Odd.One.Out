@@ -1,18 +1,14 @@
-import { getDefaultConfig } from 'expo/metro-config';
-import path from 'path';
+/* eslint-disable no-undef */
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { getDefaultConfig } = require('expo/metro-config');
 
-const __dirname = path.resolve();
-
-export default (() => {
+module.exports = (() => {
   const config = getDefaultConfig(__dirname);
   const { transformer, resolver } = config;
 
   config.transformer = {
     ...transformer,
-    babelTransformerPath: path.resolve(
-      __dirname,
-      'node_modules/react-native-svg-transformer',
-    ),
+    babelTransformerPath: require.resolve('react-native-svg-transformer'),
   };
   config.resolver = {
     ...resolver,

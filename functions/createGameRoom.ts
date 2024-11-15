@@ -40,10 +40,12 @@ export const createGameRoom = async (
       questions: questionArray,
       qIndex: 0,
       status: 'waiting',
+      mode: 'majority',
     });
+    const gameRoom = { id: gameRoomRef.id, mode: 'majority' };
     await AsyncStorage.setItem('playerId', playerId);
     await AsyncStorage.setItem('roomId', roomId);
-    await AsyncStorage.setItem('gameRoom', gameRoomRef.id);
+    await AsyncStorage.setItem('gameRoom', JSON.stringify(gameRoom));
 
     return gameRoomRef.id;
   } catch (e) {

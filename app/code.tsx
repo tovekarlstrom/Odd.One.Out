@@ -48,9 +48,10 @@ const loadGameCode = async () => {
 export default function Code() {
   const [gameCode, setGameCode] = useState('');
   const [players, setPlayers] = useState<Player[]>([]);
-  const { data: documentId } = useGameRoom();
+  const { data: gameRoom } = useGameRoom();
   const content = data.content.code;
   const button = data.content.buttons;
+  const documentId = gameRoom?.id;
 
   useEffect(() => {
     const fetchGameCode = async () => {
@@ -65,9 +66,9 @@ export default function Code() {
   useEffect(() => {
     if (gameCode) {
       const fetchAndListenToPlayers = async () => {
-        const game = await getGameRoom(gameCode);
-        if (game) {
-          const unsubscribe = await getPlayers(game, setPlayers);
+        const gameRoom = await getGameRoom(gameCode);
+        if (gameRoom?.id) {
+          const unsubscribe = await getPlayers(gameRoom.id, setPlayers);
           return () => {
             if (unsubscribe) {
               unsubscribe();

@@ -10,9 +10,10 @@ import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 
 export default function Game() {
   const [status, setStatus] = useState<string>('');
-  const { data: documentId } = useGameRoom();
+  const { data: gameRoom } = useGameRoom();
   const { data: playerIcon } = usePlayerIcon();
   const [question, setQuestion] = useState<string>('');
+  const documentId = gameRoom?.id;
 
   useEffect(() => {
     const ListenAndGetStatus = async () => {

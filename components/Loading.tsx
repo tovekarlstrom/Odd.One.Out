@@ -18,7 +18,8 @@ export default function Loading() {
   const content = data.content.loading;
 
   const memoizedPlayers = useMemo(() => players, [players]);
-  const { data: documentId } = useGameRoom();
+  const { data: gameRoom } = useGameRoom();
+  const documentId = gameRoom?.id;
 
   useEffect(() => {
     const getAnswers = async () => {

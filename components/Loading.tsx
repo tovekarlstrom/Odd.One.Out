@@ -4,16 +4,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { Sizes } from '@/constants/Theme';
 import { ThemedView } from '@/components/ThemedView';
 import LoadingIcons from '@/components/LoadingIcons';
-import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
 import { getAnswer } from '@/functions/getAnswer';
 import { PlayerAnswer } from '@/app/answers';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import data from '../public/content.json';
 
-export default function Loading() {
+export default function Loading({ initial }: { initial?: string }) {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
-  const [status, setStatus] = useState<string>('');
   const players = useSortedPlayers();
   const content = data.content.loading;
 
@@ -30,21 +28,11 @@ export default function Loading() {
     getAnswers();
   }, [documentId]);
 
-  const getStatus = async () => {
-    if (documentId) {
-      await getOrUpdateStatus({ documentId, setStatus });
-    }
-  };
-
-  useEffect(() => {
-    getStatus();
-  }, []);
-
   return (
     <>
       <ThemedView style={styles.outerBox}>
         <LoadingIcons />
-        {status === 'active' ? (
+        {initial === 'active' ? (
           <>
             <ThemedView style={styles.textBox}>
               {content.title.active.map((text, index) => (
@@ -61,7 +49,7 @@ export default function Loading() {
               <ThemedText type='heading24'>{`${answers.length}/${memoizedPlayers.length}`}</ThemedText>
             </ThemedView>
           </>
-        ) : status === 'waiting' ? (
+        ) : initial === 'waiting' ? (
           <ThemedView style={styles.textBox}>
             {content.title.waiting.map((text, index) => (
               <ThemedText key={index} type='heading24'>

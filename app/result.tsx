@@ -25,11 +25,16 @@ export default function RoundResult() {
   // const [countDown, setCountDown] = useState(5);
   const [index, setIndex] = useState<number | undefined>(undefined);
   // const [countdownStarted, setCountdownStarted] = useState(false);
-  const { data: documentId } = useGameRoom();
+  const { data: gameRoom } = useGameRoom();
+  const documentId = gameRoom.id;
+  const mode = gameRoom.mode;
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
   const labels = data.content.labels;
   const button = data.content.buttons;
+
+  const pointsLabel =
+    mode === 'majority' ? labels.score.majority : labels.score.minority;
 
   useEffect(() => {
     const getQuestionLength = async () => {
@@ -124,8 +129,8 @@ export default function RoundResult() {
             />
             <ThemedText style={{ paddingBottom: 57 }} type='heading32'>
               {scored
-                ? getRandomString(labels.score.right)
-                : getRandomString(labels.score.wrong)}
+                ? getRandomString(pointsLabel.right)
+                : getRandomString(pointsLabel.wrong)}
             </ThemedText>
 
             <ThemedText style={{ marginBottom: 47 }} type='default'>

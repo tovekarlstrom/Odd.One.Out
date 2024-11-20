@@ -35,7 +35,7 @@ export default function HomeScreen() {
           <ButtonComponent
             text={button.createGame}
             variant='secondary'
-            route='/create'
+            route='/create?mode=majority'
           />
         </ThemedView>
       </ParallaxScrollView>

@@ -1,23 +1,23 @@
-import { ButtonComponent } from "@/components/ButtonComponent";
-import { CardComponent } from "@/components/CardComponent";
-import { GradientContainer } from "@/components/GradientContainer";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import PlayerIcon from "@/components/PlayerIcon";
-import { TextField } from "@/components/TextField";
-import { addPoints } from "@/functions/addPoints";
-import { getAnswer } from "@/functions/getAnswer";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { Colors, Sizes } from "@/constants/Theme";
-import { getOrUpdateStatus } from "@/functions/getOrUpdateStatus";
-import Loading from "@/components/Loading";
-import { router } from "expo-router";
-import { useGameRoom } from "@/hooks/useGameRoom";
-import { useSortedPlayers } from "@/hooks/useSortedPlayers";
-import data from "../public/content.json";
-import { usePlayerIcon } from "@/hooks/usePlayerIcon";
-import { shape } from "@/utils/getIconColorAndShape";
+import { ButtonComponent } from '@/components/ButtonComponent';
+import { CardComponent } from '@/components/CardComponent';
+import { GradientContainer } from '@/components/GradientContainer';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
+import PlayerIcon from '@/components/PlayerIcon';
+import { TextField } from '@/components/TextField';
+import { addPoints } from '@/functions/addPoints';
+import { getAnswer } from '@/functions/getAnswer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+import { Colors, Sizes } from '@/constants/Theme';
+import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
+import Loading from '@/components/Loading';
+import { router } from 'expo-router';
+import { useGameRoom } from '@/hooks/useGameRoom';
+import { useSortedPlayers } from '@/hooks/useSortedPlayers';
+import data from '../public/content.json';
+import { usePlayerIcon } from '@/hooks/usePlayerIcon';
+import { shape } from '@/utils/getIconColorAndShape';
 
 export interface PlayerAnswer {
   playerId: string;
@@ -30,16 +30,17 @@ export default function Answers() {
   const [status, setStatus] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
   const playerGetPoints: string[] = [];
-  const { data: documentId } = useGameRoom();
+  const { data: gameRoom } = useGameRoom();
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
   const labels = data.content.labels;
   const button = data.content.buttons;
+  const documentId = gameRoom?.id;
 
   const getPlayerAnswer = (playerId: string) => {
-    if (!answers.length) return "";
+    if (!answers.length) return '';
     const answer = answers.find((answer) => answer.playerId === playerId);
-    return answer ? answer.playerAnswer : "Unknown Answer";
+    return answer ? answer.playerAnswer : 'Unknown Answer';
   };
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export default function Answers() {
 
   useEffect(() => {
     const getAdmin = async () => {
-      const admin = await AsyncStorage.getItem("isAdmin");
+      const admin = await AsyncStorage.getItem('isAdmin');
       if (admin) {
         const parsedAdmin = JSON.parse(admin);
         if (parsedAdmin === true) {
@@ -73,13 +74,13 @@ export default function Answers() {
   }, [documentId]);
 
   useEffect(() => {
-    if (status === "active") {
+    if (status === 'active') {
       if (players.length !== 0 && answers.length === players.length) {
         setIsLoading(false);
       }
     }
-    if (status === "idle") {
-      router.push("/result");
+    if (status === 'idle') {
+      router.push('/result');
     }
   }, [status, answers, players]);
 
@@ -89,7 +90,7 @@ export default function Answers() {
 
   const enterPoints = async () => {
     if (documentId) {
-      getOrUpdateStatus({ documentId, changeStatus: "idle" });
+      getOrUpdateStatus({ documentId, changeStatus: 'idle' });
 
       addPoints(documentId, playerGetPoints);
     }
@@ -137,7 +138,7 @@ export default function Answers() {
             {!isAdmin && (
               <Text
                 style={{
-                  textAlign: "center",
+                  textAlign: 'center',
                   paddingVertical: 50,
                   color: Colors.light.placeholder,
                 }}
@@ -153,8 +154,8 @@ export default function Answers() {
           <ButtonComponent
             onSubmit={enterPoints}
             text={button.enterPoints}
-            variant="primary"
-            route="/result"
+            variant='primary'
+            route='/result'
           />
         </GradientContainer>
       )}

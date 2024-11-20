@@ -9,8 +9,9 @@ import data from '../public/content.json';
 
 export function AddAnswer({ question }: { question: string }) {
   const [newAnswer, setNewAnswer] = useState<string>('');
-  const { data: documentId } = useGameRoom();
+  const { data: gameRoom } = useGameRoom();
   const button = data.content.buttons;
+  const documentId = gameRoom?.id;
 
   const router = useRouter();
 

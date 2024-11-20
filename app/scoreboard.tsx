@@ -12,6 +12,7 @@ import Loading from '@/components/Loading';
 import { useEffect, useState } from 'react';
 import data from '../public/content.json';
 import { shape } from '@/utils/getIconColorAndShape';
+import { useGameRoom } from '@/hooks/useGameRoom';
 
 interface TopPlayer {
   playerName: string;
@@ -26,6 +27,11 @@ export default function Score() {
   const content = data.content.results;
   const labels = data.content.labels;
   const button = data.content.buttons;
+  const gameRoom = useGameRoom();
+  const mode = gameRoom.data?.mode;
+
+  const resultssLabel =
+    mode === 'majority' ? content.majority : content.minority;
 
   useEffect(() => {
     if (players.length === 0) return;
@@ -84,9 +90,9 @@ export default function Score() {
           <ParallaxScrollView>
             <ThemedView style={styles.textBox}>
               <ThemedText type='heading32'>
-                {content.winner.title} {players[0].playerName}
+                {resultssLabel.winner.title} {players[0].playerName}
               </ThemedText>
-              <ThemedText>{content.winner.description}</ThemedText>
+              <ThemedText>{resultssLabel.winner.description}</ThemedText>
             </ThemedView>
             <ThemedView style={styles.podiumWrapper}>
               {playerList.map((player, index) => (

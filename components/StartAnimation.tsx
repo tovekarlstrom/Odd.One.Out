@@ -2,49 +2,47 @@ import { useEffect, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SvgStartIcon } from './SvgStartIcon';
 
-export function StartAnimation() {
+export function StartAnimation({
+  onAnimationEnd,
+}: {
+  onAnimationEnd: () => void;
+}) {
   const [bgColor, setBgColor] = useState('#78A65A');
   const [textColor, setTextColor] = useState('#0058F3');
+
   useEffect(() => {
     const timers: NodeJS.Timeout[] = [];
 
     timers.push(
       setTimeout(() => {
-        console.log(3);
-
         setBgColor('#FF96CE');
         setTextColor('#FF0000');
-      }, 1600),
+      }, 500),
     );
 
     timers.push(
       setTimeout(() => {
-        console.log(4);
-
         setBgColor('#0058F3');
         setTextColor('#FFB6DD');
-      }, 2000),
+      }, 1200),
     );
 
     timers.push(
       setTimeout(() => {
-        console.log(5);
-
         setBgColor('#F68B45');
         setTextColor('#EBDED6');
-      }, 2400),
+      }, 1800),
     );
     timers.push(
       setTimeout(() => {
-        console.log(5);
-      }, 3000),
+        onAnimationEnd();
+      }, 2800),
     );
 
     return () => {
       timers.forEach((timer) => clearTimeout(timer));
     };
-  }, []);
-  console.log('test');
+  }, [onAnimationEnd]);
 
   return (
     <>

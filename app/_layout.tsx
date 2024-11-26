@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
+// import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import AbrilFatFace from '../assets/fonts/AbrilFatface.ttf';
@@ -19,7 +19,7 @@ import queryClient from '@/contexts/queryClient';
 import { StartAnimation } from '@/components/StartAnimation';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -39,21 +39,37 @@ export default function RootLayout() {
     'Instrument Sans SemiBold': InstrumentSansSemiBold,
     'Instrument Sans Bold': InstrumentSansBold,
   });
-
-  const [showAnimation, setShowAnimation] = useState(true);
+  const [appReady, setAppReady] = useState(false);
+  // const [showAnimation, setShowAnimation] = useState(true);
+  const [animationFinished, setAnimationFinished] = useState(false);
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
-      setTimeout(() => {
-        console.log('Hide animation');
-        setShowAnimation(false);
-      }, 3000); // Show the animation for 3 seconds
+      // SplashScreen.hideAsync();
+      setAppReady(true);
     }
   }, [loaded]);
 
-  if (showAnimation) {
-    return <StartAnimation />;
+  if (!appReady || !animationFinished) {
+    return <StartAnimation onAnimationEnd={() => setAnimationFinished(true)} />;
   }
+
+  // useEffect(() => {
+  //   if (loaded && !splashShown) {
+  //     SplashScreen.hideAsync();
+  //     setTimeout(() => {
+  //       console.log('Hide animation');
+  //       setShowAnimation(false);
+  //       setSplashShown(true);
+  //     }, 3000); // Show the animation for 3 seconds
+  //   } else if (loaded) {
+  //     // console.log('Hide animation');
+  //     setShowAnimation(false);
+  //   }
+  // }, [loaded]);
+
+  // if (showAnimation) {
+  //   return <StartAnimation />;
+  // }
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

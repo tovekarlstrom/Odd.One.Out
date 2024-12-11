@@ -1,8 +1,8 @@
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useState, useEffect, useCallback } from 'react';
-import { View } from 'react-native';
+import { useState, useEffect, useCallback, useRef } from 'react';
+import { Vibration, View } from 'react-native';
 import { GradientContainer } from '@/components/GradientContainer';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
@@ -22,9 +22,10 @@ export default function RoundResult() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [status, setStatus] = useState<string>();
   const [questionsLength, setQuestionsLength] = useState<number>(0);
-  // const [countDown, setCountDown] = useState(5);
+  const [randomString, setRandomString] = useState<string>('');
+  const [countDown, setCountDown] = useState(5);
   const [index, setIndex] = useState<number | undefined>(undefined);
-  // const [countdownStarted, setCountdownStarted] = useState(false);
+  const [countdownStarted, setCountdownStarted] = useState(false);
   const { data: gameRoom } = useGameRoom();
   const documentId = gameRoom.id;
   const mode = gameRoom.mode;
@@ -32,6 +33,8 @@ export default function RoundResult() {
   const players = useSortedPlayers();
   const labels = data.content.labels;
   const button = data.content.buttons;
+
+  const previousStatus = useRef<string | null>(null);
 
   const pointsLabel =
     mode === 'majority' ? labels.score.majority : labels.score.minority;
@@ -51,12 +54,21 @@ export default function RoundResult() {
         }
       }
     };
-    const getStatusAndIndex = async () => {
+    const getIndex = async () => {
       if (documentId) {
         await updateIndex(documentId, setIndex);
+      }
+    };
+    const getStatus = async () => {
+      if (documentId) {
         const unsubscribe = await getOrUpdateStatus({
           documentId,
-          setStatus,
+          setStatus: (newStatus) => {
+            if (previousStatus.current !== newStatus) {
+              setStatus(newStatus);
+              previousStatus.current = newStatus;
+            }
+          },
         });
         return () => {
           if (unsubscribe) {
@@ -67,7 +79,8 @@ export default function RoundResult() {
     };
     getQuestionLength();
     getAdmin();
-    getStatusAndIndex();
+    getStatus();
+    getIndex();
   }, [documentId]);
 
   useEffect(() => {
@@ -88,26 +101,47 @@ export default function RoundResult() {
   }, [players]);
 
   useEffect(() => {
+    let intervalId: NodeJS.Timeout | null = null;
+
     if (status === 'active') {
-      // setCountdownStarted(true);
-      // setCountDown(5);
-      // const vibrate = () => {
-      //   const intervalId = setInterval(() => {
-      //     setCountDown((prevCountDown) => {
-      //       if (prevCountDown > 1) {
-      //         Vibration.vibrate(500);
-      //         return prevCountDown - 1;
-      //       } else {
-      //         clearInterval(intervalId);
-      router.push('/game');
-      //           return 0;
-      //         }
-      //       });
-      //     }, 1000);
+      setCountdownStarted(true);
+      setCountDown(5);
+
+      intervalId = setInterval(() => {
+        setCountDown((prevCountDown) => {
+          if (prevCountDown > 1) {
+            Vibration.vibrate(500);
+            return prevCountDown - 1;
+          } else {
+            if (intervalId) {
+              clearInterval(intervalId);
+            }
+            return 0;
+          }
+        });
+      }, 1000);
     }
-    //   vibrate();
-    // }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
   }, [status]);
+
+  useEffect(() => {
+    if (countDown === 0) {
+      router.push('/game');
+    }
+  }, [countDown]);
+
+  useEffect(() => {
+    if (scored !== undefined) {
+      setRandomString(
+        getRandomString(scored ? pointsLabel.right : pointsLabel.wrong),
+      );
+    }
+  }, [scored]);
 
   const nextQuestion = useCallback(async () => {
     if (documentId) {
@@ -128,9 +162,7 @@ export default function RoundResult() {
               paddingBottom={30}
             />
             <ThemedText style={{ paddingBottom: 57 }} type='heading32'>
-              {scored
-                ? getRandomString(pointsLabel.right)
-                : getRandomString(pointsLabel.wrong)}
+              {randomString}
             </ThemedText>
 
             <ThemedText style={{ marginBottom: 47 }} type='default'>
@@ -148,24 +180,27 @@ export default function RoundResult() {
       </ParallaxScrollView>
 
       <GradientContainer>
-        {/* {countdownStarted ? (
+        {countdownStarted ? (
           <ThemedText type='defaultSemiBold' style={{ marginBottom: 10 }}>
             {labels.gameCountdown} {countDown}
           </ThemedText>
-        ) :  */}
-        {index && index === questionsLength - 1 ? (
-          <ButtonComponent
-            variant='primary'
-            text={button.endGame}
-            route='/scoreboard'
-          />
-        ) : isAdmin ? (
-          <ButtonComponent
-            text={button.nextRound}
-            variant='primary'
-            onSubmit={nextQuestion}
-          />
-        ) : null}
+        ) : (
+          <>
+            {index && index === questionsLength - 1 ? (
+              <ButtonComponent
+                variant='primary'
+                text={button.endGame}
+                route='/scoreboard'
+              />
+            ) : isAdmin ? (
+              <ButtonComponent
+                text={button.nextRound}
+                variant='primary'
+                onSubmit={nextQuestion}
+              />
+            ) : null}
+          </>
+        )}
       </GradientContainer>
     </>
   );

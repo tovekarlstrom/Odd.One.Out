@@ -90,9 +90,8 @@ export default function Answers() {
 
   const enterPoints = async () => {
     if (documentId) {
-      getOrUpdateStatus({ documentId, changeStatus: 'idle' });
-
-      addPoints(documentId, playerGetPoints);
+      await addPoints(documentId, playerGetPoints);
+      await getOrUpdateStatus({ documentId, changeStatus: 'idle' });
     }
   };
 

@@ -100,7 +100,7 @@ export default function Answers() {
     <>
       <ParallaxScrollView paddingTop={20}>
         {isLoading ? (
-          <Loading />
+          <Loading initial='active' />
         ) : (
           <>
             <PlayerIcon

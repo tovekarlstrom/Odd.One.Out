@@ -9,7 +9,6 @@ import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
 import { router } from 'expo-router';
 import { updateIndex } from '@/functions/getOrUpdateIndex';
 import { JoinedPlayers } from '@/components/JoinedPlayers';
-import { getQuestion } from '@/functions/getQuestion';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import data from '../public/content.json';
@@ -17,11 +16,11 @@ import data from '../public/content.json';
 import PlayerIcon from '@/components/PlayerIcon';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { getRandomString } from '@/utils/getRandomString';
+import { useQuestionsLength } from '@/hooks/useQuestionsLength';
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
   const [isAdmin, setIsAdmin] = useState(false);
   const [status, setStatus] = useState<string>();
-  const [questionsLength, setQuestionsLength] = useState<number>(0);
   const [randomString, setRandomString] = useState<string>('');
   const [countDown, setCountDown] = useState(5);
   const [index, setIndex] = useState<number | undefined>(undefined);
@@ -31,6 +30,8 @@ export default function RoundResult() {
   const mode = gameRoom.mode;
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
+  const { data: questionsLength } = useQuestionsLength();
+
   const labels = data.content.labels;
   const button = data.content.buttons;
 
@@ -40,11 +41,6 @@ export default function RoundResult() {
     mode === 'majority' ? labels.score.majority : labels.score.minority;
 
   useEffect(() => {
-    const getQuestionLength = async () => {
-      if (documentId) {
-        await getQuestion(documentId, undefined, setQuestionsLength);
-      }
-    };
     const getAdmin = async () => {
       const admin = await AsyncStorage.getItem('isAdmin');
       if (admin) {
@@ -77,7 +73,7 @@ export default function RoundResult() {
         };
       }
     };
-    getQuestionLength();
+
     getAdmin();
     getStatus();
     getIndex();

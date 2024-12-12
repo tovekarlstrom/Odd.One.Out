@@ -7,12 +7,14 @@ import Loading from '@/components/Loading';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { getQuestion } from '@/functions/getQuestion';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Game() {
   const [status, setStatus] = useState<string>('');
   const { data: gameRoom } = useGameRoom();
   const { data: playerIcon } = usePlayerIcon();
   const [question, setQuestion] = useState<string>('');
+  const [questionsLength, setQuestionsLength] = useState<number>(0);
   const documentId = gameRoom?.id;
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function Game() {
         const unsubscribe = await getQuestion(
           documentId,
           setQuestion,
-          undefined,
+          setQuestionsLength,
         );
 
         return () => {
@@ -49,6 +51,12 @@ export default function Game() {
     ListenAndGetStatus();
     fetchQuestion();
   }, [documentId]);
+
+  useEffect(() => {
+    if (questionsLength) {
+      AsyncStorage.setItem('questionsLength', questionsLength.toString());
+    }
+  }, [questionsLength]);
 
   return (
     <ParallaxScrollView paddingTop={20}>

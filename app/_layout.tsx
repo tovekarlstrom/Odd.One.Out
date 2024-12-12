@@ -40,7 +40,6 @@ export default function RootLayout() {
     'Instrument Sans Bold': InstrumentSansBold,
   });
   const [appReady, setAppReady] = useState(false);
-  // const [showAnimation, setShowAnimation] = useState(true);
   const [animationFinished, setAnimationFinished] = useState(false);
   useEffect(() => {
     if (loaded) {
@@ -52,24 +51,6 @@ export default function RootLayout() {
   if (!appReady || !animationFinished) {
     return <StartAnimation onAnimationEnd={() => setAnimationFinished(true)} />;
   }
-
-  // useEffect(() => {
-  //   if (loaded && !splashShown) {
-  //     SplashScreen.hideAsync();
-  //     setTimeout(() => {
-  //       console.log('Hide animation');
-  //       setShowAnimation(false);
-  //       setSplashShown(true);
-  //     }, 3000); // Show the animation for 3 seconds
-  //   } else if (loaded) {
-  //     // console.log('Hide animation');
-  //     setShowAnimation(false);
-  //   }
-  // }, [loaded]);
-
-  // if (showAnimation) {
-  //   return <StartAnimation />;
-  // }
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>

@@ -30,6 +30,7 @@ export default function RootLayout() {
     'answers',
     'scoreboard',
     'result',
+    'scanCode',
   ];
   const [loaded] = useFonts({
     'Abril Fat': AbrilFatFace,

@@ -13,6 +13,8 @@ import { useEffect, useState } from 'react';
 import data from '../public/content.json';
 import { shape } from '@/utils/getIconColorAndShape';
 import { useGameRoom } from '@/hooks/useGameRoom';
+import { Player } from './code';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface TopPlayer {
   playerName: string;
@@ -23,6 +25,8 @@ interface TopPlayer {
 
 export default function Score() {
   const [playerList, setPlayerList] = useState<TopPlayer[]>([]);
+  const [player, setPlayer] = useState<Player | null>(null);
+  const [label, setLabel] = useState({ title: '', description: '' });
   const players = useSortedPlayers();
   const content = data.content.results;
   const labels = data.content.labels;
@@ -34,53 +38,88 @@ export default function Score() {
     mode === 'majority' ? content.majority : content.minority;
 
   useEffect(() => {
-    if (players.length === 0) return;
-    const topPlayers = players.slice(0, 3);
+    const setResults = async (players: Player[]) => {
+      if (players.length === 0) return;
+      const topPlayers = players.slice(0, 3);
 
-    const formattedPlayers = topPlayers.map((player, index) => {
-      let place, height;
-      if (index === 0) {
-        place = 1;
-        height = 90;
-      } else if (index === 1) {
-        if (topPlayers[0].totalPoints === topPlayers[1].totalPoints) {
+      const playerId = await AsyncStorage.getItem('playerId');
+      const findUser = players.find((player) => player.playerId === playerId);
+
+      if (findUser) {
+        setPlayer(findUser);
+      }
+
+      // const playerIndex = players.indexOf(findUser as Player);
+
+      // if (playerIndex === 0) {
+      //   playerLabel = resultsLabel.winner;
+      // } else if (playerIndex > 0 && playerIndex <= 2) {
+      //   playerLabel = resultsLabel.podium;
+      // } else {
+      //   playerLabel = resultsLabel.loser;
+      // }
+
+      const formattedPlayers = topPlayers.map((player, index) => {
+        let place, height;
+        if (index === 0) {
           place = 1;
           height = 90;
+        } else if (index === 1) {
+          if (topPlayers[0].totalPoints === topPlayers[1].totalPoints) {
+            place = 1;
+            height = 90;
+          } else {
+            place = 2;
+            height = 60;
+          }
         } else {
-          place = 2;
-          height = 60;
+          if (topPlayers[0].totalPoints === topPlayers[2].totalPoints) {
+            place = 1;
+            height = 90;
+          } else if (
+            topPlayers[1].totalPoints === topPlayers[2].totalPoints ||
+            topPlayers[0].totalPoints === topPlayers[1].totalPoints
+          ) {
+            place = 2;
+            height = 60;
+          } else {
+            place = 3;
+            height = 40;
+          }
+        }
+        return {
+          ...player,
+          place,
+          height,
+        };
+      });
+
+      const topThreePlayer = formattedPlayers.find(
+        (player) => player.playerId === findUser?.playerId,
+      );
+
+      let playerLabel;
+
+      if (topThreePlayer) {
+        if (topThreePlayer?.place === 1) {
+          playerLabel = resultsLabel.winner;
+        } else {
+          playerLabel = resultsLabel.podium;
         }
       } else {
-        if (topPlayers[0].totalPoints === topPlayers[2].totalPoints) {
-          place = 1;
-          height = 90;
-        } else if (
-          topPlayers[1].totalPoints === topPlayers[2].totalPoints ||
-          topPlayers[0].totalPoints === topPlayers[1].totalPoints
-        ) {
-          place = 2;
-          height = 60;
-        } else {
-          place = 3;
-          height = 40;
-        }
+        playerLabel = resultsLabel.loser;
       }
-      return {
-        playerName: player.playerName,
-        place,
-        height,
-        playerIcon: {
-          color: player.playerIcon.color,
-          shape: player.playerIcon.shape,
-        },
-      };
-    });
 
-    setPlayerList([
-      formattedPlayers[1],
-      formattedPlayers[0],
-      formattedPlayers[2],
-    ]);
+      setLabel(playerLabel);
+
+      setPlayerList([
+        formattedPlayers[1],
+        formattedPlayers[0],
+        formattedPlayers[2],
+      ]);
+    };
+
+    setResults(players);
   }, [players]);
 
   return (
@@ -90,9 +129,9 @@ export default function Score() {
           <ParallaxScrollView>
             <ThemedView style={styles.textBox}>
               <ThemedText type='heading32'>
-                {resultsLabel.winner.title} {players[0].playerName}
+                {label.title} {player?.playerName}
               </ThemedText>
-              <ThemedText>{resultsLabel.winner.description}</ThemedText>
+              <ThemedText>{label.description}</ThemedText>
             </ThemedView>
             <ThemedView style={styles.podiumWrapper}>
               {playerList.map((player, index) => (

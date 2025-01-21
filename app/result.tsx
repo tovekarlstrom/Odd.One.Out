@@ -166,7 +166,7 @@ export default function RoundResult() {
             </ThemedText>
 
             <JoinedPlayers
-              heading={labels.topThree}
+              heading={labels.topPlayers}
               players={players}
               showPoints
               topPlayers

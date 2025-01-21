@@ -89,7 +89,9 @@
     },
     "labels": {
       "gameCountdown": "Game starts in ",
-      "topThree": "Top 3 Players",
+      "topPlayers": "Top players",
+      "topPlayer": "Top player",
+      "noPoints": "No points yet..",
       "players": "Players",
       "score": {
         "majority": {

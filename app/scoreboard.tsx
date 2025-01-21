@@ -2,7 +2,6 @@ import { ButtonComponent } from '@/components/ButtonComponent';
 import { StyleSheet } from 'react-native';
 import { GradientContainer } from '@/components/GradientContainer';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import PlayerIcon from '@/components/PlayerIcon';
 import { Colors, Sizes } from '@/constants/Theme';
 import { JoinedPlayers } from '@/components/JoinedPlayers';
 import { ThemedText } from '@/components/ThemedText';
@@ -11,7 +10,6 @@ import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import Loading from '@/components/Loading';
 import { useEffect, useState } from 'react';
 import data from '../public/content.json';
-import { shape } from '@/utils/getIconColorAndShape';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { Player } from './code';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -129,7 +127,7 @@ export default function Score() {
           <ParallaxScrollView>
             <ThemedView style={styles.textBox}>
               <ThemedText type='heading32'>
-                {label.title} {player?.playerName}
+                {label.title} {player?.playerName}!
               </ThemedText>
               <ThemedText>{label.description}</ThemedText>
             </ThemedView>
@@ -137,11 +135,6 @@ export default function Score() {
               {playerList.map((player, index) => (
                 <ThemedView key={index} style={styles.podiumContainer}>
                   <ThemedView style={styles.playerBox}>
-                    <PlayerIcon
-                      size={20}
-                      color={player.playerIcon.color}
-                      shape={player.playerIcon.shape as shape}
-                    />
                     <ThemedText type='defaultSemiBold'>
                       {player.playerName}
                     </ThemedText>
@@ -161,7 +154,7 @@ export default function Score() {
             </ThemedView>
             <JoinedPlayers
               players={players}
-              heading={labels.players}
+              heading={labels.scoreBoard}
               showPoints={true}
             />
           </ParallaxScrollView>
@@ -184,6 +177,7 @@ const styles = StyleSheet.create({
   podiumWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
+    maxWidth: 350,
     gap: 8,
     marginTop: Sizes.Spacings.xxLarge,
   },
@@ -202,7 +196,11 @@ const styles = StyleSheet.create({
   },
   playerBox: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 5,
+    justifyContent: 'center',
+    maxWidth: 95,
+    width: '100%',
   },
   textBox: {
     margin: 'auto',

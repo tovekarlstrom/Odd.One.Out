@@ -1,10 +1,14 @@
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedView } from '@/components/ThemedView';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import ScanIcon from '../assets/scanIcon.svg';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { router } from 'expo-router';
 
 export default function scanCode() {
-  const [facing, setFacing] = useState<CameraType>('back');
   const [permission, requestPermission] = useCameraPermissions();
+  const [scanned, setScanned] = useState(false);
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -23,18 +27,28 @@ export default function scanCode() {
     );
   }
 
-  function toggleCameraFacing() {
-    setFacing((current) => (current === 'back' ? 'front' : 'back'));
-  }
+  const handleBarCodeScanned = ({ data }: { data: string }) => {
+    setScanned(true);
+    router.push(`/join?code=${data}`);
+  };
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
-        </View>
+      <CameraView
+        style={styles.camera}
+        facing={'back'}
+        onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
+      >
+        <ThemedView style={styles.textContainer}>
+          <ThemedView style={styles.iconContainer}>
+            <ScanIcon />
+          </ThemedView>
+          <ThemedView style={styles.textBottomContainer}>
+            <ThemedText style={styles.scanMessage} type='defaultLarge'>
+              Scan the QR code to join the game
+            </ThemedText>
+          </ThemedView>
+        </ThemedView>
       </CameraView>
     </View>
   );
@@ -45,27 +59,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  textContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    backgroundColor: 'transparent',
+    margin: 30,
+    marginBottom: 60,
+  },
+  iconContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textBottomContainer: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 10,
+  },
+  scanMessage: {
+    textAlign: 'center',
+    color: 'white',
+  },
   message: {
     textAlign: 'center',
     paddingBottom: 10,
   },
   camera: {
     flex: 1,
-  },
-  buttonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
   },
 });

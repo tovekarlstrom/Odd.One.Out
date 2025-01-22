@@ -7,6 +7,7 @@ import Loading from '@/components/Loading';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { getQuestion } from '@/functions/getQuestion';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
+import React from 'react';
 
 export default function Game() {
   const [status, setStatus] = useState<string>('');

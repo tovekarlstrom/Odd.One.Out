@@ -8,10 +8,16 @@ import { Sizes } from '@/constants/Theme';
 import LearnMore from '@/components/LearnMore';
 import data from '../public/content.json';
 import startBackground from '../assets/images/startBackground.png';
+import { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen() {
   const content = data.content.startPage;
   const button = data.content.buttons;
+
+  useEffect(() => {
+    AsyncStorage.setItem('isAdmin', 'false');
+  }, []);
 
   return (
     <ImageBackground

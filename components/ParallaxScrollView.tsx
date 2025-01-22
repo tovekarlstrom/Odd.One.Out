@@ -4,6 +4,10 @@ import Animated, { useAnimatedRef } from 'react-native-reanimated';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors, Sizes } from '@/constants/Theme';
 import LogoIcon from './LogoIcon';
+import SettingsIcon from './SettingsIcon';
+import { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Settings from './Settings';
 
 export default function ParallaxScrollView({
   children,
@@ -14,11 +18,41 @@ export default function ParallaxScrollView({
   isHomePage?: boolean;
   paddingTop?: number;
 }) {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [openSettings, setOpenSettings] = useState(false);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
+
+  useEffect(() => {
+    const getAdmin = async () => {
+      const admin = await AsyncStorage.getItem('isAdmin');
+      if (admin) {
+        const parsedAdmin = JSON.parse(admin);
+        if (parsedAdmin === true) {
+          setIsAdmin(parsedAdmin);
+        } else {
+          setIsAdmin(false);
+        }
+      }
+    };
+    getAdmin();
+  }, []);
 
   return (
     <ThemedView style={isHomePage ? styles.homePage : styles.container}>
       <LogoIcon style={styles.header} size={60} />
+      {isAdmin && (
+        <SettingsIcon
+          onPress={() => setOpenSettings(true)}
+          style={styles.settings}
+          size={30}
+        />
+      )}
+      {openSettings && (
+        <Settings
+          openSettings={openSettings}
+          onClose={() => setOpenSettings(false)}
+        />
+      )}
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
         <ThemedView
           style={[
@@ -48,6 +82,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 30,
     left: 0,
+    zIndex: 10,
+  },
+  settings: {
+    position: 'absolute',
+    top: 45,
+    right: 10,
     zIndex: 10,
   },
   content: {

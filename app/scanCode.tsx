@@ -1,14 +1,16 @@
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { CameraView, useCameraPermissions } from 'expo-camera';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, Vibration, View } from 'react-native';
 import ScanIcon from '../assets/scanIcon.svg';
 import { useState } from 'react';
-import { router } from 'expo-router';
+import { router, useNavigation } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function scanCode() {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
+  const navigation = useNavigation();
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -29,6 +31,7 @@ export default function scanCode() {
 
   const handleBarCodeScanned = ({ data }: { data: string }) => {
     setScanned(true);
+    Vibration.vibrate(100);
     router.push(`/join?code=${data}`);
   };
 
@@ -39,6 +42,13 @@ export default function scanCode() {
         facing={'back'}
         onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
       >
+        <Ionicons
+          style={{ marginHorizontal: 15, marginVertical: 40 }}
+          name='close-outline'
+          size={32}
+          color='white'
+          onPress={() => navigation.goBack()}
+        />
         <ThemedView style={styles.textContainer}>
           <ThemedView style={styles.iconContainer}>
             <ScanIcon />

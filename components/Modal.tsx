@@ -10,7 +10,6 @@ import {
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
 
 interface ModalProps {
   heading: string;
@@ -18,7 +17,6 @@ interface ModalProps {
   onClose?: () => void;
 }
 export function ModalComponent({ heading, children, onClose }: ModalProps) {
-  const [isOpen, setIsOpen] = useState(true);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -35,20 +33,11 @@ export function ModalComponent({ heading, children, onClose }: ModalProps) {
       duration: 300,
       useNativeDriver: true,
     }).start(() => {
-      setIsOpen(false);
       if (onClose) onClose();
     });
   };
   return (
-    <Modal
-      animationType='fade'
-      transparent={true}
-      visible={isOpen}
-      onRequestClose={() => {
-        setIsOpen(false);
-        if (onClose) onClose();
-      }}
-    >
+    <Modal animationType='fade' transparent={true}>
       <Pressable style={styles.backdrop} onPress={handleClose}>
         <Animated.View style={[styles.centeredView, { opacity: fadeAnim }]}>
           <ThemedView style={styles.modalView}>

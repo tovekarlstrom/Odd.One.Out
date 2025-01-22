@@ -103,7 +103,7 @@ export default function Code() {
 
   return (
     <>
-      <ParallaxScrollView>
+      <ParallaxScrollView paddingTop={50}>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type='heading32'>
             {getRandomString(content.title)}

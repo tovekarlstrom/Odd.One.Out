@@ -68,7 +68,9 @@ export default function HomeScreen() {
             text='Enter code'
             variant='secondary'
             route='/join'
-            onSubmit={() => setShowModal(false)}
+            onSubmit={() => {
+              setTimeout(() => setShowModal(false), 30);
+            }}
           />
         </ModalComponent>
       )}

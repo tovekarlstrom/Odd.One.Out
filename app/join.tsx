@@ -55,7 +55,7 @@ export default function Join() {
 
   return (
     <>
-      <ParallaxScrollView paddingTop={50}>
+      <ParallaxScrollView paddingTop={100}>
         <View style={styles.titleContainer}>
           <ThemedText type='heading32'>{content.title}</ThemedText>
           <ThemedText type='default'>{content.description}</ThemedText>
@@ -64,6 +64,7 @@ export default function Join() {
           <CardComponent heading={content.subHeading} fullWidth>
             <InputComponent
               placeholder='Code'
+              editable={QRcode ? false : true}
               onChangeText={(value) => {
                 setGameCode(value);
               }}

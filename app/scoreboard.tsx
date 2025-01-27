@@ -30,7 +30,7 @@ export default function Score() {
   const gameRoom = useGameRoom();
   const mode = gameRoom.data?.mode;
 
-  const resultssLabel =
+  const resultsLabel =
     mode === 'majority' ? content.majority : content.minority;
 
   useEffect(() => {
@@ -90,9 +90,9 @@ export default function Score() {
           <ParallaxScrollView>
             <ThemedView style={styles.textBox}>
               <ThemedText type='heading32'>
-                {resultssLabel.winner.title} {players[0].playerName}
+                {resultsLabel.winner.title} {players[0].playerName}
               </ThemedText>
-              <ThemedText>{resultssLabel.winner.description}</ThemedText>
+              <ThemedText>{resultsLabel.winner.description}</ThemedText>
             </ThemedView>
             <ThemedView style={styles.podiumWrapper}>
               {playerList.map((player, index) => (

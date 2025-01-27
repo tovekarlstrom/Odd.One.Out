@@ -4,14 +4,12 @@
     "slug": "OddOneOut",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/Logo-OOO.png",
     "scheme": "myapp",
     "newArchEnabled": true,
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#EBDED6"
+      "backgroundColor": "#231F20"
     },
     "ios": {
       "supportsTablet": true,

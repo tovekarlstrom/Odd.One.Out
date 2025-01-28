@@ -133,9 +133,8 @@ export default function RoundResult() {
 
   useEffect(() => {
     if (scored !== undefined) {
-      setRandomString(
-        getRandomString(scored ? pointsLabel.right : pointsLabel.wrong),
-      );
+      const label = scored ? pointsLabel.right : pointsLabel.wrong;
+      setRandomString(getRandomString(label));
     }
   }, [scored]);
 

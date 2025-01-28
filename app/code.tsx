@@ -3,7 +3,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { CopyComponent } from '@/components/CopyComponent';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { JoinedPlayers } from '@/components/JoinedPlayers';
 import { GradientContainer } from '@/components/GradientContainer';
@@ -29,7 +29,7 @@ export interface Player {
   playerIcon: PlayerIconType;
 }
 
-const loadGameCode = async () => {
+export const loadGameCode = async () => {
   try {
     const roomId = await AsyncStorage.getItem('roomId');
 
@@ -52,6 +52,11 @@ export default function Code() {
   const content = data.content.code;
   const button = data.content.buttons;
   const documentId = gameRoom?.id;
+
+  const headerTitle = useMemo(
+    () => getRandomString(content.title),
+    [content.title[0]],
+  );
 
   useEffect(() => {
     const fetchGameCode = async () => {
@@ -102,9 +107,7 @@ export default function Code() {
     <>
       <ParallaxScrollView>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type='heading32'>
-            {getRandomString(content.title)}
-          </ThemedText>
+          <ThemedText type='heading32'>{headerTitle}</ThemedText>
           <ThemedText type='default'>{content.description}</ThemedText>
         </ThemedView>
         <CopyComponent gameCode={gameCode} />

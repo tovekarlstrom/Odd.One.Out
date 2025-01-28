@@ -1,28 +1,35 @@
-import { View } from "react-native";
-import { CardComponent } from "./CardComponent";
-import PlayerIcon from "./PlayerIcon";
-import { TextField } from "./TextField";
+import { View, StyleSheet } from 'react-native';
+import { CardComponent } from './CardComponent';
+import PlayerIcon from './PlayerIcon';
+import { TextField } from './TextField';
 
-import { useEffect, useState } from "react";
-import { Player } from "@/app/code";
-import { shape } from "@/utils/getIconColorAndShape";
+import { useEffect, useState } from 'react';
+import { shape } from '@/utils/getIconColorAndShape';
+import { RoundButton } from './RoundButton';
+import { removePlayer } from '@/functions/removePlayer';
+import { useGameRoom } from '@/hooks/useGameRoom';
+import { Player } from '@/app/code';
 
 interface JoinedPlayersProps {
   heading: string;
+  players: Player[] | undefined;
   topPlayers?: boolean;
+  handlePlayers?: boolean;
   showPoints?: boolean;
   showListLength?: boolean;
-  players: Player[] | undefined;
 }
 export function JoinedPlayers({
   heading,
-  topPlayers,
-  showPoints,
-  showListLength,
   players,
+  topPlayers,
+  handlePlayers = false,
+  showPoints = false,
+  showListLength,
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
-  const [listLength, setListLength] = useState<string>("");
+  const [listLength, setListLength] = useState<string>('');
+  const { data: gameRoom } = useGameRoom();
+  const documentId = gameRoom?.id;
 
   useEffect(() => {
     if (!players) return;
@@ -42,34 +49,46 @@ export function JoinedPlayers({
 
   const topHeading = showListLength ? `${heading} ${listLength}` : heading;
 
+  const handleRemovePlayer = async (playerId: string) => {
+    if (players && players.length <= 3) {
+      alert('You need at least 3 players to continue the game');
+    } else if (documentId) {
+      await removePlayer(documentId, playerId);
+    }
+  };
+
   return (
-    <CardComponent heading={topHeading} fullWidth={showPoints || false}>
+    <CardComponent heading={topHeading} fullWidth={showPoints || handlePlayers}>
       {playerList &&
         playerList.map((player, index) => (
-          <View key={index}>
-            {showPoints ? (
-              <TextField
-                key={index}
-                value={player.playerName}
-                points={player.totalPoints.toString()}
-              >
-                <PlayerIcon
-                  size={20}
-                  color={player.playerIcon.color}
-                  shape={player.playerIcon.shape as shape}
-                />
-              </TextField>
-            ) : (
-              <TextField key={index} value={player.playerName}>
-                <PlayerIcon
-                  size={20}
-                  color={player.playerIcon.color}
-                  shape={player.playerIcon.shape as shape}
-                />
-              </TextField>
+          <View style={styles.playerContainer} key={index}>
+            <TextField
+              key={index}
+              value={player.playerName}
+              points={showPoints ? player.totalPoints.toString() : ''}
+            >
+              <PlayerIcon
+                size={20}
+                color={player.playerIcon.color}
+                shape={player.playerIcon.shape as shape}
+              />
+            </TextField>
+            {handlePlayers && (
+              <RoundButton
+                onPress={() => handleRemovePlayer(player.playerId)}
+                isAdding={false}
+              />
             )}
           </View>
         ))}
     </CardComponent>
   );
 }
+
+const styles = StyleSheet.create({
+  playerContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 8,
+  },
+});

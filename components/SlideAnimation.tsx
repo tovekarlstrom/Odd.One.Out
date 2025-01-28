@@ -1,6 +1,6 @@
-import { Animated } from "react-native";
-import { useEffect, useRef } from "react";
-import { type ViewProps } from "react-native";
+import { Animated } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { type ViewProps } from 'react-native';
 
 export type SlideAnimationProps = ViewProps & {
   children: React.ReactNode;
@@ -8,6 +8,7 @@ export type SlideAnimationProps = ViewProps & {
   startHeight?: number;
   showSlider: boolean;
   onClose?: () => void;
+  animateOpacity?: boolean;
 };
 
 export default function SlideAnimation({
@@ -17,6 +18,7 @@ export default function SlideAnimation({
   startHeight = 0,
   showSlider,
   onClose,
+  animateOpacity,
 }: SlideAnimationProps) {
   const slideAnimation = useRef(new Animated.Value(0)).current;
 
@@ -38,15 +40,28 @@ export default function SlideAnimation({
         }
       });
     }
-  }, [showSlider, slideAnimation]);
+  }, [showSlider, slideAnimation, onClose]);
 
   const interpolatedHeight = slideAnimation.interpolate({
     inputRange: [0, 1],
     outputRange: [startHeight, height],
   });
 
+  const contentOpacity = slideAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, 1],
+  });
+
   return (
-    <Animated.View style={[style, { height: interpolatedHeight }]}>
+    <Animated.View
+      style={[
+        style,
+        {
+          height: interpolatedHeight,
+          opacity: animateOpacity ? contentOpacity : 1,
+        },
+      ]}
+    >
       {children}
     </Animated.View>
   );

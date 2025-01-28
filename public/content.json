@@ -90,6 +90,9 @@
     "labels": {
       "gameCountdown": "Game starts in ",
       "topThree": "Top 3 Players",
+      "settings": "Settings",
+      "gameRoom": "Game Room",
+      "handlePlayers": "Handle Players",
       "players": "Players",
       "score": {
         "majority": {

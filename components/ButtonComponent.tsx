@@ -1,10 +1,10 @@
-import { Colors, Sizes } from "@/constants/Theme";
-import { StyleSheet, Pressable } from "react-native";
-import { ThemedText } from "./ThemedText";
-import { Href, useRouter } from "expo-router";
-import { useState } from "react";
+import { Colors, Sizes } from '@/constants/Theme';
+import { StyleSheet, Pressable } from 'react-native';
+import { ThemedText } from './ThemedText';
+import { Href, useRouter } from 'expo-router';
+import { useState } from 'react';
 
-type ButtonVariant = "primary" | "secondary";
+type ButtonVariant = 'primary' | 'secondary';
 
 interface ButtonComponentProps {
   text: string;
@@ -21,7 +21,7 @@ export function ButtonComponent({
   const [disable, setDisable] = useState(false);
   const router = useRouter();
   const buttonColor =
-    variant === "primary"
+    variant === 'primary'
       ? Colors.light.primaryButton
       : Colors.light.secondaryButton;
 
@@ -29,6 +29,7 @@ export function ButtonComponent({
     if (onSubmit) {
       setDisable(true);
       await onSubmit();
+      setDisable(false);
     }
     if (route) {
       router.push(route);
@@ -41,7 +42,7 @@ export function ButtonComponent({
       style={[styles.button, { backgroundColor: buttonColor }]}
       onPress={handlePress}
     >
-      <ThemedText style={styles.buttonText} type="defaultSemiBold">
+      <ThemedText style={styles.buttonText} type='defaultSemiBold'>
         {text}
       </ThemedText>
     </Pressable>
@@ -50,9 +51,9 @@ export function ButtonComponent({
 
 const styles = StyleSheet.create({
   button: {
-    alignItems: "center",
-    justifyContent: "center",
-    margin: "auto",
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 'auto',
     marginTop: Sizes.Spacings.medium,
     borderRadius: 80,
     width: 285,

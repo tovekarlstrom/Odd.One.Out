@@ -44,6 +44,7 @@ export function JoinedPlayers({
   }, [topPlayers, players]);
 
   useEffect(() => {
+    console.log(playerList);
     if (playerList && playerList.length > 0) {
       setListLength(`(${playerList.length})`);
     }
@@ -51,12 +52,14 @@ export function JoinedPlayers({
       if (playerList) {
         if (playerList.length === 1) {
           setTopHeading(labels.topPlayer);
+        } else if (playerList.length > 1) {
+          setTopHeading(heading);
         }
       } else {
         setTopHeading(labels.noPoints);
       }
     }
-  }, [playerList]);
+  }, [playerList, topPlayers]);
 
   const defaultHeading = showListLength ? `${heading} ${listLength}` : heading;
 

@@ -168,8 +168,8 @@ export default function RoundResult() {
             <JoinedPlayers
               heading={labels.topPlayers}
               players={players}
-              showPoints
-              topPlayers
+              showPoints={true}
+              topPlayers={true}
             />
           </View>
         )}

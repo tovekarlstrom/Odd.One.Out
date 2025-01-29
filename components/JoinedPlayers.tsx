@@ -44,7 +44,6 @@ export function JoinedPlayers({
   }, [topPlayers, players]);
 
   useEffect(() => {
-    console.log(playerList);
     if (playerList && playerList.length > 0) {
       setListLength(`(${playerList.length})`);
     }

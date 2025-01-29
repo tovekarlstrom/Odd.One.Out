@@ -8,6 +8,7 @@ import { useGameRoom } from '@/hooks/useGameRoom';
 import { getQuestion } from '@/functions/getQuestion';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
 
 export default function Game() {
   const [status, setStatus] = useState<string>('');

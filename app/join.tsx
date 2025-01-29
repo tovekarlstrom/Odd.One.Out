@@ -1,9 +1,18 @@
-import { StyleSheet, TextInput, View } from 'react-native';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
+import React from 'react';
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  StyleSheet,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+  Platform,
+} from 'react-native';
+
 import { ThemedText } from '@/components/ThemedText';
 import { useRef, useState } from 'react';
 import { ButtonComponent } from '@/components/ButtonComponent';
-import { Sizes } from '@/constants/Theme';
+import { Colors, Sizes } from '@/constants/Theme';
 import { CardComponent } from '@/components/CardComponent';
 import { InputComponent } from '@/components/InputComponent';
 import { addPlayers } from '../functions/addPlayers';
@@ -11,6 +20,7 @@ import { getGameRoom } from '@/functions/getGameRoom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import data from '../public/content.json';
+import ParallaxScrollView from '@/components/ParallaxScrollView';
 
 export default function Join() {
   const [gameCode, setGameCode] = useState('');
@@ -44,49 +54,70 @@ export default function Join() {
   };
 
   return (
-    <>
-      <ParallaxScrollView paddingTop={50}>
-        <View style={styles.titleContainer}>
-          <ThemedText type='heading32'>{content.title}</ThemedText>
-          <ThemedText type='default'>{content.description}</ThemedText>
-        </View>
-        <View style={{ marginVertical: 40 }}>
-          <CardComponent heading={content.subHeading} fullWidth>
-            <InputComponent
-              placeholder='Code'
-              onChangeText={(value) => {
-                setGameCode(value);
-              }}
-              value={gameCode}
-              returnKeyType='next'
-              onSubmitEditing={focusOnNextInput}
-            />
-            <InputComponent
-              placeholder='Name'
-              onChangeText={(value) => {
-                setPlayerName(value);
-              }}
-              value={playerName}
-              ref={inputRef}
-              returnKeyType='join'
-              onSubmitEditing={joinGame}
-            />
-            <ButtonComponent
-              variant='primary'
-              text={button.joinGame}
-              onSubmit={joinGame}
-            />
-          </CardComponent>
-        </View>
-      </ParallaxScrollView>
-    </>
+    <ParallaxScrollView paddingTop={55} scroll={false}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+        style={styles.container}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <View style={styles.titleContainer}>
+              <ThemedText type='heading32'>{content.title}</ThemedText>
+              <ThemedText type='default'>{content.description}</ThemedText>
+            </View>
+
+            <View style={styles.inner}>
+              <CardComponent heading={content.subHeading} fullWidth>
+                <InputComponent
+                  placeholder='Code'
+                  onChangeText={(value) => {
+                    setGameCode(value);
+                  }}
+                  value={gameCode}
+                  returnKeyType='next'
+                  onSubmitEditing={focusOnNextInput}
+                />
+                <InputComponent
+                  placeholder='Name'
+                  onChangeText={(value) => {
+                    setPlayerName(value);
+                  }}
+                  value={playerName}
+                  ref={inputRef}
+                  returnKeyType='join'
+                  onSubmitEditing={joinGame}
+                />
+                <ButtonComponent
+                  variant='primary'
+                  text={button.joinGame}
+                  onSubmit={joinGame}
+                />
+              </CardComponent>
+            </View>
+            {/* </View> */}
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ParallaxScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.light.background,
+  },
+  inner: {
+    flex: 1,
+
+    marginBottom: 155,
+  },
   titleContainer: {
     flexDirection: 'column',
     gap: Sizes.Spacings.small,
+    // marginTop: 35,
+    marginHorizontal: 25,
     marginBottom: 35,
     width: '90%',
   },

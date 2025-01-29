@@ -9,17 +9,30 @@ export default function ParallaxScrollView({
   children,
   isHomePage,
   paddingTop,
+  scroll = true,
 }: {
   children: React.ReactNode;
   isHomePage?: boolean;
   paddingTop?: number;
+  scroll?: boolean;
 }) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
   return (
     <ThemedView style={isHomePage ? styles.homePage : styles.container}>
       <LogoIcon style={styles.header} size={60} />
-      <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
+      {scroll ? (
+        <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
+          <ThemedView
+            style={[
+              styles.content,
+              { paddingTop: paddingTop ? paddingTop : 100 },
+            ]}
+          >
+            {children}
+          </ThemedView>
+        </Animated.ScrollView>
+      ) : (
         <ThemedView
           style={[
             styles.content,
@@ -28,7 +41,7 @@ export default function ParallaxScrollView({
         >
           {children}
         </ThemedView>
-      </Animated.ScrollView>
+      )}
     </ThemedView>
   );
 }

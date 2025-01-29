@@ -8,22 +8,31 @@ import { Ionicons } from '@expo/vector-icons';
 import { JoinedPlayers } from './JoinedPlayers';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import { useEffect, useState } from 'react';
-import { loadGameCode } from '@/app/code';
-import * as Clipboard from 'expo-clipboard';
+import { loadGameCode, Player } from '@/app/code';
+import { CopyComponent } from './CopyComponent';
+import { useGameRoom } from '@/hooks/useGameRoom';
+import { getStatus } from '@/utils/getStatus';
+import { getAnswers } from '@/utils/getAnswers';
+import { PlayerAnswer } from '@/app/answers';
+import { ButtonComponent } from './ButtonComponent';
 
 export default function Settings() {
   const [gameCode, setGameCode] = useState<string>('');
   const [openSettings, setOpenSettings] = useState(false);
-  const [copied, setCopied] = useState<boolean>(false);
   const [renderSettings, setRenderSettings] = useState<boolean>(false);
-  const players = useSortedPlayers();
-  const labels = data.content.labels;
+  const [status, setStatus] = useState<string>();
+  const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
+  const [updatedPlayers, setUpdatedPlayers] = useState<Player[]>([]);
 
-  const copyGameCode = () => {
-    Clipboard.setStringAsync(gameCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const players = useSortedPlayers();
+  const { data: gameRoom } = useGameRoom();
+  const labels = data.content.labels;
+  const documentId = gameRoom?.id;
+
+  useEffect(() => {
+    getStatus(documentId, setStatus);
+    getAnswers(documentId, setAnswers);
+  }, [documentId]);
 
   useEffect(() => {
     const fetchGameCode = async () => {
@@ -34,6 +43,20 @@ export default function Settings() {
     };
     fetchGameCode();
   }, []);
+
+  useEffect(() => {
+    if (status === 'active') {
+      const newPlayers = players.map((player) => ({
+        ...player,
+        hasAnswered: answers.some(
+          (answer) => answer.playerId === player.playerId,
+        ),
+      }));
+      setUpdatedPlayers(newPlayers);
+    } else {
+      setUpdatedPlayers(players);
+    }
+  }, [status, players, answers]);
 
   useEffect(() => {
     if (!renderSettings) {
@@ -62,38 +85,36 @@ export default function Settings() {
             setRenderSettings(false);
           }}
         >
-          <Pressable
-            onPress={() => setOpenSettings(false)}
-            style={styles.closeButton}
-          >
-            <Ionicons
-              name={'close-outline'}
-              size={40}
-              color={Colors.light.text}
-            />
-          </Pressable>
-          <ThemedView style={styles.settingsContainer}>
-            <ThemedText type='heading32'>{labels.settings}</ThemedText>
-            <ThemedView style={styles.cardWrapper}>
-              <ThemedView style={styles.textBox}>
-                <ThemedText type='defaultLarge'>{labels.gameRoom}</ThemedText>
-                <Pressable onPress={copyGameCode}>
-                  <ThemedText type='defaultSemiBold'>{gameCode}</ThemedText>
-                </Pressable>
-                {copied && (
-                  <ThemedText style={styles.copyText} type='defaultSmall'>
-                    Copied!
-                  </ThemedText>
-                )}
+          <ThemedView style={styles.relativeWrapper}>
+            <Pressable
+              onPress={() => setOpenSettings(false)}
+              style={styles.closeButton}
+            >
+              <Ionicons
+                name={'close-outline'}
+                size={40}
+                color={Colors.light.text}
+              />
+            </Pressable>
+            <ThemedView style={styles.settingsContainer}>
+              <ThemedText type='heading32'>{labels.settings}</ThemedText>
+              <ThemedView style={styles.cardWrapper}>
+                <ThemedView style={styles.textBox}>
+                  <ThemedText type='defaultLarge'>{labels.gameRoom}</ThemedText>
+                  <CopyComponent gameCode={gameCode} />
+                </ThemedView>
+                <View style={styles.cardContainer}>
+                  <JoinedPlayers
+                    players={updatedPlayers}
+                    handlePlayers={true}
+                    heading={labels.handlePlayers}
+                    showListLength={true}
+                  />
+                </View>
               </ThemedView>
-              <View style={styles.cardContainer}>
-                <JoinedPlayers
-                  players={players}
-                  handlePlayers={true}
-                  heading={labels.handlePlayers}
-                  showListLength={true}
-                />
-              </View>
+            </ThemedView>
+            <ThemedView style={styles.button}>
+              <ButtonComponent text='Quit game' variant='primary' />
             </ThemedView>
           </ThemedView>
         </SlideAnimation>
@@ -161,5 +182,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: -5,
+  },
+  relativeWrapper: {
+    flex: 1,
+    display: 'flex',
+    height: '100%',
+  },
+  button: {
+    margin: 'auto',
   },
 });

@@ -21,18 +21,34 @@ export default function SlideAnimation({
   animateOpacity,
 }: SlideAnimationProps) {
   const slideAnimation = useRef(new Animated.Value(0)).current;
+  const opacityAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (showSlider) {
       Animated.timing(slideAnimation, {
         toValue: 1,
+        duration: 200,
+        useNativeDriver: false,
+      }).start();
+      Animated.timing(opacityAnimation, {
+        toValue: 1,
         duration: 300,
+        delay: 100,
         useNativeDriver: false,
       }).start();
     } else {
       Animated.timing(slideAnimation, {
         toValue: 0,
-        duration: 300,
+        duration: 200,
+        useNativeDriver: false,
+      }).start(() => {
+        if (onClose) {
+          onClose();
+        }
+      });
+      Animated.timing(opacityAnimation, {
+        toValue: 0,
+        duration: 200,
         useNativeDriver: false,
       }).start(() => {
         if (onClose) {
@@ -47,7 +63,7 @@ export default function SlideAnimation({
     outputRange: [startHeight, height],
   });
 
-  const contentOpacity = slideAnimation.interpolate({
+  const contentOpacity = opacityAnimation.interpolate({
     inputRange: [0, 1],
     outputRange: [0, 1],
   });

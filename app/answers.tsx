@@ -5,7 +5,6 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import PlayerIcon from '@/components/PlayerIcon';
 import { TextField } from '@/components/TextField';
 import { addPoints } from '@/functions/addPoints';
-import { getAnswer } from '@/functions/getAnswer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
@@ -19,6 +18,8 @@ import data from '../public/content.json';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { shape } from '@/utils/getIconColorAndShape';
 import React from 'react';
+import { getStatus } from '@/utils/getStatus';
+import { getAnswers } from '@/utils/getAnswers';
 
 export interface PlayerAnswer {
   playerId: string;
@@ -45,12 +46,7 @@ export default function Answers() {
   };
 
   useEffect(() => {
-    const getAnswers = async () => {
-      if (documentId) {
-        getAnswer(documentId, setAnswers);
-      }
-    };
-    getAnswers();
+    getAnswers(documentId, setAnswers);
   }, [documentId]);
 
   useEffect(() => {
@@ -65,12 +61,7 @@ export default function Answers() {
         }
       }
     };
-    const getStatus = async () => {
-      if (documentId) {
-        await getOrUpdateStatus({ documentId, setStatus });
-      }
-    };
-    getStatus();
+    getStatus(documentId, setStatus);
     getAdmin();
   }, [documentId]);
 

@@ -76,6 +76,7 @@ export default function HomeScreen() {
           <ModalComponent
             onClose={handleBackdropPress}
             heading={labels.enterCodeOptions}
+            showCloseButton={true}
           >
             <ButtonComponent
               text='Scan QR code'

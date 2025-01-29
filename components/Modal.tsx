@@ -15,8 +15,14 @@ interface ModalProps {
   heading: string;
   children?: React.ReactNode;
   onClose?: () => void;
+  showCloseButton?: boolean;
 }
-export function ModalComponent({ heading, children, onClose }: ModalProps) {
+export function ModalComponent({
+  heading,
+  children,
+  onClose,
+  showCloseButton,
+}: ModalProps) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -41,17 +47,13 @@ export function ModalComponent({ heading, children, onClose }: ModalProps) {
       <Pressable style={styles.backdrop} onPress={handleClose}>
         <Animated.View style={[styles.centeredView, { opacity: fadeAnim }]}>
           <ThemedView style={styles.modalView}>
-            <ThemedView
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                width: '100%',
-              }}
-            >
-              <TouchableOpacity onPress={handleClose}>
-                <Ionicons name='close' size={24} color={Colors.light.icon} />
-              </TouchableOpacity>
-            </ThemedView>
+            {showCloseButton && (
+              <ThemedView style={styles.closeButton}>
+                <TouchableOpacity onPress={handleClose}>
+                  <Ionicons name='close' size={30} color={Colors.light.icon} />
+                </TouchableOpacity>
+              </ThemedView>
+            )}
             <ThemedText type='heading32' style={styles.heading}>
               {heading}
             </ThemedText>
@@ -76,11 +78,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalView: {
-    width: '80%',
-    borderRadius: 20,
+    position: 'relative',
+    width: '90%',
+    borderRadius: 30,
     backgroundColor: Colors.light.Card,
-    paddingVertical: 20,
-    paddingHorizontal: 10,
+    paddingVertical: 40,
+    paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -91,6 +94,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  closeButton: {
+    position: 'absolute',
+    right: 15,
+    top: 15,
   },
   heading: {
     fontSize: 18,

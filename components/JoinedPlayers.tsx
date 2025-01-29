@@ -9,6 +9,10 @@ import { RoundButton } from './RoundButton';
 import { removePlayer } from '@/functions/removePlayer';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { Player } from '@/app/code';
+import { ModalComponent } from './Modal';
+import { ButtonComponent } from './ButtonComponent';
+import { ThemedText } from './ThemedText';
+import data from '../public/content.json';
 
 interface JoinedPlayersProps {
   heading: string;
@@ -28,8 +32,17 @@ export function JoinedPlayers({
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
   const [listLength, setListLength] = useState<string>('');
+  const [showModal, setShowModal] = useState(false);
+
   const { data: gameRoom } = useGameRoom();
   const documentId = gameRoom?.id;
+
+  const labels = data.content.labels;
+  const buttons = data.content.buttons;
+
+  const handleBackdropPress = () => {
+    setShowModal(false);
+  };
 
   useEffect(() => {
     if (!players) return;
@@ -51,7 +64,7 @@ export function JoinedPlayers({
 
   const handleRemovePlayer = async (playerId: string) => {
     if (players && players.length <= 3) {
-      alert('You need at least 3 players to continue the game');
+      setShowModal(true);
     } else if (documentId) {
       await removePlayer(documentId, playerId);
     }
@@ -66,6 +79,8 @@ export function JoinedPlayers({
               key={index}
               value={player.playerName}
               points={showPoints ? player.totalPoints.toString() : ''}
+              showStatus={'hasAnswered' in player ? true : false}
+              status={'hasAnswered' in player ? player.hasAnswered : undefined}
             >
               <PlayerIcon
                 size={20}
@@ -81,6 +96,21 @@ export function JoinedPlayers({
             )}
           </View>
         ))}
+      {showModal && (
+        <ModalComponent
+          onClose={handleBackdropPress}
+          heading={labels.cantRemove.title}
+        >
+          <ThemedText type='default' style={{ padding: 15, width: '87%' }}>
+            {labels.cantRemove.description}
+          </ThemedText>
+          <ButtonComponent
+            text={buttons.ok}
+            variant='primary'
+            onSubmit={() => setShowModal(false)}
+          />
+        </ModalComponent>
+      )}
     </CardComponent>
   );
 }

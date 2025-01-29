@@ -48,7 +48,7 @@ export const Sizes = {
   SmallHeading: 24,
   LargeTextSize: 20,
   SmallTextSize: 16,
-  XSmallTextSize: 14,
+  XSmallTextSize: 12,
   Spacings: {
     xSmall: 5,
     small: 10,

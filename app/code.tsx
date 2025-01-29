@@ -30,6 +30,7 @@ export interface Player {
   playerId: string;
   totalPoints: number;
   playerIcon: PlayerIconType;
+  hasAnswered?: boolean;
 }
 
 export const loadGameCode = async () => {
@@ -124,7 +125,7 @@ export default function Code() {
           </ThemedView>
         )}
 
-        <CopyComponent gameCode={gameCode} />
+        <CopyComponent gameCode={gameCode} addPadding={true} />
         <View style={styles.cardContainer}>
           <JoinedPlayers
             players={players}

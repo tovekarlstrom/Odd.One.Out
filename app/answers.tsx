@@ -18,6 +18,7 @@ import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import data from '../public/content.json';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { shape } from '@/utils/getIconColorAndShape';
+import React from 'react';
 
 export interface PlayerAnswer {
   playerId: string;

@@ -88,6 +88,8 @@
       "newGame": "Create New Game"
     },
     "labels": {
+      "enterCodeOptions": "How do you want to join?",
+      "or": "or",
       "gameCountdown": "Game starts in ",
       "topThree": "Top 3 Players",
       "players": "Players",

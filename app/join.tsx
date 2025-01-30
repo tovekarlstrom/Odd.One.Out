@@ -20,7 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import data from '../public/content.json';
 import React from 'react';
-import { useSearchParams } from 'expo-router/build/hooks';
+import { useLocalSearchParams } from 'expo-router/build/hooks';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 
 export default function Join() {
@@ -29,11 +29,11 @@ export default function Join() {
   const content = data.content.joinGame;
   const button = data.content.buttons;
   const inputRef = useRef<TextInput | null>(null);
-  const searchParams = useSearchParams();
-  const QRcode = searchParams.get('code');
+  const searchParams = useLocalSearchParams();
+  const QRcode = searchParams.code;
 
   useEffect(() => {
-    if (QRcode) {
+    if (QRcode && typeof QRcode === 'string') {
       setGameCode(QRcode);
     }
   }, []);
@@ -69,8 +69,23 @@ export default function Join() {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
         style={styles.container}
       >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{ flex: 1, justifyContent: 'center' }}>
+        <TouchableWithoutFeedback
+          onPress={(event) => {
+            if (
+              event.target instanceof HTMLElement &&
+              event.target.tagName !== 'INPUT'
+            ) {
+              Keyboard.dismiss();
+            }
+          }}
+          accessible={false}
+        >
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+            }}
+          >
             <View style={styles.titleContainer}>
               <ThemedText type='heading32'>{content.title}</ThemedText>
               <ThemedText type='default'>{content.description}</ThemedText>

@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -10,7 +9,7 @@ import {
 } from 'react-native';
 
 import { ThemedText } from '@/components/ThemedText';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { Colors, Sizes } from '@/constants/Theme';
 import { CardComponent } from '@/components/CardComponent';
@@ -20,6 +19,8 @@ import { getGameRoom } from '@/functions/getGameRoom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import data from '../public/content.json';
+import React from 'react';
+import { useSearchParams } from 'expo-router/build/hooks';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 
 export default function Join() {
@@ -28,6 +29,14 @@ export default function Join() {
   const content = data.content.joinGame;
   const button = data.content.buttons;
   const inputRef = useRef<TextInput | null>(null);
+  const searchParams = useSearchParams();
+  const QRcode = searchParams.get('code');
+
+  useEffect(() => {
+    if (QRcode) {
+      setGameCode(QRcode);
+    }
+  }, []);
 
   const router = useRouter();
 
@@ -71,6 +80,7 @@ export default function Join() {
               <CardComponent heading={content.subHeading} fullWidth>
                 <InputComponent
                   placeholder='Code'
+                  editable={QRcode ? false : true}
                   onChangeText={(value) => {
                     setGameCode(value);
                   }}

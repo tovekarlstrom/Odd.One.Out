@@ -15,6 +15,9 @@ import { useGameRoom } from '@/hooks/useGameRoom';
 import { router } from 'expo-router';
 import data from '../public/content.json';
 import { getRandomString } from '@/utils/getRandomString';
+import QRCode from 'react-native-qrcode-svg';
+import React from 'react';
+import { Colors } from '@/constants/Theme';
 
 export type PlayerIconType = {
   color: string;
@@ -100,13 +103,24 @@ export default function Code() {
 
   return (
     <>
-      <ParallaxScrollView>
+      <ParallaxScrollView paddingTop={50}>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type='heading32'>
             {getRandomString(content.title)}
           </ThemedText>
           <ThemedText type='default'>{content.description}</ThemedText>
         </ThemedView>
+        {gameCode && (
+          <ThemedView style={{ alignItems: 'center' }}>
+            <QRCode
+              value={gameCode}
+              size={150}
+              backgroundColor={Colors.light.background}
+              color={Colors.light.text}
+            />
+          </ThemedView>
+        )}
+
         <CopyComponent gameCode={gameCode} />
         <View style={styles.cardContainer}>
           <JoinedPlayers

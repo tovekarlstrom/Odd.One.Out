@@ -19,7 +19,7 @@ import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import data from '../public/content.json';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { shape } from '@/utils/getIconColorAndShape';
-import React from 'react';
+import { PointsConfimationModal } from '@/components/PointsConfimationModal';
 
 export interface PlayerAnswer {
   playerId: string;
@@ -31,7 +31,8 @@ export default function Answers() {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [status, setStatus] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
-  const playerGetPoints: string[] = [];
+  const [showModal, setShowModal] = useState(false);
+  const [playerGetPoints, setPlayerGetPoints] = useState<string[]>([]);
   const { data: gameRoom } = useGameRoom();
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
@@ -81,25 +82,29 @@ export default function Answers() {
         setIsLoading(false);
       }
     }
-    if (status === 'idle') {
+    if (status === 'idle' && !isAdmin) {
       router.push('/result');
     }
   }, [status, answers, players]);
 
   const handleSelectedAnswers = (playerId: string) => {
-    if (playerGetPoints.includes(playerId)) {
-      const index = playerGetPoints.indexOf(playerId);
-      playerGetPoints.splice(index, 1);
-      return;
-    } else {
-      playerGetPoints.push(playerId);
-    }
+    setPlayerGetPoints((prevPoints) => {
+      if (prevPoints.includes(playerId)) {
+        console.log(`Removing ${playerId} from playerGetPoints`);
+        return prevPoints.filter((id) => id !== playerId); // Remove player
+      } else {
+        console.log(`Adding ${playerId} to playerGetPoints`);
+        return [...prevPoints, playerId]; // Add player
+      }
+    });
   };
 
   const enterPoints = async () => {
     if (documentId) {
+      console.log('Adding points to players', playerGetPoints);
       await addPoints(documentId, playerGetPoints);
       await getOrUpdateStatus({ documentId, changeStatus: 'idle' });
+      router.push('/result');
     }
   };
 
@@ -155,14 +160,20 @@ export default function Answers() {
             )}
           </>
         )}
+        {showModal && (
+          <PointsConfimationModal
+            playerGetPoints={playerGetPoints}
+            onClose={() => setShowModal(false)}
+            onConfirm={enterPoints}
+          />
+        )}
       </ParallaxScrollView>
       {isAdmin && !isLoading && (
         <GradientContainer>
           <ButtonComponent
-            onSubmit={enterPoints}
+            onSubmit={() => setShowModal(true)}
             text={button.enterPoints}
             variant='primary'
-            route='/result'
           />
         </GradientContainer>
       )}

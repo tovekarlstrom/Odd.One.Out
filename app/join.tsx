@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import data from '../public/content.json';
 import React from 'react';
-import { useSearchParams } from 'expo-router/build/hooks';
+import { useLocalSearchParams } from 'expo-router/build/hooks';
 
 export default function Join() {
   const [gameCode, setGameCode] = useState('');
@@ -20,12 +20,14 @@ export default function Join() {
   const content = data.content.joinGame;
   const button = data.content.buttons;
   const inputRef = useRef<TextInput | null>(null);
-  const searchParams = useSearchParams();
-  const QRcode = searchParams.get('code');
+  const searchParams = useLocalSearchParams();
+  const QRcode = searchParams.code;
 
   useEffect(() => {
     if (QRcode) {
-      setGameCode(QRcode);
+      if (typeof QRcode === 'string') {
+        setGameCode(QRcode);
+      }
     }
   }, []);
 

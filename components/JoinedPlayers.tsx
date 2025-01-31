@@ -101,7 +101,7 @@ export function JoinedPlayers({
           onClose={handleBackdropPress}
           heading={labels.cantRemove.title}
         >
-          <ThemedText type='default' style={{ padding: 15, width: '87%' }}>
+          <ThemedText type='default' style={{ padding: 15 }}>
             {labels.cantRemove.description}
           </ThemedText>
           <ButtonComponent

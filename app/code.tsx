@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { JoinedPlayers } from '@/components/JoinedPlayers';
 import { GradientContainer } from '@/components/GradientContainer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getGameRoom } from '@/functions/getGameRoom';
 import { getPlayers } from '@/functions/getPlayers';
 import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
@@ -18,6 +17,7 @@ import { getRandomString } from '@/utils/getRandomString';
 import QRCode from 'react-native-qrcode-svg';
 import React from 'react';
 import { Colors } from '@/constants/Theme';
+import { getGameCode } from '@/utils/getGameCode';
 
 export type PlayerIconType = {
   color: string;
@@ -33,22 +33,6 @@ export interface Player {
   hasAnswered?: boolean;
 }
 
-export const loadGameCode = async () => {
-  try {
-    const roomId = await AsyncStorage.getItem('roomId');
-
-    if (!roomId) {
-      console.error('No roomId in storage');
-      return null;
-    }
-
-    return roomId;
-  } catch (e) {
-    console.error('Error loading from storage', e);
-    return null;
-  }
-};
-
 export default function Code() {
   const [gameCode, setGameCode] = useState('');
   const [players, setPlayers] = useState<Player[]>([]);
@@ -63,14 +47,10 @@ export default function Code() {
   );
 
   useEffect(() => {
-    const fetchGameCode = async () => {
-      const roomCode = await loadGameCode();
-      if (roomCode) {
-        setGameCode(roomCode);
-      }
-    };
-    fetchGameCode();
-  }, []);
+    if (documentId) {
+      getGameCode(setGameCode);
+    }
+  }, [documentId]);
 
   useEffect(() => {
     if (gameCode) {

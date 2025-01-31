@@ -138,7 +138,8 @@
       "cantRemove": {
         "title": "You can't remove player.",
         "description": "There needs to be at least three players in the game to continue."
-      }
+      },
+      "statusText": "The status on each player shows if they have answered the current question or not."
     }
   }
 }

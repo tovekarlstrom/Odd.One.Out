@@ -17,9 +17,9 @@ import PlayerIcon from '@/components/PlayerIcon';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { getRandomString } from '@/utils/getRandomString';
 import { useQuestionsLength } from '@/hooks/useQuestionsLength';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [status, setStatus] = useState<string>();
   const [randomString, setRandomString] = useState<string>('');
   const [countDown, setCountDown] = useState(5);
@@ -31,6 +31,7 @@ export default function RoundResult() {
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
   const { data: questionsLength } = useQuestionsLength();
+  const { data: isAdmin } = useIsAdmin();
 
   const labels = data.content.labels;
   const button = data.content.buttons;
@@ -41,15 +42,6 @@ export default function RoundResult() {
     mode === 'majority' ? labels.score.majority : labels.score.minority;
 
   useEffect(() => {
-    const getAdmin = async () => {
-      const admin = await AsyncStorage.getItem('isAdmin');
-      if (admin) {
-        const parsedAdmin = JSON.parse(admin);
-        if (parsedAdmin === true) {
-          setIsAdmin(parsedAdmin);
-        }
-      }
-    };
     const getIndex = async () => {
       if (documentId) {
         await updateIndex(documentId, setIndex);
@@ -74,7 +66,6 @@ export default function RoundResult() {
       }
     };
 
-    getAdmin();
     getStatus();
     getIndex();
   }, [documentId]);
@@ -181,7 +172,7 @@ export default function RoundResult() {
           </ThemedText>
         ) : (
           <>
-            {index && index === questionsLength - 1 ? (
+            {index !== undefined && index === questionsLength - 1 ? (
               <ButtonComponent
                 variant='primary'
                 text={button.endGame}

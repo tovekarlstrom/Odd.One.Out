@@ -8,13 +8,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { JoinedPlayers } from './JoinedPlayers';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import { useEffect, useState } from 'react';
-import { loadGameCode, Player } from '@/app/code';
+import { Player } from '@/app/code';
 import { CopyComponent } from './CopyComponent';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { getStatus } from '@/utils/getStatus';
 import { getAnswers } from '@/utils/getAnswers';
 import { PlayerAnswer } from '@/app/answers';
-import { ButtonComponent } from './ButtonComponent';
+import Animated, { useAnimatedRef } from 'react-native-reanimated';
+import { getGameCode } from '@/utils/getGameCode';
 
 export default function Settings() {
   const [gameCode, setGameCode] = useState<string>('');
@@ -23,26 +24,21 @@ export default function Settings() {
   const [status, setStatus] = useState<string>();
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [updatedPlayers, setUpdatedPlayers] = useState<Player[]>([]);
+  const [showText, setShowText] = useState<boolean>(false);
 
   const players = useSortedPlayers();
   const { data: gameRoom } = useGameRoom();
   const labels = data.content.labels;
-  const documentId = gameRoom?.id;
+  const documentId = gameRoom?.id || undefined;
+  const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
   useEffect(() => {
-    getStatus(documentId, setStatus);
-    getAnswers(documentId, setAnswers);
+    if (documentId) {
+      getStatus(documentId, setStatus);
+      getAnswers(documentId, setAnswers);
+      getGameCode(setGameCode);
+    }
   }, [documentId]);
-
-  useEffect(() => {
-    const fetchGameCode = async () => {
-      const roomCode = await loadGameCode();
-      if (roomCode) {
-        setGameCode(roomCode);
-      }
-    };
-    fetchGameCode();
-  }, []);
 
   useEffect(() => {
     if (status === 'active') {
@@ -53,8 +49,10 @@ export default function Settings() {
         ),
       }));
       setUpdatedPlayers(newPlayers);
+      setShowText(true);
     } else {
       setUpdatedPlayers(players);
+      setShowText(false);
     }
   }, [status, players, answers]);
 
@@ -63,6 +61,24 @@ export default function Settings() {
       setOpenSettings(false);
     }
   }, [renderSettings]);
+
+  // const handleQuitGame = async () => {
+  //   if (documentId) {
+  //     await deleteGameRoom(documentId);
+  //     try {
+  //       await AsyncStorage.clear();
+  //       console.log('AsyncStorage cleared successfully.');
+  //     } catch (e) {
+  //       console.error('Failed to clear AsyncStorage:', e);
+  //     }
+
+  //     refetch();
+  //     setOpenSettings(false);
+  //     setRenderSettings(false);
+  //   } else {
+  //     console.error('No documentId found');
+  //   }
+  // };
 
   return (
     <>
@@ -77,7 +93,7 @@ export default function Settings() {
       </Pressable>
       {renderSettings && (
         <SlideAnimation
-          height={900}
+          height={840}
           showSlider={openSettings}
           style={styles.settingsBoxOpen}
           animateOpacity={true}
@@ -96,26 +112,47 @@ export default function Settings() {
                 color={Colors.light.text}
               />
             </Pressable>
-            <ThemedView style={styles.settingsContainer}>
-              <ThemedText type='heading32'>{labels.settings}</ThemedText>
-              <ThemedView style={styles.cardWrapper}>
-                <ThemedView style={styles.textBox}>
-                  <ThemedText type='defaultLarge'>{labels.gameRoom}</ThemedText>
-                  <CopyComponent gameCode={gameCode} />
+            <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
+              <ThemedView style={styles.settingsContainer}>
+                <ThemedText type='heading32'>{labels.settings}</ThemedText>
+                <ThemedView style={styles.cardWrapper}>
+                  <ThemedView style={styles.textBox}>
+                    <ThemedText type='defaultLarge'>
+                      {labels.gameRoom}
+                    </ThemedText>
+                    <CopyComponent gameCode={gameCode} />
+                  </ThemedView>
+                  <View style={styles.cardContainer}>
+                    {showText && (
+                      <ThemedView style={styles.smallTextBox}>
+                        <Ionicons
+                          name={'information-circle-outline'}
+                          size={20}
+                          color={Colors.light.text}
+                        />
+                        <ThemedText type='defaultSmall'>
+                          {labels.statusText}
+                        </ThemedText>
+                      </ThemedView>
+                    )}
+                    <JoinedPlayers
+                      players={updatedPlayers}
+                      handlePlayers={true}
+                      heading={labels.handlePlayers}
+                      showListLength={true}
+                    />
+                  </View>
                 </ThemedView>
-                <View style={styles.cardContainer}>
-                  <JoinedPlayers
-                    players={updatedPlayers}
-                    handlePlayers={true}
-                    heading={labels.handlePlayers}
-                    showListLength={true}
-                  />
-                </View>
               </ThemedView>
-            </ThemedView>
-            <ThemedView style={styles.button}>
-              <ButtonComponent text='Quit game' variant='primary' />
-            </ThemedView>
+            </Animated.ScrollView>
+            {/* <GradientContainer>
+              <ButtonComponent
+                text='Quit game'
+                variant='primary'
+                // route='/'
+                onSubmit={handleQuitGame}
+              />
+            </GradientContainer> */}
           </ThemedView>
         </SlideAnimation>
       )}
@@ -153,6 +190,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 40,
     right: 12,
+    zIndex: 100,
   },
   settingsContainer: {
     padding: 20,
@@ -173,6 +211,15 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderBottomWidth: 1,
     borderBottomColor: Colors.light.text,
+  },
+  smallTextBox: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    gap: Sizes.Spacings.xSmall,
+    paddingVertical: Sizes.Spacings.small,
+    marginLeft: Sizes.Spacings.large,
+    width: '80%',
   },
   cardWrapper: {
     paddingTop: Sizes.Spacings.xLarge,

@@ -4,9 +4,8 @@ import Animated, { useAnimatedRef } from 'react-native-reanimated';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors, Sizes } from '@/constants/Theme';
 import LogoIcon from './LogoIcon';
-import { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Settings from './Settings';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 
 export default function ParallaxScrollView({
   children,
@@ -17,23 +16,9 @@ export default function ParallaxScrollView({
   isHomePage?: boolean;
   paddingTop?: number;
 }) {
-  const [isAdmin, setIsAdmin] = useState(false);
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
-  useEffect(() => {
-    const getAdmin = async () => {
-      const admin = await AsyncStorage.getItem('isAdmin');
-      if (admin) {
-        const parsedAdmin = JSON.parse(admin);
-        if (parsedAdmin === true) {
-          setIsAdmin(parsedAdmin);
-        } else {
-          setIsAdmin(false);
-        }
-      }
-    };
-    getAdmin();
-  }, []);
+  const { data: isAdmin } = useIsAdmin();
 
   return (
     <ThemedView style={isHomePage ? styles.homePage : styles.container}>

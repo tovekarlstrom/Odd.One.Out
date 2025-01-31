@@ -90,18 +90,15 @@ export default function Answers() {
   const handleSelectedAnswers = (playerId: string) => {
     setPlayerGetPoints((prevPoints) => {
       if (prevPoints.includes(playerId)) {
-        console.log(`Removing ${playerId} from playerGetPoints`);
-        return prevPoints.filter((id) => id !== playerId); // Remove player
+        return prevPoints.filter((id) => id !== playerId);
       } else {
-        console.log(`Adding ${playerId} to playerGetPoints`);
-        return [...prevPoints, playerId]; // Add player
+        return [...prevPoints, playerId];
       }
     });
   };
 
   const enterPoints = async () => {
     if (documentId) {
-      console.log('Adding points to players', playerGetPoints);
       await addPoints(documentId, playerGetPoints);
       await getOrUpdateStatus({ documentId, changeStatus: 'idle' });
       router.push('/result');

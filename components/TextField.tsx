@@ -3,6 +3,7 @@ import { Colors, Sizes } from '@/constants/Theme';
 import { ThemedText } from './ThemedText';
 import { ThemedView } from './ThemedView';
 import { useState } from 'react';
+import data from '../public/content.json';
 
 interface TextFieldProps {
   value: string;
@@ -27,6 +28,8 @@ export function TextField({
 }: TextFieldProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const Wrapper: React.ElementType = isClickable ? Pressable : View;
+
+  const labels = data.content.labels;
 
   const handlePress = () => {
     setIsClicked(!isClicked);
@@ -70,7 +73,7 @@ export function TextField({
         )}
         {showStatus && (
           <ThemedText style={styles.status} type='defaultSmall'>
-            {status === true ? 'Anwsered' : 'Waiting'}
+            {status === true ? labels.answered : labels.waiting}
           </ThemedText>
         )}
       </View>

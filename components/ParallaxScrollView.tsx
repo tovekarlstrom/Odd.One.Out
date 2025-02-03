@@ -21,7 +21,14 @@ export default function ParallaxScrollView({
   const { data: isAdmin } = useIsAdmin();
 
   return (
-    <ThemedView style={isHomePage ? styles.homePage : styles.container}>
+    <ThemedView
+      style={[
+        styles.container,
+        {
+          backgroundColor: isHomePage ? 'transparent' : Colors.light.background,
+        },
+      ]}
+    >
       <LogoIcon style={styles.header} size={60} />
       {isAdmin && <Settings />}
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
@@ -43,11 +50,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.light.background,
     paddingTop: 80,
-  },
-  homePage: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    paddingTop: 80,
+    width: '100%',
   },
   header: {
     position: 'absolute',

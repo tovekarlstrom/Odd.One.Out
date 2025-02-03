@@ -92,11 +92,15 @@
       "enterCodeOptions": "How do you want to join?",
       "or": "or",
       "gameCountdown": "Game starts in ",
-      "topThree": "Top 3 Players",
+      "topPlayers": "Top players",
+      "topPlayer": "Top player",
+      "noPoints": "No player has points yet..",
       "settings": "Settings",
       "gameRoom": "Game Room",
       "handlePlayers": "Handle Players",
       "players": "Players",
+      "answered": "Answered",
+      "waiting": "Waiting",
       "score": {
         "majority": {
           "right": [

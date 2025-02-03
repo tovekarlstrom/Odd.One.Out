@@ -33,6 +33,7 @@ export function JoinedPlayers({
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
   const [listLength, setListLength] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
+  const [topHeading, setTopHeading] = useState<string>('');
 
   const { data: gameRoom } = useGameRoom();
   const documentId = gameRoom?.id;
@@ -47,8 +48,13 @@ export function JoinedPlayers({
   useEffect(() => {
     if (!players) return;
 
+    const playersWithPoints = players.filter(
+      (player) => player.totalPoints > 0,
+    );
+
     if (topPlayers) {
-      setPlayerList(players.slice(0, 3));
+      console.log(players);
+      setPlayerList(playersWithPoints.slice(0, 3));
     } else {
       setPlayerList(players);
     }
@@ -58,9 +64,20 @@ export function JoinedPlayers({
     if (playerList && playerList.length > 0) {
       setListLength(`(${playerList.length})`);
     }
-  }, [playerList]);
+    if (topPlayers) {
+      if (playerList) {
+        if (playerList.length === 1) {
+          setTopHeading(labels.topPlayer);
+        } else if (playerList.length > 1) {
+          setTopHeading(heading);
+        }
+      } else {
+        setTopHeading(labels.noPoints);
+      }
+    }
+  }, [playerList, topPlayers]);
 
-  const topHeading = showListLength ? `${heading} ${listLength}` : heading;
+  const defaultHeading = showListLength ? `${heading} ${listLength}` : heading;
 
   const handleRemovePlayer = async (playerId: string) => {
     if (players && players.length <= 3) {
@@ -71,7 +88,10 @@ export function JoinedPlayers({
   };
 
   return (
-    <CardComponent heading={topHeading} fullWidth={showPoints || handlePlayers}>
+    <CardComponent
+      heading={topHeading || defaultHeading}
+      fullWidth={showPoints || handlePlayers}
+    >
       {playerList &&
         playerList.map((player, index) => (
           <View style={styles.playerContainer} key={index}>

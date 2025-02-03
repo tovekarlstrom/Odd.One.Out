@@ -21,8 +21,9 @@
     },
     "createGame": {
       "title": "Enter questions to challenge the crowd.",
-      "description": "",
-      "subHeading": "Added Questions"
+      "description": "Formulate your questions in a way that there is no right or wrong answer, all questions should be objective.",
+      "subHeading": "Added Questions",
+      "addNewQuestionsInfo": "Struggling with inspiration? Add five random questions to get started!"
     },
     "code": {
       "title": [

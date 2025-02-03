@@ -25,7 +25,7 @@ export function AddedQuestions({ heading }: { heading: string }) {
 
 const styled = StyleSheet.create({
   outerConteiner: {
-    marginTop: 45,
+    marginTop: 40,
     marginBottom: 80,
   },
   container: {

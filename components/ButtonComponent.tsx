@@ -1,11 +1,11 @@
-import { Colors, Sizes } from '@/constants/Theme';
+import { Colors } from '@/constants/Theme';
 import { StyleSheet, Pressable } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { Href, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-
-type ButtonVariant = 'primary' | 'secondary';
+import * as Haptics from 'expo-haptics';
+type ButtonVariant = 'primary' | 'secondary' | 'blue';
 
 interface ButtonComponentProps {
   text: string;
@@ -23,12 +23,22 @@ export function ButtonComponent({
 }: ButtonComponentProps) {
   const [disable, setDisable] = useState(false);
   const router = useRouter();
-  const buttonColor =
-    variant === 'primary'
-      ? Colors.light.primaryButton
-      : Colors.light.secondaryButton;
+
+  const buttonColor = (() => {
+    switch (variant) {
+      case 'primary':
+        return Colors.light.primaryButton;
+      case 'secondary':
+        return Colors.light.secondaryButton;
+      case 'blue':
+        return Colors.light.contrastBlue;
+      default:
+        return Colors.light.primaryButton;
+    }
+  })();
 
   const handlePress = async () => {
+    Haptics.selectionAsync();
     if (onSubmit) {
       setDisable(true);
       try {
@@ -45,10 +55,24 @@ export function ButtonComponent({
   return (
     <Pressable
       disabled={disable}
-      style={[styles.button, { backgroundColor: buttonColor }]}
+      style={[
+        styles.button,
+        {
+          backgroundColor: buttonColor,
+        },
+      ]}
       onPress={handlePress}
     >
-      <ThemedText style={styles.buttonText} type='defaultSemiBold'>
+      <ThemedText
+        style={[
+          styles.buttonText,
+          {
+            color:
+              variant === 'blue' ? Colors.light.addButton : Colors.light.text,
+          },
+        ]}
+        type='defaultSemiBold'
+      >
         {text}
       </ThemedText>
       {icon && <Ionicons name={icon} size={24} color={Colors.light.text} />}
@@ -63,7 +87,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 10,
     margin: 'auto',
-    marginTop: Sizes.Spacings.medium,
     borderRadius: 80,
     width: 285,
     height: 55,

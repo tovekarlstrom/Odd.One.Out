@@ -88,7 +88,11 @@ export default function Join() {
               value={playerName}
               ref={inputRef}
               returnKeyType='join'
-              onSubmitEditing={joinGame}
+              onSubmitEditing={() => {
+                if (checkPlayerName) {
+                  joinGame();
+                }
+              }}
               checks={checkPlayerName}
             />
             {!checkPlayerName && playerName.length > 0 && (

@@ -13,14 +13,13 @@ export const PointsConfimationModal = ({
   onClose: () => void;
   onConfirm: () => void;
 }) => {
-  const lables = data?.content?.labels || {};
+  const labels = data?.content?.labels || {};
   const descriptions = data?.content?.descriptions || {};
   const buttons = data?.content?.buttons || {};
 
-  console.log('getPlayerPoints', playerGetPoints);
   if (playerGetPoints.length === 1) {
     return (
-      <ModalComponent onClose={onClose} heading={lables.canNotProceed}>
+      <ModalComponent onClose={onClose} heading={labels.canNotProceed}>
         <ThemedText type='default' style={{ marginBottom: 20 }}>
           {descriptions.wrongPoints}
         </ThemedText>
@@ -34,7 +33,7 @@ export const PointsConfimationModal = ({
   }
 
   return (
-    <ModalComponent onClose={onClose} heading={lables.safetyCheck}>
+    <ModalComponent onClose={onClose} heading={labels.safetyCheck}>
       <ThemedText
         type='default'
         style={{ marginBottom: 20, marginHorizontal: 5 }}

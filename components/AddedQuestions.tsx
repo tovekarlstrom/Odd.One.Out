@@ -9,7 +9,7 @@ export function AddedQuestions({ heading }: { heading: string }) {
 
   return (
     <View style={styled.outerConteiner}>
-      <CardComponent heading={heading} fullWidth>
+      <CardComponent heading={`${heading} (${questions.length})`} fullWidth>
         <View style={styled.container}>
           {questions
             .slice()

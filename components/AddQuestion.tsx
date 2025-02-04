@@ -10,10 +10,14 @@ import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
 import { Ionicons } from '@expo/vector-icons';
 import { content } from '../public/content.json';
+import { majority } from '../public/statements.json';
+import { ModalComponent } from './Modal';
 
 export function AddQuestion() {
   const [newQuestion, setNewQuestion] = useState<string>('');
   const { addQuestion } = useQuestions();
+  const { questions } = useQuestions();
+  const [showModal, setShowModal] = useState(false);
 
   const handleNewQuestion = (text: string) => {
     setNewQuestion(text);
@@ -30,6 +34,18 @@ export function AddQuestion() {
 
     addQuestion(newQuestion);
     setNewQuestion('');
+  };
+
+  const handleRandomStatements = async () => {
+    const uniqueStatement = majority.filter(
+      (statement) => !questions.includes(statement),
+    );
+    if (uniqueStatement.length < 1) {
+      setShowModal(true);
+      return;
+    }
+    const randomIndex = Math.floor(Math.random() * uniqueStatement.length);
+    addQuestion(uniqueStatement[randomIndex]);
   };
 
   return (
@@ -65,10 +81,30 @@ export function AddQuestion() {
         </ThemedText>
         <RoundButton
           isAdding={true}
-          onPress={addNewQuestion}
+          onPress={handleRandomStatements}
           style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         />
       </ThemedView>
+      {showModal && (
+        <ModalComponent
+          heading='All statements added'
+          onClose={() => {
+            setShowModal(false);
+          }}
+        >
+          <ThemedText type='defaultSmall' style={{ marginBottom: 20 }}>
+            All statements from the database have been added. Try adding your
+            own!
+          </ThemedText>
+          <ButtonComponent
+            text='Close'
+            variant='primary'
+            onSubmit={() => {
+              setShowModal(false);
+            }}
+          />
+        </ModalComponent>
+      )}
     </View>
   );
 }

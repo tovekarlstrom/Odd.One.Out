@@ -1,5 +1,5 @@
 import { Colors, Sizes } from '@/constants/Theme';
-import { StyleSheet, Pressable } from 'react-native';
+import { StyleSheet, Pressable, ViewStyle } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { Href, useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -13,6 +13,8 @@ interface ButtonComponentProps {
   route?: Href;
   icon?: keyof typeof Ionicons.glyphMap;
   onSubmit?: () => Promise<void> | void;
+  buttonDisabled?: boolean;
+  style?: ViewStyle;
 }
 export function ButtonComponent({
   variant,
@@ -20,6 +22,8 @@ export function ButtonComponent({
   route,
   icon,
   onSubmit,
+  buttonDisabled,
+  style,
 }: ButtonComponentProps) {
   const [disable, setDisable] = useState(false);
   const router = useRouter();
@@ -44,8 +48,8 @@ export function ButtonComponent({
 
   return (
     <Pressable
-      disabled={disable}
-      style={[styles.button, { backgroundColor: buttonColor }]}
+      disabled={buttonDisabled || disable}
+      style={[styles.button, { backgroundColor: buttonColor }, style]}
       onPress={handlePress}
     >
       <ThemedText style={styles.buttonText} type='defaultSemiBold'>

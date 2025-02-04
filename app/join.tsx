@@ -21,6 +21,8 @@ import { useRouter } from 'expo-router';
 import data from '../public/content.json';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
+import { Ionicons } from '@expo/vector-icons';
+import { ThemedView } from '@/components/ThemedView';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 
 export default function Join() {
@@ -31,6 +33,7 @@ export default function Join() {
   const inputRef = useRef<TextInput | null>(null);
   const searchParams = useLocalSearchParams();
   const QRcode = searchParams.code;
+  const [checkPlayerName, setCheckPlayerName] = useState(false);
 
   useEffect(() => {
     if (QRcode && typeof QRcode === 'string') {
@@ -43,9 +46,7 @@ export default function Join() {
   const joinGame = async () => {
     const gameRoom = await getGameRoom(gameCode);
 
-    if (playerName.length < 3) {
-      alert('Your player name has to contain at least three characters');
-    } else if (gameRoom?.id) {
+    if (gameRoom?.id) {
       await AsyncStorage.setItem('gameRoom', JSON.stringify(gameRoom));
       await addPlayers(gameRoom.id, playerName);
       await AsyncStorage.setItem('isAdmin', 'false');
@@ -102,21 +103,52 @@ export default function Join() {
                   value={gameCode}
                   returnKeyType='next'
                   onSubmitEditing={focusOnNextInput}
+                  checks={gameCode.length === 9}
                 />
                 <InputComponent
                   placeholder='Name'
                   onChangeText={(value) => {
                     setPlayerName(value);
+                    if (value.length >= 2 && value.length <= 10) {
+                      setCheckPlayerName(true);
+                    } else {
+                      setCheckPlayerName(false);
+                    }
                   }}
                   value={playerName}
                   ref={inputRef}
                   returnKeyType='join'
-                  onSubmitEditing={joinGame}
+                  onSubmitEditing={() => {
+                    if (checkPlayerName) {
+                      joinGame();
+                    }
+                  }}
+                  checks={checkPlayerName}
                 />
+                {!checkPlayerName && playerName.length > 0 && (
+                  <ThemedView
+                    style={{
+                      paddingLeft: 10,
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      gap: 8,
+                      position: 'absolute',
+                      bottom: 85,
+                    }}
+                  >
+                    <Ionicons name='alert-circle-outline' size={20} />
+                    <ThemedText type='default' style={{}}>
+                      {playerName.length <= 2 && 'Min 2 characters'}
+                      {playerName.length >= 10 && 'Max 10 characters'}
+                    </ThemedText>
+                  </ThemedView>
+                )}
                 <ButtonComponent
+                  style={styles.button}
                   variant='primary'
                   text={button.joinGame}
                   onSubmit={joinGame}
+                  buttonDisabled={!checkPlayerName}
                 />
               </CardComponent>
             </View>
@@ -149,5 +181,8 @@ const styles = StyleSheet.create({
   cardContainer: {
     marginTop: 35,
     marginBottom: 70,
+  },
+  button: {
+    marginTop: 30,
   },
 });

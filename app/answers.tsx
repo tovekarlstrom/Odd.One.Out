@@ -1,3 +1,4 @@
+import React from 'react';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { CardComponent } from '@/components/CardComponent';
 import { GradientContainer } from '@/components/GradientContainer';
@@ -18,7 +19,6 @@ import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import data from '../public/content.json';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { shape } from '@/utils/getIconColorAndShape';
-import React from 'react';
 
 export interface PlayerAnswer {
   playerId: string;
@@ -86,7 +86,13 @@ export default function Answers() {
   }, [status, answers, players]);
 
   const handleSelectedAnswers = (playerId: string) => {
-    playerGetPoints.push(playerId);
+    if (playerGetPoints.includes(playerId)) {
+      const index = playerGetPoints.indexOf(playerId);
+      playerGetPoints.splice(index, 1);
+      return;
+    } else {
+      playerGetPoints.push(playerId);
+    }
   };
 
   const enterPoints = async () => {

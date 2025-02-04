@@ -1,51 +1,68 @@
-# Welcome to your Expo app 👋
+# 🎲 Odd One Out
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**A fun and engaging multiplayer game where players find the odd one out!**
 
-## Get started
+## 📌 About
 
-1. Install dependencies
+_Odd One Out_ is a React Native-powered game inspired by the concept of group dynamics. In each round, players are presented with a question or statement, and must choose the answer they believe most of the group would answer. The key to scoring points is to match the majority's response — thinking like the crowd is your best strategy. Quick reactions and a good understanding of the group’s mindset will lead to victory!
 
-   ```bash
-   npm install
-   ```
+## 🚀 Features
 
-2. Start the app
+✔ **Multiplayer game** – Compete with friends in real time
+✔ **Engaging UI/UX** – Smooth and interactive interface
+✔ **Custom game rooms** – Host or join rooms with a unique game code or QR code
+✔ **Live updates** – Reacts dynamically to player interactions
+✔ **Cross-platform** – Soon available on iOS and Android
 
-   ```bash
-    npx expo start
-   ```
+## 🛠️ Tech Stack
 
-In the output, you'll find options to open the app in a
+- **Frontend:** React Native (Expo)
+- **State Management:** React Context / React Query
+- **Backend:** Firebase (Firestore)
+- **Realtime Updates:** Firestore listeners
+- **Storage:** AsyncStorage for local persistence
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📥 Installation & Setup
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+To run _Odd One Out_ locally, follow these steps:
 
-## Get a fresh project
+### 1️⃣ Clone the repository:
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```sh
+git clone https://github.com/yourusername/odd-one-out.git
+cd odd-one-out
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2️⃣ Install dependencies
 
-## Learn more
+```sh
+npm install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+# or
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```sh
+yarn install
+```
 
-## Join the community
+### 3️⃣ Start the Expo development server
 
-Join our community of developers creating universal apps.
+```sh
+npm start
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
-# Odd.One.Out
+# or
+
+```sh
+yarn start
+```
+
+### 4️⃣ Run on a device/emulator
+
+Scan the QR code in Expo Go (for physical devices)
+Use an emulator/simulator for testing
+
+## 📌 Contributors
+
+Tove Karlström
+Klara Bryntesson

@@ -85,7 +85,10 @@
       "enterPoints": "Enter Points",
       "nextRound": "Next Round",
       "endGame": "End Game",
-      "newGame": "Create New Game"
+      "newGame": "Create New Game",
+      "yes": "Yes",
+      "no": "No",
+      "ok": "Ok"
     },
     "labels": {
       "enterCodeOptions": "How do you want to join?",
@@ -133,7 +136,13 @@
       "pointsAdded": "points added to your score",
       "answersAdmin": "Mark the right answers",
       "answersPlayer": "The answers are in!",
-      "waitForAdmin": "Waiting for admin to enter points.."
+      "waitForAdmin": "Waiting for admin to enter points..",
+      "canNotProceed": "Can’t proceed!",
+      "safetyCheck": "Are You Sure?"
+    },
+    "descriptions": {
+      "wrongPoints": "Points can only be awarded when at least two players have chosen the same answer.",
+      "safetyCheckPoints": " Make sure you’ve assigned points based on the players who provided the same answer before moving forward."
     }
   }
 }

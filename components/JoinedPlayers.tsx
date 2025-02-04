@@ -10,8 +10,6 @@ import { removePlayer } from '@/functions/removePlayer';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { Player } from '@/app/code';
 import { ModalComponent } from './Modal';
-import { ButtonComponent } from './ButtonComponent';
-import { ThemedText } from './ThemedText';
 import data from '../public/content.json';
 
 interface JoinedPlayersProps {
@@ -32,18 +30,15 @@ export function JoinedPlayers({
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
   const [listLength, setListLength] = useState<string>('');
-  const [showModal, setShowModal] = useState(false);
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
   const [topHeading, setTopHeading] = useState<string>('');
+  const [clickedPlayer, setClickedPlayer] = useState<string>('');
 
   const { data: gameRoom } = useGameRoom();
   const documentId = gameRoom?.id;
 
   const labels = data.content.labels;
-  const buttons = data.content.buttons;
-
-  const handleBackdropPress = () => {
-    setShowModal(false);
-  };
 
   useEffect(() => {
     if (!players) return;
@@ -53,7 +48,6 @@ export function JoinedPlayers({
     );
 
     if (topPlayers) {
-      console.log(players);
       setPlayerList(playersWithPoints.slice(0, 3));
     } else {
       setPlayerList(players);
@@ -80,10 +74,17 @@ export function JoinedPlayers({
   const defaultHeading = showListLength ? `${heading} ${listLength}` : heading;
 
   const handleRemovePlayer = async (playerId: string) => {
-    if (players && players.length <= 3) {
-      setShowModal(true);
-    } else if (documentId) {
+    if (documentId) {
       await removePlayer(documentId, playerId);
+    }
+  };
+
+  const handleModals = (player: string) => {
+    if (players && players.length <= 3) {
+      setShowWarningModal(true);
+    } else {
+      setClickedPlayer(player);
+      setShowQuestionModal(true);
     }
   };
 
@@ -110,26 +111,31 @@ export function JoinedPlayers({
             </TextField>
             {handlePlayers && (
               <RoundButton
-                onPress={() => handleRemovePlayer(player.playerId)}
+                disabled={player.isAdmin === true}
+                onPress={() => handleModals(player.playerId)}
                 isAdding={false}
               />
             )}
           </View>
         ))}
-      {showModal && (
+      {showWarningModal && (
         <ModalComponent
-          onClose={handleBackdropPress}
+          onClose={() => setShowWarningModal(false)}
           heading={labels.cantRemove.title}
-        >
-          <ThemedText type='default' style={{ padding: 15 }}>
-            {labels.cantRemove.description}
-          </ThemedText>
-          <ButtonComponent
-            text={buttons.ok}
-            variant='primary'
-            onSubmit={() => setShowModal(false)}
-          />
-        </ModalComponent>
+          description={labels.cantRemove.description}
+          oneButton={true}
+        />
+      )}
+      {showQuestionModal && (
+        <ModalComponent
+          onClose={() => setShowQuestionModal(false)}
+          onContinue={() => {
+            handleRemovePlayer(clickedPlayer);
+          }}
+          heading={labels.areYouSureRemove.title}
+          description={labels.areYouSureRemove.description}
+          twoButtons={true}
+        />
       )}
     </CardComponent>
   );

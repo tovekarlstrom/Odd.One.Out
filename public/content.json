@@ -86,7 +86,8 @@
       "nextRound": "Next Round",
       "endGame": "End Game",
       "newGame": "Create New Game",
-      "ok": "OK"
+      "ok": "OK",
+      "cancel": "Cancel"
     },
     "labels": {
       "enterCodeOptions": "How do you want to join?",
@@ -99,6 +100,7 @@
       "gameRoom": "Game Room",
       "handlePlayers": "Handle Players",
       "players": "Players",
+      "admin": "Admin",
       "answered": "Answered",
       "waiting": "Waiting",
       "score": {
@@ -142,6 +144,10 @@
       "cantRemove": {
         "title": "You can't remove player.",
         "description": "There needs to be at least three players in the game to continue."
+      },
+      "areYouSureRemove": {
+        "title": "Are you sure?",
+        "description": "You can't change you mind after removing the player."
       },
       "statusText": "The status on each player shows if they have answered the current question or not."
     }

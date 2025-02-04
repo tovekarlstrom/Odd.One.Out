@@ -10,20 +10,32 @@ import {
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
 import { Ionicons } from '@expo/vector-icons';
+import { ButtonComponent } from './ButtonComponent';
+import data from '../public/content.json';
 
 interface ModalProps {
   heading: string;
+  description?: string;
   children?: React.ReactNode;
   onClose?: () => void;
+  onContinue?: () => void;
   showCloseButton?: boolean;
+  oneButton?: boolean;
+  twoButtons?: boolean;
 }
 export function ModalComponent({
   heading,
+  description,
   children,
   onClose,
+  onContinue,
   showCloseButton,
+  oneButton,
+  twoButtons,
 }: ModalProps) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const buttons = data.content.buttons;
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -57,6 +69,37 @@ export function ModalComponent({
             <ThemedText type='heading32' style={styles.heading}>
               {heading}
             </ThemedText>
+            {description && (
+              <ThemedText type='default' style={{ padding: 15 }}>
+                {description}
+              </ThemedText>
+            )}
+            {oneButton && (
+              <ButtonComponent
+                text={buttons.ok}
+                variant='primary'
+                onSubmit={handleClose}
+              />
+            )}
+            {twoButtons && (
+              <>
+                <ButtonComponent
+                  text={buttons.ok}
+                  variant='primary'
+                  onSubmit={() => {
+                    if (onContinue) {
+                      handleClose();
+                      onContinue();
+                    }
+                  }}
+                />
+                <ButtonComponent
+                  text={buttons.cancel}
+                  variant='secondary'
+                  onSubmit={handleClose}
+                />
+              </>
+            )}
             {children}
           </ThemedView>
         </Animated.View>

@@ -1,11 +1,12 @@
-import { View } from "react-native";
-import { CardComponent } from "./CardComponent";
-import PlayerIcon from "./PlayerIcon";
-import { TextField } from "./TextField";
+import { View } from 'react-native';
+import { CardComponent } from './CardComponent';
+import PlayerIcon from './PlayerIcon';
+import { TextField } from './TextField';
 
-import { useEffect, useState } from "react";
-import { Player } from "@/app/code";
-import { shape } from "@/utils/getIconColorAndShape";
+import { useEffect, useState } from 'react';
+import { Player } from '@/app/code';
+import { shape } from '@/utils/getIconColorAndShape';
+import data from '../public/content.json';
 
 interface JoinedPlayersProps {
   heading: string;
@@ -22,13 +23,21 @@ export function JoinedPlayers({
   players,
 }: JoinedPlayersProps) {
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
-  const [listLength, setListLength] = useState<string>("");
+  const [listLength, setListLength] = useState<string>('');
+  const [topHeading, setTopHeading] = useState<string>('');
+
+  const labels = data.content.labels;
 
   useEffect(() => {
     if (!players) return;
 
+    const playersWithPoints = players.filter(
+      (player) => player.totalPoints > 0,
+    );
+
     if (topPlayers) {
-      setPlayerList(players.slice(0, 3));
+      console.log(players);
+      setPlayerList(playersWithPoints.slice(0, 3));
     } else {
       setPlayerList(players);
     }
@@ -38,12 +47,26 @@ export function JoinedPlayers({
     if (playerList && playerList.length > 0) {
       setListLength(`(${playerList.length})`);
     }
-  }, [playerList]);
+    if (topPlayers) {
+      if (playerList) {
+        if (playerList.length === 1) {
+          setTopHeading(labels.topPlayer);
+        } else if (playerList.length > 1) {
+          setTopHeading(heading);
+        }
+      } else {
+        setTopHeading(labels.noPoints);
+      }
+    }
+  }, [playerList, topPlayers]);
 
-  const topHeading = showListLength ? `${heading} ${listLength}` : heading;
+  const defaultHeading = showListLength ? `${heading} ${listLength}` : heading;
 
   return (
-    <CardComponent heading={topHeading} fullWidth={showPoints || false}>
+    <CardComponent
+      heading={topHeading || defaultHeading}
+      fullWidth={showPoints || false}
+    >
       {playerList &&
         playerList.map((player, index) => (
           <View key={index}>

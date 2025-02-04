@@ -137,12 +137,12 @@
       "answersAdmin": "Mark the right answers",
       "answersPlayer": "The answers are in!",
       "waitForAdmin": "Waiting for admin to enter points..",
-      "wrongPoints": "Can’t proceed!",
-      "checkPoints": "Are You Sure?"
+      "canNotProceed": "Can’t proceed!",
+      "safetyCheck": "Are You Sure?"
     },
     "descriptions": {
       "wrongPoints": "Points can only be awarded when at least two players have chosen the same answer.",
-      "checkPoints": " Make sure you’ve assigned points based on the players who provided the same answer before moving forward."
+      "safetyCheckPoints": " Make sure you’ve assigned points based on the players who provided the same answer before moving forward."
     }
   }
 }

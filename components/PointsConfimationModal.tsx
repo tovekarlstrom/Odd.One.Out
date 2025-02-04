@@ -20,7 +20,7 @@ export const PointsConfimationModal = ({
   console.log('getPlayerPoints', playerGetPoints);
   if (playerGetPoints.length === 1) {
     return (
-      <ModalComponent onClose={onClose} heading={lables.wrongPoints}>
+      <ModalComponent onClose={onClose} heading={lables.canNotProceed}>
         <ThemedText type='default' style={{ marginBottom: 20 }}>
           {descriptions.wrongPoints}
         </ThemedText>
@@ -34,12 +34,12 @@ export const PointsConfimationModal = ({
   }
 
   return (
-    <ModalComponent onClose={onClose} heading={lables.checkPoints}>
+    <ModalComponent onClose={onClose} heading={lables.safetyCheck}>
       <ThemedText
         type='default'
         style={{ marginBottom: 20, marginHorizontal: 5 }}
       >
-        {descriptions.checkPoints}
+        {descriptions.safetyCheckPoints}
       </ThemedText>
       <ThemedView>
         <ButtonComponent

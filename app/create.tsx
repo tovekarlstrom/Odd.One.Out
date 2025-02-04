@@ -1,4 +1,4 @@
-import { StyleSheet, View } from 'react-native';
+import { Keyboard, Platform, StyleSheet, View } from 'react-native';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -8,19 +8,36 @@ import { Colors } from '@/constants/Theme';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { GradientContainer } from '@/components/GradientContainer';
 import AddAdmin from '@/components/AddAdmin';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BackdropContainer from '@/components/BackdropContainer';
 import data from '../public/content.json';
-import { useLocalSearchParams } from 'expo-router';
 
 export default function TabThreeScreen() {
   const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);
   const [renderAdmin, setRenderAdmin] = useState<boolean>(false);
-  const { mode } = useLocalSearchParams();
+  const [keyboardVisible, setKeyboardVisible] = useState<boolean>(false);
   const content = data.content.createGame;
   const button = data.content.buttons;
 
-  console.log(mode);
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardVisible(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardVisible(false);
+      },
+    );
+
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   const handlePress = () => {
     setOpenAddAdmin(true);
@@ -45,13 +62,15 @@ export default function TabThreeScreen() {
 
         <AddedQuestions heading={content.subHeading} />
       </ParallaxScrollView>
-      <GradientContainer>
-        <ButtonComponent
-          onSubmit={handlePress}
-          text={button.next}
-          variant='primary'
-        />
-      </GradientContainer>
+      {(Platform.OS === 'ios' || !keyboardVisible) && (
+        <GradientContainer>
+          <ButtonComponent
+            onSubmit={handlePress}
+            text={button.next}
+            variant='primary'
+          />
+        </GradientContainer>
+      )}
       {renderAdmin && (
         <BackdropContainer handleOnPress={handleBackdropPress}>
           <AddAdmin showAddAdmin={openAddAdmin} onClose={handleAnimation} />

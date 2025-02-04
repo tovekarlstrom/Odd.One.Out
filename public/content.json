@@ -48,29 +48,29 @@
     "results": {
       "majority": {
         "winner": {
-          "title": "Congratulations!",
+          "title": "Congratulations, ",
           "description": "You matched the crowd the best and have claimed the top spot at the podium!"
         },
         "podium": {
-          "title": "Well done!",
+          "title": "Well done, ",
           "description": "You made it to the podium with your crowd-pleasing answers.."
         },
         "loser": {
-          "title": "Better luck next time!",
+          "title": "Better luck next time, ",
           "description": "Your scores did not put you on the podium, you'll get them next time!"
         }
       },
       "minority": {
         "winner": {
-          "title": "Congratulations!",
+          "title": "Congratulations, ",
           "description": "Your answers stood out, and you claimed the top spot with your originality!"
         },
         "podium": {
-          "title": "Well done!",
+          "title": "Well done, ",
           "description": "You made it to the podium by thinking differently!"
         },
         "loser": {
-          "title": "Better luck next time!",
+          "title": "Better luck next time, ",
           "description": "Your unique thinking didn't get you on the podium this time, but keep it up!"
         }
       }
@@ -98,6 +98,7 @@
       "topPlayer": "Top player",
       "noPoints": "No player has points yet..",
       "players": "Players",
+      "scoreBoard": "Scoreboard",
       "score": {
         "majority": {
           "right": [

@@ -1,3 +1,4 @@
+import React from 'react';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { CardComponent } from '@/components/CardComponent';
 import { GradientContainer } from '@/components/GradientContainer';
@@ -5,8 +6,6 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import PlayerIcon from '@/components/PlayerIcon';
 import { TextField } from '@/components/TextField';
 import { addPoints } from '@/functions/addPoints';
-import { getAnswer } from '@/functions/getAnswer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { Colors, Sizes } from '@/constants/Theme';
@@ -18,7 +17,10 @@ import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import data from '../public/content.json';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { shape } from '@/utils/getIconColorAndShape';
-import React from 'react';
+import { PointsConfimationModal } from '@/components/PointsConfimationModal';
+import { getStatus } from '@/utils/getStatus';
+import { getAnswers } from '@/utils/getAnswers';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 
 export interface PlayerAnswer {
   playerId: string;
@@ -26,14 +28,15 @@ export interface PlayerAnswer {
 }
 
 export default function Answers() {
-  const [isAdmin, setIsAdmin] = useState(false);
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [status, setStatus] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
-  const playerGetPoints: string[] = [];
+  const [showModal, setShowModal] = useState(false);
+  const [playerGetPoints, setPlayerGetPoints] = useState<string[]>([]);
   const { data: gameRoom } = useGameRoom();
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
+  const { data: isAdmin } = useIsAdmin();
   const labels = data.content.labels;
   const button = data.content.buttons;
   const documentId = gameRoom?.id;
@@ -45,33 +48,10 @@ export default function Answers() {
   };
 
   useEffect(() => {
-    const getAnswers = async () => {
-      if (documentId) {
-        getAnswer(documentId, setAnswers);
-      }
-    };
-    getAnswers();
-  }, [documentId]);
-
-  useEffect(() => {
-    const getAdmin = async () => {
-      const admin = await AsyncStorage.getItem('isAdmin');
-      if (admin) {
-        const parsedAdmin = JSON.parse(admin);
-        if (parsedAdmin === true) {
-          setIsAdmin(parsedAdmin);
-        } else {
-          setIsAdmin(false);
-        }
-      }
-    };
-    const getStatus = async () => {
-      if (documentId) {
-        await getOrUpdateStatus({ documentId, setStatus });
-      }
-    };
-    getStatus();
-    getAdmin();
+    if (documentId) {
+      getStatus(documentId, setStatus);
+      getAnswers(documentId, setAnswers);
+    }
   }, [documentId]);
 
   useEffect(() => {
@@ -80,19 +60,26 @@ export default function Answers() {
         setIsLoading(false);
       }
     }
-    if (status === 'idle') {
+    if (status === 'idle' && !isAdmin) {
       router.push('/result');
     }
   }, [status, answers, players]);
 
   const handleSelectedAnswers = (playerId: string) => {
-    playerGetPoints.push(playerId);
+    setPlayerGetPoints((prevPoints) => {
+      if (prevPoints.includes(playerId)) {
+        return prevPoints.filter((id) => id !== playerId);
+      } else {
+        return [...prevPoints, playerId];
+      }
+    });
   };
 
   const enterPoints = async () => {
     if (documentId) {
       await addPoints(documentId, playerGetPoints);
       await getOrUpdateStatus({ documentId, changeStatus: 'idle' });
+      router.push('/result');
     }
   };
 
@@ -148,14 +135,20 @@ export default function Answers() {
             )}
           </>
         )}
+        {showModal && (
+          <PointsConfimationModal
+            playerGetPoints={playerGetPoints}
+            onClose={() => setShowModal(false)}
+            onConfirm={enterPoints}
+          />
+        )}
       </ParallaxScrollView>
       {isAdmin && !isLoading && (
         <GradientContainer>
           <ButtonComponent
-            onSubmit={enterPoints}
+            onSubmit={() => setShowModal(true)}
             text={button.enterPoints}
             variant='primary'
-            route='/result'
           />
         </GradientContainer>
       )}

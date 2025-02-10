@@ -4,11 +4,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { Sizes } from '@/constants/Theme';
 import { ThemedView } from '@/components/ThemedView';
 import LoadingIcons from '@/components/LoadingIcons';
-import { getAnswer } from '@/functions/getAnswer';
 import { PlayerAnswer } from '@/app/answers';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import data from '../public/content.json';
+import { getAnswers } from '@/utils/getAnswers';
 
 export default function Loading({ initial }: { initial?: string }) {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
@@ -20,12 +20,7 @@ export default function Loading({ initial }: { initial?: string }) {
   const documentId = gameRoom?.id;
 
   useEffect(() => {
-    const getAnswers = async () => {
-      if (documentId) {
-        getAnswer(documentId, setAnswers);
-      }
-    };
-    getAnswers();
+    getAnswers(documentId, setAnswers);
   }, [documentId]);
 
   return (

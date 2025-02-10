@@ -1,8 +1,9 @@
-import { View, StyleSheet, Pressable } from "react-native";
-import { Colors, Sizes } from "@/constants/Theme";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
-import { useState } from "react";
+import { View, StyleSheet, Pressable } from 'react-native';
+import { Colors, Sizes } from '@/constants/Theme';
+import { ThemedText } from './ThemedText';
+import { ThemedView } from './ThemedView';
+import { useState } from 'react';
+import data from '../public/content.json';
 
 interface TextFieldProps {
   value: string;
@@ -11,6 +12,8 @@ interface TextFieldProps {
   isClickable?: boolean;
   answer?: string;
   onPress?: () => void;
+  showStatus?: boolean;
+  status?: boolean;
 }
 
 export function TextField({
@@ -20,9 +23,13 @@ export function TextField({
   isClickable,
   answer,
   onPress,
+  showStatus,
+  status,
 }: TextFieldProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const Wrapper: React.ElementType = isClickable ? Pressable : View;
+
+  const labels = data.content.labels;
 
   const handlePress = () => {
     setIsClicked(!isClicked);
@@ -32,11 +39,11 @@ export function TextField({
   };
 
   const styling =
-    children && (points || answer)
+    children && (points || answer || showStatus)
       ? styles.threeItems
       : children
-      ? styles.twoItems
-      : styles.textContainer;
+        ? styles.twoItems
+        : styles.textContainer;
 
   return (
     <Wrapper
@@ -47,21 +54,26 @@ export function TextField({
         {children ? (
           <ThemedView style={styles.innerBox}>
             {children}
-            <ThemedText type={answer ? "defaultSmall" : "defaultSemiBold"}>
+            <ThemedText type={answer ? 'defaultSmall' : 'defaultSemiBold'}>
               {value}
             </ThemedText>
           </ThemedView>
         ) : (
-          <ThemedText type="defaultSemiBold">{value}</ThemedText>
+          <ThemedText type='defaultSemiBold'>{value}</ThemedText>
         )}
         {points && (
-          <ThemedText style={styles.points} type="defaultSemiBold">
+          <ThemedText style={styles.points} type='defaultSemiBold'>
             {points}p
           </ThemedText>
         )}
         {answer && (
-          <ThemedText style={styles.points} type="defaultSemiBold">
+          <ThemedText style={styles.points} type='defaultSemiBold'>
             {answer}
+          </ThemedText>
+        )}
+        {showStatus && (
+          <ThemedText style={styles.status} type='defaultSmall'>
+            {status === true ? labels.answered : labels.waiting}
           </ThemedText>
         )}
       </View>
@@ -87,28 +99,31 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   threeItems: {
-    justifyContent: "space-between",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
+    justifyContent: 'space-between',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: Sizes.Spacings.small,
   },
   twoItems: {
-    justifyContent: "flex-start",
-    display: "flex",
-    flexDirection: "row",
+    justifyContent: 'flex-start',
+    display: 'flex',
+    flexDirection: 'row',
     paddingHorizontal: Sizes.Spacings.small,
   },
   innerBox: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     gap: Sizes.Spacings.small,
   },
   points: {
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
+  },
+  status: {
+    justifyContent: 'center',
   },
   textContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
 });

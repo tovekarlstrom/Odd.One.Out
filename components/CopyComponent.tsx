@@ -6,7 +6,13 @@ import * as Clipboard from 'expo-clipboard';
 import { useState } from 'react';
 import React from 'react';
 
-export function CopyComponent({ gameCode }: { gameCode: string }) {
+export function CopyComponent({
+  gameCode,
+  addPadding,
+}: {
+  gameCode: string;
+  addPadding?: boolean;
+}) {
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = () => {
@@ -17,7 +23,16 @@ export function CopyComponent({ gameCode }: { gameCode: string }) {
 
   return (
     <>
-      <Pressable style={styles.button} onPress={copyToClipboard}>
+      <Pressable
+        style={[
+          styles.button,
+          {
+            padding: addPadding ? Sizes.Spacings.small : 0,
+            justifyContent: addPadding ? 'center' : 'flex-end',
+          },
+        ]}
+        onPress={copyToClipboard}
+      >
         {copied ? (
           <ThemedText style={styles.buttonText} type='defaultSemiBold'>
             Copied!
@@ -27,9 +42,7 @@ export function CopyComponent({ gameCode }: { gameCode: string }) {
             {gameCode}
           </ThemedText>
         )}
-
         <Ionicons
-          style={styles.copy}
           name={copied ? 'checkmark-outline' : 'copy-outline'}
           size={18}
           color={Colors.light.text}
@@ -41,21 +54,13 @@ export function CopyComponent({ gameCode }: { gameCode: string }) {
 
 const styles = StyleSheet.create({
   button: {
-    padding: Sizes.Spacings.small,
-    borderRadius: 30,
     alignItems: 'center',
-    justifyContent: 'center',
     flexDirection: 'row',
     width: 150,
     margin: 'auto',
-    position: 'relative',
   },
   buttonText: {
     color: Colors.light.text,
     paddingRight: Sizes.Spacings.small,
-  },
-  copy: {
-    position: 'absolute',
-    right: Sizes.Spacings.medium,
   },
 });

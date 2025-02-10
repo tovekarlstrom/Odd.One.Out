@@ -3,11 +3,10 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { CopyComponent } from '@/components/CopyComponent';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { JoinedPlayers } from '@/components/JoinedPlayers';
 import { GradientContainer } from '@/components/GradientContainer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getGameRoom } from '@/functions/getGameRoom';
 import { getPlayers } from '@/functions/getPlayers';
 import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
@@ -18,6 +17,7 @@ import { getRandomString } from '@/utils/getRandomString';
 import QRCode from 'react-native-qrcode-svg';
 import React from 'react';
 import { Colors } from '@/constants/Theme';
+import { getGameCode } from '@/utils/getGameCode';
 
 export type PlayerIconType = {
   color: string;
@@ -30,23 +30,8 @@ export interface Player {
   playerId: string;
   totalPoints: number;
   playerIcon: PlayerIconType;
+  hasAnswered?: boolean;
 }
-
-const loadGameCode = async () => {
-  try {
-    const roomId = await AsyncStorage.getItem('roomId');
-
-    if (!roomId) {
-      console.error('No roomId in storage');
-      return null;
-    }
-
-    return roomId;
-  } catch (e) {
-    console.error('Error loading from storage', e);
-    return null;
-  }
-};
 
 export default function Code() {
   const [gameCode, setGameCode] = useState('');
@@ -56,15 +41,16 @@ export default function Code() {
   const button = data.content.buttons;
   const documentId = gameRoom?.id;
 
+  const headerTitle = useMemo(
+    () => getRandomString(content.title),
+    [content.title[0]],
+  );
+
   useEffect(() => {
-    const fetchGameCode = async () => {
-      const roomCode = await loadGameCode();
-      if (roomCode) {
-        setGameCode(roomCode);
-      }
-    };
-    fetchGameCode();
-  }, []);
+    if (documentId) {
+      getGameCode(setGameCode);
+    }
+  }, [documentId]);
 
   useEffect(() => {
     if (gameCode) {
@@ -105,9 +91,7 @@ export default function Code() {
     <>
       <ParallaxScrollView paddingTop={50}>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type='heading32'>
-            {getRandomString(content.title)}
-          </ThemedText>
+          <ThemedText type='heading32'>{headerTitle}</ThemedText>
           <ThemedText type='default'>{content.description}</ThemedText>
         </ThemedView>
         {gameCode && (
@@ -121,7 +105,7 @@ export default function Code() {
           </ThemedView>
         )}
 
-        <CopyComponent gameCode={gameCode} />
+        <CopyComponent gameCode={gameCode} addPadding={true} />
         <View style={styles.cardContainer}>
           <JoinedPlayers
             players={players}

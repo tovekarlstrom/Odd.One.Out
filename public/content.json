@@ -88,7 +88,8 @@
       "newGame": "Create New Game",
       "yes": "Yes",
       "no": "No",
-      "ok": "Ok"
+      "ok": "Ok",
+      "cancel": "Cancel"
     },
     "labels": {
       "enterCodeOptions": "How do you want to join?",
@@ -97,7 +98,13 @@
       "topPlayers": "Top players",
       "topPlayer": "Top player",
       "noPoints": "No player has points yet..",
+      "settings": "Settings",
+      "gameRoom": "Game Room",
+      "handlePlayers": "Handle Players",
       "players": "Players",
+      "admin": "Admin",
+      "answered": "Answered",
+      "waiting": "Waiting",
       "scoreBoard": "Scoreboard",
       "score": {
         "majority": {
@@ -137,12 +144,21 @@
       "answersAdmin": "Mark the right answers",
       "answersPlayer": "The answers are in!",
       "waitForAdmin": "Waiting for admin to enter points..",
-      "canNotProceed": "Can’t proceed!",
-      "safetyCheck": "Are You Sure?"
+      "canNotProceed": "Can't proceed!",
+      "safetyCheck": "Are You Sure?",
+      "cantRemove": {
+        "title": "You can't remove player.",
+        "description": "There needs to be at least three players in the game to continue."
+      },
+      "areYouSureRemove": {
+        "title": "Are you sure?",
+        "description": "You can't change you mind after removing the player."
+      },
+      "statusText": "The status on each player shows if they have answered the current question or not."
     },
     "descriptions": {
       "wrongPoints": "Points can only be awarded when at least two players have chosen the same answer.",
-      "safetyCheckPoints": " Make sure you’ve assigned points based on the players who provided the same answer before moving forward."
+      "safetyCheckPoints": " Make sure you've assigned points based on the players who provided the same answer before moving forward."
     }
   }
 }

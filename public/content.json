@@ -1,148 +1,298 @@
 {
-  "content": {
-    "startPage": {
-      "title": "Blend in or stand out - What's your strategy?",
-      "description": "It's not about what is right, it's about what most people think. Let's get started!"
-    },
-    "learnMorePage": {
-      "title": "Learn more about Odd One Out!",
-      "modes": [
-        {
-          "description": "In this mode, the goal is to NOT be the odd one out. The challenge is to guess what others will pick—can you predict what they'll choose? You'll only score points if someone else thinks the same way. The player with the most points at the end wins!",
-          "subHeading": "Think Oddly Together",
-          "route": "majority"
-        },
-        {
-          "description": "In this mode, you WANT to be the odd one out! Your mission is to think differently from everyone else. You'll only score points if no one else picks the same answer as you. If someone else has the same idea, neither of you scores! It's all about standing out and thinking outside the box—dare to be different!",
-          "subHeading": "Dare To Be Odd",
-          "route": "minority"
-        }
-      ]
-    },
-    "createGame": {
-      "title": "Enter questions to challenge the crowd.",
-      "description": "",
-      "subHeading": "Added Questions"
-    },
-    "code": {
-      "title": [
-        "The stage is set, start when you are ready",
-        "Everything's in place! Ready to start the challenge?",
-        "Your game is good to go—let's play!",
-        "You're all set! Time to get the game started."
-      ],
-      "description": "Share this code with your friends to join the game.",
-      "subHeading": "Joined players"
-    },
-    "joinGame": {
-      "title": "Ready to play?",
-      "description": "Your task is to predict the crowd's answers - Let's see how well you know the group!",
-      "subHeading": "Enter Game Code"
-    },
-    "loading": {
-      "title": {
-        "waiting": ["Hold tight!", "The fun is about to begin!"],
-        "active": ["Patience", "Someone is taking their time..."]
-      }
-    },
-    "results": {
-      "majority": {
-        "winner": {
-          "title": "Congratulations, ",
-          "description": "You matched the crowd the best and have claimed the top spot at the podium!"
-        },
-        "podium": {
-          "title": "Well done, ",
-          "description": "You made it to the podium with your crowd-pleasing answers.."
-        },
-        "loser": {
-          "title": "Better luck next time, ",
-          "description": "Your scores did not put you on the podium, you'll get them next time!"
+  "english": {
+    "content": {
+      "startPage": {
+        "title": "Blend in or stand out - What's your strategy?",
+        "description": "It's not about what is right, it's about what most people think. Let's get started!"
+      },
+      "learnMorePage": {
+        "title": "Learn more about Odd One Out!",
+        "modes": [
+          {
+            "description": "In this mode, the goal is to NOT be the odd one out. The challenge is to guess what others will pick—can you predict what they'll choose? You'll only score points if someone else thinks the same way. The player with the most points at the end wins!",
+            "subHeading": "Think Oddly Together",
+            "route": "majority"
+          },
+          {
+            "description": "In this mode, you WANT to be the odd one out! Your mission is to think differently from everyone else. You'll only score points if no one else picks the same answer as you. If someone else has the same idea, neither of you scores! It's all about standing out and thinking outside the box—dare to be different!",
+            "subHeading": "Dare To Be Odd",
+            "route": "minority"
+          }
+        ]
+      },
+      "createGame": {
+        "title": "Enter questions to challenge the crowd.",
+        "description": "",
+        "subHeading": "Added Questions"
+      },
+      "code": {
+        "title": [
+          "The stage is set, start when you are ready",
+          "Everything's in place! Ready to start the challenge?",
+          "Your game is good to go—let's play!",
+          "You're all set! Time to get the game started."
+        ],
+        "description": "Share this code with your friends to join the game.",
+        "subHeading": "Joined players"
+      },
+      "joinGame": {
+        "title": "Ready to play?",
+        "description": "Your task is to predict the crowd's answers - Let's see how well you know the group!",
+        "subHeading": "Enter Game Code"
+      },
+      "loading": {
+        "title": {
+          "waiting": ["Hold tight!", "The fun is about to begin!"],
+          "active": ["Patience", "Someone is taking their time..."]
         }
       },
-      "minority": {
-        "winner": {
-          "title": "Congratulations, ",
-          "description": "Your answers stood out, and you claimed the top spot with your originality!"
-        },
-        "podium": {
-          "title": "Well done, ",
-          "description": "You made it to the podium by thinking differently!"
-        },
-        "loser": {
-          "title": "Better luck next time, ",
-          "description": "Your unique thinking didn't get you on the podium this time, but keep it up!"
-        }
-      }
-    },
-    "buttons": {
-      "createGame": "Create Game",
-      "next": "Next",
-      "start": "Start Game",
-      "joinGame": "Join Game",
-      "learnMore": "Learn more",
-      "sendAnswer": "Send Answer",
-      "enterPoints": "Enter Points",
-      "nextRound": "Next Round",
-      "endGame": "End Game",
-      "newGame": "Create New Game",
-      "yes": "Yes",
-      "no": "No",
-      "ok": "Ok"
-    },
-    "labels": {
-      "enterCodeOptions": "How do you want to join?",
-      "or": "or",
-      "gameCountdown": "Game starts in ",
-      "topPlayers": "Top players",
-      "topPlayer": "Top player",
-      "noPoints": "No player has points yet..",
-      "players": "Players",
-      "scoreBoard": "Scoreboard",
-      "score": {
+      "results": {
         "majority": {
-          "right": [
-            "You're in sync with the group, points for you!",
-            "Great thinking! You matched the crowd.",
-            "You're on the same wavelength—point scored!",
-            "Right on! You've joined the majority.",
-            "You're thinking like the rest—well done!"
-          ],
-          "wrong": [
-            "You went you own way, no points for you.",
-            "A little off this time—no points.",
-            "Not quite with the group! Try again next time.",
-            "Thinking outside the box, but no points.",
-            "Missed the mark! Better luck next round."
-          ]
+          "winner": {
+            "title": "Congratulations, ",
+            "description": "You matched the crowd the best and have claimed the top spot at the podium!"
+          },
+          "podium": {
+            "title": "Well done, ",
+            "description": "You made it to the podium with your crowd-pleasing answers.."
+          },
+          "loser": {
+            "title": "Better luck next time, ",
+            "description": "Your scores did not put you on the podium, you'll get them next time!"
+          }
         },
         "minority": {
-          "right": [
-            "You're thinking outside the box! Points for originality!",
-            "Solo thinking paid off—points for you!",
-            "Unique and unexpected! You scored points!",
-            "You avoided the crowd—well done!",
-            "Points for being one of a kind!"
-          ],
-          "wrong": [
-            "Too common this time—no points.",
-            "You matched the crowd—no points awarded.",
-            "Blended in a little too much! No points.",
-            "Majority thinking, but no points this time.",
-            "Not so unique—try to stand out next round."
-          ]
+          "winner": {
+            "title": "Congratulations, ",
+            "description": "Your answers stood out, and you claimed the top spot with your originality!"
+          },
+          "podium": {
+            "title": "Well done, ",
+            "description": "You made it to the podium by thinking differently!"
+          },
+          "loser": {
+            "title": "Better luck next time, ",
+            "description": "Your unique thinking didn't get you on the podium this time, but keep it up!"
+          }
         }
       },
-      "pointsAdded": "points added to your score",
-      "answersAdmin": "Mark the right answers",
-      "answersPlayer": "The answers are in!",
-      "waitForAdmin": "Waiting for admin to enter points..",
-      "canNotProceed": "Can’t proceed!",
-      "safetyCheck": "Are You Sure?"
-    },
-    "descriptions": {
-      "wrongPoints": "Points can only be awarded when at least two players have chosen the same answer.",
-      "safetyCheckPoints": " Make sure you’ve assigned points based on the players who provided the same answer before moving forward."
+      "buttons": {
+        "createGame": "Create Game",
+        "next": "Next",
+        "start": "Start Game",
+        "joinGame": "Join Game",
+        "learnMore": "Learn more",
+        "sendAnswer": "Send Answer",
+        "enterPoints": "Enter Points",
+        "nextRound": "Next Round",
+        "endGame": "End Game",
+        "newGame": "Create New Game",
+        "yes": "Yes",
+        "no": "No",
+        "ok": "Ok"
+      },
+      "labels": {
+        "enterCodeOptions": "How do you want to join?",
+        "or": "or",
+        "gameCountdown": "Game starts in ",
+        "topPlayers": "Top players",
+        "topPlayer": "Top player",
+        "noPoints": "No player has points yet..",
+        "players": "Players",
+        "scoreBoard": "Scoreboard",
+        "score": {
+          "majority": {
+            "right": [
+              "You're in sync with the group, points for you!",
+              "Great thinking! You matched the crowd.",
+              "You're on the same wavelength—point scored!",
+              "Right on! You've joined the majority.",
+              "You're thinking like the rest—well done!"
+            ],
+            "wrong": [
+              "You went you own way, no points for you.",
+              "A little off this time—no points.",
+              "Not quite with the group! Try again next time.",
+              "Thinking outside the box, but no points.",
+              "Missed the mark! Better luck next round."
+            ]
+          },
+          "minority": {
+            "right": [
+              "You're thinking outside the box! Points for originality!",
+              "Solo thinking paid off—points for you!",
+              "Unique and unexpected! You scored points!",
+              "You avoided the crowd—well done!",
+              "Points for being one of a kind!"
+            ],
+            "wrong": [
+              "Too common this time—no points.",
+              "You matched the crowd—no points awarded.",
+              "Blended in a little too much! No points.",
+              "Majority thinking, but no points this time.",
+              "Not so unique—try to stand out next round."
+            ]
+          }
+        },
+        "pointsAdded": "points added to your score",
+        "answersAdmin": "Mark the right answers",
+        "answersPlayer": "The answers are in!",
+        "waitForAdmin": "Waiting for admin to enter points..",
+        "canNotProceed": "Can’t proceed!",
+        "safetyCheck": "Are You Sure?"
+      },
+      "descriptions": {
+        "wrongPoints": "Points can only be awarded when at least two players have chosen the same answer.",
+        "safetyCheckPoints": " Make sure you’ve assigned points based on the players who provided the same answer before moving forward."
+      }
+    }
+  },
+  "swedish": {
+    "content": {
+      "startPage": {
+        "title": "Glöm din egen åsikt - här är det gruppens hjärna som styr.",
+        "description": "Det handlar inte om vad som är rätt - utan om vad de flesta tror. Nu kör vi!"
+      },
+      "learnMorePage": {
+        "title": "Lär dig mer om Odd One Out!",
+        "modes": [
+          {
+            "description": "I det här spelläget gäller det att INTE vara den som sticker ut! Utmaningen är att gissa vad andra kommer att välja – kan du förutse deras svar? Du får bara poäng om någon annan tänker likadant. Spelaren med flest poäng i slutet vinner!",
+            "subHeading": "Think Oddly Together",
+            "route": "majority"
+          },
+          {
+            "description": "I det här spelläget vill du vara den som sticker ut. Målet är att tänka annorlunda än alla andra. Du får bara poäng om ingen annan väljer samma svar som du. Om någon annan har samma idé får ingen av er poäng! Det handlar om att sticka ut och tänka utanför boxen – våga vara annorlunda!",
+            "subHeading": "Dare To Be Odd",
+            "route": "minority"
+          }
+        ]
+      },
+      "createGame": {
+        "title": "Lägg till frågor för att utmana spelarna.",
+        "description": "",
+        "subHeading": "Tillagda frågor"
+      },
+      "code": {
+        "title": [
+          "Spelet är redo, starta när du vill!",
+          "Förberedelserna är klara, är du redo för en utmaning?",
+          "Ditt spel är redo — dags att spela!",
+          "Allt är klart! Dags att starta spelet."
+        ],
+        "description": "Dela koden med dina vänner för att de ska kunna gå med i spelet.",
+        "subHeading": ""
+      },
+      "joinGame": {
+        "title": "Redo att spela?",
+        "description": "Din uppgift är att förutse vad gruppen kommer svara - hur bra känner du dina vänner?",
+        "subHeading": "Ange spelkod"
+      },
+      "loading": {
+        "title": {
+          "waiting": ["Håll ut!", "Spelet börjar snart!"],
+          "active": ["Ha tålamod", "Någon tar sin tid..."]
+        }
+      },
+      "results": {
+        "majority": {
+          "winner": {
+            "title": "Grattis, ",
+            "description": "Du tänkte som gruppen och knep förstaplatsen på prispallen!"
+          },
+          "podium": {
+            "title": "Bra jobbat, ",
+            "description": "Du tog dig upp på prispallen med dina svar som matchade gruppen.."
+          },
+          "loser": {
+            "title": "Bättre lycka nästa gång, ",
+            "description": "Den här gången räckte inte poängen, men du tar dem nästa runda!"
+          }
+        },
+        "minority": {
+          "winner": {
+            "title": "Grattis, ",
+            "description": "Du tänkte unikt och knep förstaplatsen med din originalitet!"
+          },
+          "podium": {
+            "title": "Bra jobbat, ",
+            "description": "Du tog dig upp på prispallen genom att tänka annorlunda!"
+          },
+          "loser": {
+            "title": "Bättre lycka nästa gång, ",
+            "description": "Dina svar var inte tillräckligt unika för prispallen denna gång, fortsätt tänka utanför boxen!"
+          }
+        }
+      },
+      "buttons": {
+        "createGame": "Skapa spel",
+        "next": "Nästa",
+        "start": "Starta spel",
+        "joinGame": "Gå med",
+        "learnMore": "Läs mer",
+        "sendAnswer": "Svara",
+        "enterPoints": "Lägg till poäng",
+        "nextRound": "Nästa runda",
+        "endGame": "Avsluta spel",
+        "newGame": "Nytt spel",
+        "yes": "Ja",
+        "no": "Nej",
+        "ok": "Ok"
+      },
+      "labels": {
+        "enterCodeOptions": "Hur vill du går med?",
+        "or": "eller",
+        "gameCountdown": "Spelet startar om ",
+        "topPlayers": "Toppspelare",
+        "topPlayer": "Toppspelare",
+        "noPoints": "Ingen spelare har fått poäng än..",
+        "players": "Spelare",
+        "scoreBoard": "Scoreboard",
+        "score": {
+          "majority": {
+            "right": [
+              "Du tänker som gruppen, poäng till dig!",
+              "Snyggt jobbat! Du svarade som majoriteten.",
+              "Du är på samma vågängd - poäng till dig!",
+              "Helt rätt! Du tänker som majoriteten.",
+              "Du resonerade som de flesta - bra jobbat!"
+            ],
+            "wrong": [
+              "Du gick din egen väg, inga poäng för dig.",
+              "Lite fel ute, inga poäng denna gång.",
+              "Inte riktigt i fas med gruppen! Nya tag nästa runda.",
+              "Du tänkte utanför boxen, men inga poäng.",
+              "Du missade målet! Bättre lycka nästa gång."
+            ]
+          },
+          "minority": {
+            "right": [
+              "Du tänkte utanför boxen. Poäng för originalitet!",
+              "Ensam är stark - Poäng till dig!",
+              "Unik och oförutsägbar, poäng till dig!",
+              "Du undvek gruppen - bra jobbat!",
+              "Poäng för att vara unik!"
+            ],
+            "wrong": [
+              "Lite för vanligt denna gång - inga poäng.",
+              "Du tänkte som gruppen - inga poäng.",
+              "Du smälte in lite för mycket! Inga poäng.",
+              "Majoritetstänk, men inga poäng just nu",
+              "Inte tillräckligt unik - försök sticka ut nästa runda."
+            ]
+          }
+        },
+        "pointsAdded": "poäng tillagda till din score",
+        "answersAdmin": "Markera de rätta svaren",
+        "answersPlayer": "Alla svar är inne!",
+        "waitForAdmin": "Väntar på att admin ska ange poäng..",
+        "canNotProceed": "Kan inte gå vidare!",
+        "safetyCheck": "Är du säker?"
+      },
+      "descriptions": {
+        "wrongPoints": "Poäng delas bara ut om minst två personer har svarat samma.",
+        "safetyCheckPoints": "Dubbelkollaatt du gett poäng till de spelare som har valt samma svar innan du går vidare."
+      }
     }
   }
 }

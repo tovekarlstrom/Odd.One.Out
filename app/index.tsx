@@ -11,18 +11,20 @@ import { ThemedView } from '@/components/ThemedView';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { Sizes } from '@/constants/Theme';
 import LearnMore from '@/components/LearnMore';
-import data from '../public/content.json';
+// import data from '../public/content.json';
 import startBackground from '../assets/images/startBackground.png';
 import { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { ModalComponent } from '@/components/Modal';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function HomeScreen() {
   const fadeBackground = useRef(new Animated.Value(0)).current;
   const [showModal, setShowModal] = useState(false);
-  const labels = data.content.labels;
-  const content = data.content.startPage;
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const labels = content?.labels;
+  const newcontent = content?.startPage;
+  const button = content?.buttons;
 
   useEffect(() => {
     Animated.timing(fadeBackground, {
@@ -36,6 +38,8 @@ export default function HomeScreen() {
     setShowModal(false);
   };
 
+  if (isLoading || error) return null;
+
   return (
     <Animated.View
       style={[styles.animatedContainer, { opacity: fadeBackground }]}
@@ -47,10 +51,10 @@ export default function HomeScreen() {
       >
         <ParallaxScrollView isHomePage={true}>
           <ThemedView style={styles.titleContainer}>
-            <ThemedText type='title'>{content.title}</ThemedText>
+            <ThemedText type='title'>{newcontent.title}</ThemedText>
           </ThemedView>
           <ThemedView style={styles.stepContainer}>
-            <ThemedText type='default'>{content.description}</ThemedText>
+            <ThemedText type='default'>{newcontent.description}</ThemedText>
           </ThemedView>
           <ThemedView style={styles.stepContainer}>
             <ButtonComponent

@@ -11,8 +11,8 @@ import { GradientContainer } from './GradientContainer';
 import SlideAnimation from './SlideAnimation';
 import { useQuestions } from '@/contexts/QuestionsProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import data from '../public/content.json';
 import { getIconColorAndShape } from '@/utils/getIconColorAndShape';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface AddAdminProps {
   showAddAdmin: boolean;
@@ -21,8 +21,9 @@ interface AddAdminProps {
 
 export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
   const { questions } = useQuestions();
+  const { content, isLoading, error } = useLanguage();
   const [playerName, setPlayerName] = useState<string>('');
-  const button = data.content.buttons;
+  const button = content?.buttons;
 
   const handlePress = async () => {
     if (playerName.length < 3) {
@@ -33,6 +34,8 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
       AsyncStorage.setItem('isAdmin', 'true');
     }
   };
+
+  if (isLoading || error) return null;
 
   return (
     <SlideAnimation

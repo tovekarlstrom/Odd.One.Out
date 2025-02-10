@@ -11,12 +11,12 @@ import { updateIndex } from '@/functions/getOrUpdateIndex';
 import { JoinedPlayers } from '@/components/JoinedPlayers';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
-import data from '../public/content.json';
 
 import PlayerIcon from '@/components/PlayerIcon';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { getRandomString } from '@/utils/getRandomString';
 import { useQuestionsLength } from '@/hooks/useQuestionsLength';
+import { useLanguage } from '@/hooks/useLanguage';
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -31,9 +31,10 @@ export default function RoundResult() {
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
   const { data: questionsLength } = useQuestionsLength();
+  const { content, isLoading, error } = useLanguage();
 
-  const labels = data.content.labels;
-  const button = data.content.buttons;
+  const labels = content?.labels;
+  const button = content?.buttons;
 
   const previousStatus = useRef<string | null>(null);
 
@@ -145,6 +146,8 @@ export default function RoundResult() {
       await getOrUpdateStatus({ documentId, changeStatus: 'active' });
     }
   }, []);
+
+  if (isLoading || error) return null;
 
   return (
     <>

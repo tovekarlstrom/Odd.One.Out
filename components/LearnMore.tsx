@@ -7,16 +7,19 @@ import { Colors, Sizes } from '@/constants/Theme';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import SlideAnimation from './SlideAnimation';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function LearnMore() {
   const [openLearnMore, setOpenLearnMore] = useState<boolean>(false);
-  const content = data.content.learnMorePage;
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const pageContent = content?.learnMorePage;
+  const button = content?.buttons;
 
   const clickLearnMore = () => {
     setOpenLearnMore(!openLearnMore);
   };
+
+  if (isLoading || error) return null;
 
   return (
     <SlideAnimation
@@ -46,18 +49,29 @@ export default function LearnMore() {
         {openLearnMore && (
           <>
             <ThemedView style={styles.learnMoreContainer}>
-              <ThemedText type='title'>{content.title}</ThemedText>
-              {content.modes.map((mode, index) => (
-                <ThemedView key={index} style={styles.textBox}>
-                  <ThemedText type='defaultLarge'>{mode.subHeading}</ThemedText>
-                  <ThemedText type='default'>{mode.description}</ThemedText>
-                  <ButtonComponent
-                    text={button.createGame}
-                    variant='primary'
-                    route={`/create?mode=${mode.route}`}
-                  />
-                </ThemedView>
-              ))}
+              <ThemedText type='title'>{pageContent.title}</ThemedText>
+              {pageContent.modes.map(
+                (
+                  mode: {
+                    subHeading: string;
+                    description: string;
+                    route: string;
+                  },
+                  index: number,
+                ) => (
+                  <ThemedView key={index} style={styles.textBox}>
+                    <ThemedText type='defaultLarge'>
+                      {mode.subHeading}
+                    </ThemedText>
+                    <ThemedText type='default'>{mode.description}</ThemedText>
+                    <ButtonComponent
+                      text={button.createGame}
+                      variant='primary'
+                      route={`/create?mode=${mode.route}`}
+                    />
+                  </ThemedView>
+                ),
+              )}
             </ThemedView>
           </>
         )}

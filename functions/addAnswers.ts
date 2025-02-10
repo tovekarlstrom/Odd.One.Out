@@ -1,13 +1,13 @@
-import { doc, runTransaction } from "firebase/firestore";
-import { db } from "../firebaseConfig";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { doc, runTransaction } from 'firebase/firestore';
+import { db } from '../firebaseConfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const addAnswerToQuestion = async (
   documentId: string,
-  input: string
+  input: string,
 ) => {
-  const playerId = await AsyncStorage.getItem("playerId");
-  const gameRoomRef = doc(db, "gameRooms", documentId);
+  const playerId = await AsyncStorage.getItem('playerId');
+  const gameRoomRef = doc(db, 'gameRooms', documentId);
 
   const newAnswer = {
     playerId: playerId,
@@ -17,7 +17,7 @@ export const addAnswerToQuestion = async (
     await runTransaction(db, async (transaction) => {
       const gameRoomSnapshot = await transaction.get(gameRoomRef);
       if (!gameRoomSnapshot.exists()) {
-        throw new Error("Game room does not exist!");
+        throw new Error('Game room does not exist!');
       }
       const questions = gameRoomSnapshot.data().questions;
       const index = gameRoomSnapshot.data().qIndex;
@@ -28,6 +28,6 @@ export const addAnswerToQuestion = async (
       transaction.update(gameRoomRef, { questions });
     });
   } catch (e) {
-    console.error("Error updating index:", e);
+    console.error('Error updating index:', e);
   }
 };

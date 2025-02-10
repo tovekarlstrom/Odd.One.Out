@@ -10,14 +10,15 @@ import { GradientContainer } from '@/components/GradientContainer';
 import AddAdmin from '@/components/AddAdmin';
 import { useEffect, useState } from 'react';
 import BackdropContainer from '@/components/BackdropContainer';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function TabThreeScreen() {
   const [openAddAdmin, setOpenAddAdmin] = useState<boolean>(false);
   const [renderAdmin, setRenderAdmin] = useState<boolean>(false);
   const [keyboardVisible, setKeyboardVisible] = useState<boolean>(false);
-  const content = data.content.createGame;
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const pageContent = content?.createGame;
+  const button = content?.buttons;
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -52,15 +53,17 @@ export default function TabThreeScreen() {
     setRenderAdmin(false);
   };
 
+  if (isLoading || error) return null;
+
   return (
     <View style={styles.container}>
       <ParallaxScrollView>
         <ThemedView style={styles.titleContainer}>
-          <ThemedText type='heading32'>{content.title}</ThemedText>
+          <ThemedText type='heading32'>{pageContent.title}</ThemedText>
         </ThemedView>
         <AddQuestion />
 
-        <AddedQuestions heading={content.subHeading} />
+        <AddedQuestions heading={pageContent.subHeading} />
       </ParallaxScrollView>
       {(Platform.OS === 'ios' || !keyboardVisible) && (
         <GradientContainer>

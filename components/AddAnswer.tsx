@@ -5,12 +5,13 @@ import { InputComponent } from './InputComponent';
 import { useRouter } from 'expo-router';
 import { addAnswerToQuestion } from '@/functions/addAnswers';
 import { useGameRoom } from '@/hooks/useGameRoom';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export function AddAnswer({ question }: { question: string }) {
   const [newAnswer, setNewAnswer] = useState<string>('');
   const { data: gameRoom } = useGameRoom();
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const button = content?.buttons;
   const documentId = gameRoom?.id;
 
   const router = useRouter();
@@ -24,6 +25,8 @@ export function AddAnswer({ question }: { question: string }) {
       router.push('/answers');
     }
   };
+
+  if (isLoading || error) return null;
 
   return (
     <CardComponent heading={question} fullWidth>

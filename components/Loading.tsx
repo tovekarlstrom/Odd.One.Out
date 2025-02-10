@@ -8,12 +8,13 @@ import { getAnswer } from '@/functions/getAnswer';
 import { PlayerAnswer } from '@/app/answers';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function Loading({ initial }: { initial?: string }) {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const players = useSortedPlayers();
-  const content = data.content.loading;
+  const { content, isLoading, error } = useLanguage();
+  const pageContent = content?.loading;
 
   const memoizedPlayers = useMemo(() => players, [players]);
   const { data: gameRoom } = useGameRoom();
@@ -28,6 +29,8 @@ export default function Loading({ initial }: { initial?: string }) {
     getAnswers();
   }, [documentId]);
 
+  if (isLoading || error) return null;
+
   return (
     <>
       <ThemedView style={styles.outerBox}>
@@ -35,7 +38,7 @@ export default function Loading({ initial }: { initial?: string }) {
         {initial === 'active' ? (
           <>
             <ThemedView style={styles.textBox}>
-              {content.title.active.map((text, index) => (
+              {pageContent.title.active.map((text: string, index: number) => (
                 <ThemedText
                   key={index}
                   type='heading24'
@@ -51,7 +54,7 @@ export default function Loading({ initial }: { initial?: string }) {
           </>
         ) : initial === 'waiting' ? (
           <ThemedView style={styles.textBox}>
-            {content.title.waiting.map((text, index) => (
+            {pageContent.title.waiting.map((text: string, index: number) => (
               <ThemedText key={index} type='heading24'>
                 {text}
               </ThemedText>

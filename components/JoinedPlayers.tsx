@@ -6,7 +6,7 @@ import { TextField } from './TextField';
 import { useEffect, useState } from 'react';
 import { Player } from '@/app/code';
 import { shape } from '@/utils/getIconColorAndShape';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface JoinedPlayersProps {
   heading: string;
@@ -25,8 +25,9 @@ export function JoinedPlayers({
   const [playerList, setPlayerList] = useState<Player[] | undefined>(undefined);
   const [listLength, setListLength] = useState<string>('');
   const [topHeading, setTopHeading] = useState<string>('');
+  const { content, isLoading, error } = useLanguage();
 
-  const labels = data.content.labels;
+  const labels = content?.labels;
 
   useEffect(() => {
     if (!players) return;
@@ -61,6 +62,8 @@ export function JoinedPlayers({
   }, [playerList, topPlayers]);
 
   const defaultHeading = showListLength ? `${heading} ${listLength}` : heading;
+
+  if (isLoading || error) return null;
 
   return (
     <CardComponent

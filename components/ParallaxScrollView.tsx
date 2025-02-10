@@ -4,6 +4,7 @@ import Animated, { useAnimatedRef } from 'react-native-reanimated';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors, Sizes } from '@/constants/Theme';
 import LogoIcon from './LogoIcon';
+import Toggle from './Toggle';
 
 export default function ParallaxScrollView({
   children,
@@ -21,6 +22,7 @@ export default function ParallaxScrollView({
   return (
     <ThemedView style={isHomePage ? styles.homePage : styles.container}>
       <LogoIcon style={styles.header} size={60} />
+      {isHomePage && <Toggle />}
       {scroll ? (
         <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
           <ThemedView

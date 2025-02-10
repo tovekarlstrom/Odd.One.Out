@@ -48,29 +48,29 @@
     "results": {
       "majority": {
         "winner": {
-          "title": "Congratulations!",
+          "title": "Congratulations, ",
           "description": "You matched the crowd the best and have claimed the top spot at the podium!"
         },
         "podium": {
-          "title": "Well done!",
+          "title": "Well done, ",
           "description": "You made it to the podium with your crowd-pleasing answers.."
         },
         "loser": {
-          "title": "Better luck next time!",
+          "title": "Better luck next time, ",
           "description": "Your scores did not put you on the podium, you'll get them next time!"
         }
       },
       "minority": {
         "winner": {
-          "title": "Congratulations!",
+          "title": "Congratulations, ",
           "description": "Your answers stood out, and you claimed the top spot with your originality!"
         },
         "podium": {
-          "title": "Well done!",
+          "title": "Well done, ",
           "description": "You made it to the podium by thinking differently!"
         },
         "loser": {
-          "title": "Better luck next time!",
+          "title": "Better luck next time, ",
           "description": "Your unique thinking didn't get you on the podium this time, but keep it up!"
         }
       }
@@ -86,7 +86,9 @@
       "nextRound": "Next Round",
       "endGame": "End Game",
       "newGame": "Create New Game",
-      "ok": "OK",
+      "yes": "Yes",
+      "no": "No",
+      "ok": "Ok",
       "cancel": "Cancel"
     },
     "labels": {
@@ -103,6 +105,7 @@
       "admin": "Admin",
       "answered": "Answered",
       "waiting": "Waiting",
+      "scoreBoard": "Scoreboard",
       "score": {
         "majority": {
           "right": [
@@ -141,6 +144,8 @@
       "answersAdmin": "Mark the right answers",
       "answersPlayer": "The answers are in!",
       "waitForAdmin": "Waiting for admin to enter points..",
+      "canNotProceed": "Can't proceed!",
+      "safetyCheck": "Are You Sure?",
       "cantRemove": {
         "title": "You can't remove player.",
         "description": "There needs to be at least three players in the game to continue."
@@ -150,6 +155,10 @@
         "description": "You can't change you mind after removing the player."
       },
       "statusText": "The status on each player shows if they have answered the current question or not."
+    },
+    "descriptions": {
+      "wrongPoints": "Points can only be awarded when at least two players have chosen the same answer.",
+      "safetyCheckPoints": " Make sure you've assigned points based on the players who provided the same answer before moving forward."
     }
   }
 }

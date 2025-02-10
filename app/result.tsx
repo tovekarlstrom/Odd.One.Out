@@ -23,7 +23,7 @@ export default function RoundResult() {
   const [status, setStatus] = useState<string>();
   const [randomString, setRandomString] = useState<string>('');
   const [countDown, setCountDown] = useState(5);
-  const [index, setIndex] = useState<number | undefined>(undefined);
+  const [index, setIndex] = useState<number>(0);
   const [countdownStarted, setCountdownStarted] = useState(false);
   const { data: gameRoom } = useGameRoom();
   const documentId = gameRoom.id;

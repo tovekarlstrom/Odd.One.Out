@@ -1,3 +1,4 @@
+import React from 'react';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { CardComponent } from '@/components/CardComponent';
 import { GradientContainer } from '@/components/GradientContainer';
@@ -16,7 +17,7 @@ import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import data from '../public/content.json';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { shape } from '@/utils/getIconColorAndShape';
-import React from 'react';
+import { PointsConfimationModal } from '@/components/PointsConfimationModal';
 import { getStatus } from '@/utils/getStatus';
 import { getAnswers } from '@/utils/getAnswers';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
@@ -30,7 +31,8 @@ export default function Answers() {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [status, setStatus] = useState<string>();
   const [isLoading, setIsLoading] = useState(true);
-  const playerGetPoints: string[] = [];
+  const [showModal, setShowModal] = useState(false);
+  const [playerGetPoints, setPlayerGetPoints] = useState<string[]>([]);
   const { data: gameRoom } = useGameRoom();
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
@@ -58,19 +60,26 @@ export default function Answers() {
         setIsLoading(false);
       }
     }
-    if (status === 'idle') {
+    if (status === 'idle' && !isAdmin) {
       router.push('/result');
     }
   }, [status, answers, players]);
 
   const handleSelectedAnswers = (playerId: string) => {
-    playerGetPoints.push(playerId);
+    setPlayerGetPoints((prevPoints) => {
+      if (prevPoints.includes(playerId)) {
+        return prevPoints.filter((id) => id !== playerId);
+      } else {
+        return [...prevPoints, playerId];
+      }
+    });
   };
 
   const enterPoints = async () => {
     if (documentId) {
       await addPoints(documentId, playerGetPoints);
       await getOrUpdateStatus({ documentId, changeStatus: 'idle' });
+      router.push('/result');
     }
   };
 
@@ -126,14 +135,20 @@ export default function Answers() {
             )}
           </>
         )}
+        {showModal && (
+          <PointsConfimationModal
+            playerGetPoints={playerGetPoints}
+            onClose={() => setShowModal(false)}
+            onConfirm={enterPoints}
+          />
+        )}
       </ParallaxScrollView>
       {isAdmin && !isLoading && (
         <GradientContainer>
           <ButtonComponent
-            onSubmit={enterPoints}
+            onSubmit={() => setShowModal(true)}
             text={button.enterPoints}
             variant='primary'
-            route='/result'
           />
         </GradientContainer>
       )}

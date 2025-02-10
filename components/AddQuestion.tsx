@@ -9,7 +9,7 @@ import { ButtonComponent } from './ButtonComponent';
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
 import { Ionicons } from '@expo/vector-icons';
-import { content } from '../public/content.json';
+import data from '../public/content.json';
 import { majority } from '../public/statements.json';
 import { ModalComponent } from './Modal';
 
@@ -18,6 +18,7 @@ export function AddQuestion() {
   const { addQuestion } = useQuestions();
   const { questions } = useQuestions();
   const [showModal, setShowModal] = useState(false);
+  const text = data?.content?.createGame || {};
 
   const handleNewQuestion = (text: string) => {
     setNewQuestion(text);
@@ -77,7 +78,7 @@ export function AddQuestion() {
           style={{ flex: 0.5 }}
         />
         <ThemedText type='defaultSmall' style={{ flex: 4 }}>
-          {content.createGame.addNewQuestionsInfo}
+          {text.addNewQuestionsInfo}
         </ThemedText>
         <RoundButton
           isAdding={true}
@@ -87,23 +88,13 @@ export function AddQuestion() {
       </ThemedView>
       {showModal && (
         <ModalComponent
-          heading='All statements added'
+          heading={text.totalAddedQuestions.heading}
           onClose={() => {
             setShowModal(false);
           }}
-        >
-          <ThemedText type='defaultSmall' style={{ marginBottom: 20 }}>
-            All statements from the database have been added. Try adding your
-            own!
-          </ThemedText>
-          <ButtonComponent
-            text='Close'
-            variant='primary'
-            onSubmit={() => {
-              setShowModal(false);
-            }}
-          />
-        </ModalComponent>
+          description={text.totalAddedQuestions.description}
+          oneButton
+        />
       )}
     </View>
   );

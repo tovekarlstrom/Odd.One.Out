@@ -8,11 +8,11 @@ _Odd One Out_ is a React Native-powered game inspired by the concept of group dy
 
 ## 🚀 Features
 
-✔ **Multiplayer game** – Compete with friends in real time
-✔ **Engaging UI/UX** – Smooth and interactive interface
-✔ **Custom game rooms** – Host or join rooms with a unique game code or QR code
-✔ **Live updates** – Reacts dynamically to player interactions
-✔ **Cross-platform** – Soon available on iOS and Android
+✔ **Multiplayer game** – Compete with friends in real time  
+✔ **Engaging UI/UX** – Smooth and interactive interface  
+✔ **Custom game rooms** – Host or join rooms with a unique game code or QR code  
+✔ **Live updates** – Reacts dynamically to player interactions  
+✔ **Cross-platform** – Soon available on iOS and Android  
 
 ## 🛠️ Tech Stack
 
@@ -39,7 +39,7 @@ cd odd-one-out
 npm install
 ```
 
-# or
+### or
 
 ```sh
 yarn install
@@ -51,7 +51,7 @@ yarn install
 npm start
 ```
 
-# or
+### or
 
 ```sh
 yarn start

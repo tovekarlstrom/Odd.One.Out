@@ -11,7 +11,6 @@ import { ThemedView } from '@/components/ThemedView';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { Sizes } from '@/constants/Theme';
 import LearnMore from '@/components/LearnMore';
-// import data from '../public/content.json';
 import startBackground from '../assets/images/startBackground.png';
 import { useEffect, useRef } from 'react';
 import { useState } from 'react';
@@ -23,7 +22,7 @@ export default function HomeScreen() {
   const [showModal, setShowModal] = useState(false);
   const { content, isLoading, error } = useLanguage();
   const labels = content?.labels;
-  const newcontent = content?.startPage;
+  const pageContent = content?.startPage;
   const button = content?.buttons;
 
   useEffect(() => {
@@ -51,10 +50,10 @@ export default function HomeScreen() {
       >
         <ParallaxScrollView isHomePage={true}>
           <ThemedView style={styles.titleContainer}>
-            <ThemedText type='title'>{newcontent.title}</ThemedText>
+            <ThemedText type='title'>{pageContent.title}</ThemedText>
           </ThemedView>
           <ThemedView style={styles.stepContainer}>
-            <ThemedText type='default'>{newcontent.description}</ThemedText>
+            <ThemedText type='default'>{pageContent.description}</ThemedText>
           </ThemedView>
           <ThemedView style={styles.stepContainer}>
             <ButtonComponent
@@ -77,7 +76,7 @@ export default function HomeScreen() {
             heading={labels.enterCodeOptions}
           >
             <ButtonComponent
-              text='Scan QR code'
+              text={button.scanCode}
               variant='primary'
               route={'/scanCode'}
               icon='qr-code-outline'
@@ -87,7 +86,7 @@ export default function HomeScreen() {
               {labels.or}
             </ThemedText>
             <ButtonComponent
-              text='Enter code'
+              text={button.enterCode}
               variant='secondary'
               route='/join'
               onSubmit={() => {

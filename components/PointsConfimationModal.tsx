@@ -2,7 +2,7 @@ import { ButtonComponent } from './ButtonComponent';
 import { ModalComponent } from './Modal';
 import { ThemedText } from './ThemedText';
 import { ThemedView } from './ThemedView';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export const PointsConfimationModal = ({
   playerGetPoints,
@@ -13,9 +13,12 @@ export const PointsConfimationModal = ({
   onClose: () => void;
   onConfirm: () => void;
 }) => {
-  const labels = data?.content?.labels || {};
-  const descriptions = data?.content?.descriptions || {};
-  const buttons = data?.content?.buttons || {};
+  const { content, isLoading, error } = useLanguage();
+  const labels = content?.labels;
+  const descriptions = content?.descriptions;
+  const buttons = content?.buttons;
+
+  if (isLoading || error) return null;
 
   if (playerGetPoints.length === 1) {
     return (

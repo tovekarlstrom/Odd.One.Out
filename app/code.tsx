@@ -128,7 +128,7 @@ export default function Code() {
         <View style={styles.cardContainer}>
           <JoinedPlayers
             players={players}
-            heading={content.subHeading}
+            heading={pageContent.subHeading}
             showListLength={true}
           />
         </View>

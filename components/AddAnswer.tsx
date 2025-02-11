@@ -12,6 +12,7 @@ export function AddAnswer({ question }: { question: string }) {
   const { data: gameRoom } = useGameRoom();
   const { content, isLoading, error } = useLanguage();
   const button = content?.buttons;
+  const labels = content?.labels;
   const documentId = gameRoom?.id;
 
   const router = useRouter();
@@ -31,7 +32,7 @@ export function AddAnswer({ question }: { question: string }) {
   return (
     <CardComponent heading={question} fullWidth>
       <InputComponent
-        placeholder='Your answer'
+        placeholder={labels?.answer}
         onChangeText={(text) => {
           setNewAnswer(text);
         }}

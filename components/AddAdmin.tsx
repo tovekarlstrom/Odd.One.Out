@@ -23,6 +23,7 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
   const { questions } = useQuestions();
   const { content, isLoading, error } = useLanguage();
   const [playerName, setPlayerName] = useState<string>('');
+  const labels = content?.labels;
   const button = content?.buttons;
 
   const handlePress = async () => {
@@ -45,10 +46,10 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
       onClose={onClose}
     >
       <>
-        <ThemedText type='heading24'>Add your player name</ThemedText>
+        <ThemedText type='heading24'>{labels.addPlayerName}</ThemedText>
         <ThemedView style={styles.inputContainer}>
           <InputComponent
-            placeholder='Name'
+            placeholder={labels.name}
             onChangeText={(value) => {
               setPlayerName(value);
             }}

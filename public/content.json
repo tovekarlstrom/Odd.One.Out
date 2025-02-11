@@ -83,6 +83,8 @@
         "joinGame": "Join Game",
         "learnMore": "Learn more",
         "sendAnswer": "Send Answer",
+        "scanCode": "Scan QR Code",
+        "enterCode": "Enter Code",
         "enterPoints": "Enter Points",
         "nextRound": "Next Round",
         "endGame": "End Game",
@@ -92,8 +94,13 @@
         "ok": "Ok"
       },
       "labels": {
+        "answer": "Your answer",
         "enterCodeOptions": "How do you want to join?",
         "or": "or",
+        "code": "Code",
+        "name": "Name",
+        "question": "Question",
+        "addPlayerName": "Add your player name",
         "gameCountdown": "Game starts in ",
         "topPlayers": "Top players",
         "topPlayer": "Top player",
@@ -181,7 +188,7 @@
           "Allt är klart! Dags att starta spelet."
         ],
         "description": "Dela koden med dina vänner för att de ska kunna gå med i spelet.",
-        "subHeading": ""
+        "subHeading": "Anslutna spelare"
       },
       "joinGame": {
         "title": "Redo att spela?",
@@ -191,7 +198,7 @@
       "loading": {
         "title": {
           "waiting": ["Håll ut!", "Spelet börjar snart!"],
-          "active": ["Ha tålamod", "Någon tar sin tid..."]
+          "active": ["Ha tålamod!", "Någon tar sin tid..."]
         }
       },
       "results": {
@@ -231,6 +238,8 @@
         "joinGame": "Gå med",
         "learnMore": "Läs mer",
         "sendAnswer": "Svara",
+        "scanCode": "Scanna QR-kod",
+        "enterCode": "Ange spelkod",
         "enterPoints": "Lägg till poäng",
         "nextRound": "Nästa runda",
         "endGame": "Avsluta spel",
@@ -240,8 +249,13 @@
         "ok": "Ok"
       },
       "labels": {
+        "answer": "Ditt svar",
         "enterCodeOptions": "Hur vill du går med?",
         "or": "eller",
+        "code": "Spelkod",
+        "name": "Namn",
+        "question": "Fråga",
+        "addPlayerName": "Ange ditt namn",
         "gameCountdown": "Spelet startar om ",
         "topPlayers": "Toppspelare",
         "topPlayer": "Toppspelare",
@@ -282,7 +296,7 @@
             ]
           }
         },
-        "pointsAdded": "poäng tillagda till din score",
+        "pointsAdded": "poäng har lagts till.",
         "answersAdmin": "Markera de rätta svaren",
         "answersPlayer": "Alla svar är inne!",
         "waitForAdmin": "Väntar på att admin ska ange poäng..",
@@ -291,7 +305,7 @@
       },
       "descriptions": {
         "wrongPoints": "Poäng delas bara ut om minst två personer har svarat samma.",
-        "safetyCheckPoints": "Dubbelkollaatt du gett poäng till de spelare som har valt samma svar innan du går vidare."
+        "safetyCheckPoints": "Har du gett poäng till de spelare som har valt samma svar innan du går vidare?"
       }
     }
   }

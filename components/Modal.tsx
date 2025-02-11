@@ -10,14 +10,33 @@ import {
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
 import { Ionicons } from '@expo/vector-icons';
+import { ButtonComponent } from './ButtonComponent';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface ModalProps {
   heading: string;
+  description?: string;
   children?: React.ReactNode;
   onClose?: () => void;
+  onContinue?: () => void;
+  showCloseButton?: boolean;
+  oneButton?: boolean;
+  twoButtons?: boolean;
 }
-export function ModalComponent({ heading, children, onClose }: ModalProps) {
+export function ModalComponent({
+  heading,
+  description,
+  children,
+  onClose,
+  onContinue,
+  showCloseButton,
+  oneButton,
+  twoButtons,
+}: ModalProps) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const { content, isLoading, error } = useLanguage();
+
+  const buttons = content?.buttons;
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -36,25 +55,55 @@ export function ModalComponent({ heading, children, onClose }: ModalProps) {
       if (onClose) onClose();
     });
   };
+
+  if (isLoading || error) return null;
+
   return (
     <Modal animationType='fade' transparent={true}>
       <Pressable style={styles.backdrop} onPress={handleClose}>
         <Animated.View style={[styles.centeredView, { opacity: fadeAnim }]}>
           <ThemedView style={styles.modalView}>
-            <ThemedView
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'flex-end',
-                width: '100%',
-              }}
-            >
-              <TouchableOpacity onPress={handleClose}>
-                <Ionicons name='close' size={24} color={Colors.light.icon} />
-              </TouchableOpacity>
-            </ThemedView>
+            {showCloseButton && (
+              <ThemedView style={styles.closeButton}>
+                <TouchableOpacity onPress={handleClose}>
+                  <Ionicons name='close' size={30} color={Colors.light.icon} />
+                </TouchableOpacity>
+              </ThemedView>
+            )}
             <ThemedText type='heading32' style={styles.heading}>
               {heading}
             </ThemedText>
+            {description && (
+              <ThemedText type='default' style={{ padding: 15 }}>
+                {description}
+              </ThemedText>
+            )}
+            {oneButton && (
+              <ButtonComponent
+                text={buttons.ok}
+                variant='primary'
+                onSubmit={handleClose}
+              />
+            )}
+            {twoButtons && (
+              <>
+                <ButtonComponent
+                  text={buttons.ok}
+                  variant='primary'
+                  onSubmit={() => {
+                    if (onContinue) {
+                      handleClose();
+                      onContinue();
+                    }
+                  }}
+                />
+                <ButtonComponent
+                  text={buttons.cancel}
+                  variant='secondary'
+                  onSubmit={handleClose}
+                />
+              </>
+            )}
             {children}
           </ThemedView>
         </Animated.View>
@@ -76,11 +125,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   modalView: {
-    width: '80%',
-    borderRadius: 20,
+    position: 'relative',
+    width: '90%',
+    borderRadius: 30,
     backgroundColor: Colors.light.Card,
-    paddingVertical: 20,
-    paddingHorizontal: 10,
+    paddingVertical: 40,
+    paddingHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -91,6 +141,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  closeButton: {
+    position: 'absolute',
+    right: 15,
+    top: 15,
   },
   heading: {
     fontSize: 18,

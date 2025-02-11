@@ -5,6 +5,8 @@ import { ThemedView } from '@/components/ThemedView';
 import { Colors, Sizes } from '@/constants/Theme';
 import LogoIcon from './LogoIcon';
 import Toggle from './Toggle';
+import Settings from './Settings';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 
 export default function ParallaxScrollView({
   children,
@@ -19,10 +21,20 @@ export default function ParallaxScrollView({
 }) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
+  const { data: isAdmin } = useIsAdmin();
+
   return (
-    <ThemedView style={isHomePage ? styles.homePage : styles.container}>
+    <ThemedView
+      style={[
+        styles.container,
+        {
+          backgroundColor: isHomePage ? 'transparent' : Colors.light.background,
+        },
+      ]}
+    >
       <LogoIcon style={styles.header} size={60} />
       {isHomePage && <Toggle />}
+      {isAdmin && <Settings />}
       {scroll ? (
         <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
           <ThemedView
@@ -53,11 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.light.background,
     paddingTop: 80,
-  },
-  homePage: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    paddingTop: 80,
+    width: '100%',
   },
   header: {
     position: 'absolute',

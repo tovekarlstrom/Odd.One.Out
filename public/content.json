@@ -91,7 +91,8 @@
         "newGame": "Create New Game",
         "yes": "Yes",
         "no": "No",
-        "ok": "Ok"
+        "ok": "Ok",
+        "cancel": "Cancel"
       },
       "labels": {
         "answer": "Your answer",
@@ -105,7 +106,13 @@
         "topPlayers": "Top players",
         "topPlayer": "Top player",
         "noPoints": "No player has points yet..",
+        "settings": "Settings",
+        "gameRoom": "Game Room",
+        "handlePlayers": "Handle Players",
         "players": "Players",
+        "admin": "Admin",
+        "answered": "Answered",
+        "waiting": "Waiting",
         "scoreBoard": "Scoreboard",
         "score": {
           "majority": {
@@ -146,7 +153,16 @@
         "answersPlayer": "The answers are in!",
         "waitForAdmin": "Waiting for admin to enter points..",
         "canNotProceed": "Can’t proceed!",
-        "safetyCheck": "Are You Sure?"
+        "safetyCheck": "Are You Sure?",
+        "cantRemove": {
+          "title": "You can't remove player.",
+          "description": "There needs to be at least three players in the game to continue."
+        },
+        "areYouSureRemove": {
+          "title": "Are you sure?",
+          "description": "You can't change you mind after removing the player."
+        },
+        "statusText": "The status on each player shows if they have answered the current question or not."
       },
       "descriptions": {
         "wrongPoints": "Points can only be awarded when at least two players have chosen the same answer.",
@@ -246,7 +262,8 @@
         "newGame": "Nytt spel",
         "yes": "Ja",
         "no": "Nej",
-        "ok": "Ok"
+        "ok": "Ok",
+        "cancel": "Avbryt"
       },
       "labels": {
         "answer": "Ditt svar",
@@ -260,8 +277,14 @@
         "topPlayers": "Toppspelare",
         "topPlayer": "Toppspelare",
         "noPoints": "Ingen spelare har fått poäng än..",
+        "settings": "Inställningar",
+        "gameRoom": "Spelrum",
+        "handlePlayers": "Hantera spelare",
         "players": "Spelare",
-        "scoreBoard": "Scoreboard",
+        "admin": "Admin",
+        "answered": "Svarat",
+        "waiting": "Väntar",
+        "scoreBoard": "Resultat",
         "score": {
           "majority": {
             "right": [
@@ -301,7 +324,16 @@
         "answersPlayer": "Alla svar är inne!",
         "waitForAdmin": "Väntar på att admin ska ange poäng..",
         "canNotProceed": "Kan inte gå vidare!",
-        "safetyCheck": "Är du säker?"
+        "safetyCheck": "Är du säker?",
+        "cantRemove": {
+          "title": "Du kan inte ta bort spelare.",
+          "description": "Det behöver vara minst tre spelare för att kunna fortsätta spelet."
+        },
+        "areYouSureRemove": {
+          "title": "Är du säker?",
+          "description": "Du kan inte ångra dig efter att spelaren är borttagen."
+        },
+        "statusText": "Status på varje spelare visar om de har svarat på den aktuella frågan eller inte."
       },
       "descriptions": {
         "wrongPoints": "Poäng delas bara ut om minst två personer har svarat samma.",

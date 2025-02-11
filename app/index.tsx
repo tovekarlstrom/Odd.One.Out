@@ -12,6 +12,7 @@ import { ButtonComponent } from '@/components/ButtonComponent';
 import { Sizes } from '@/constants/Theme';
 import LearnMore from '@/components/LearnMore';
 import startBackground from '../assets/images/startBackground.png';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { ModalComponent } from '@/components/Modal';
@@ -24,6 +25,10 @@ export default function HomeScreen() {
   const labels = content?.labels;
   const pageContent = content?.startPage;
   const button = content?.buttons;
+
+  useEffect(() => {
+    AsyncStorage.setItem('isAdmin', 'false');
+  }, []);
 
   useEffect(() => {
     Animated.timing(fadeBackground, {
@@ -74,6 +79,7 @@ export default function HomeScreen() {
           <ModalComponent
             onClose={handleBackdropPress}
             heading={labels.enterCodeOptions}
+            showCloseButton={true}
           >
             <ButtonComponent
               text={button.scanCode}
@@ -120,6 +126,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100%',
+    overflow: 'hidden',
   },
   container: {},
 });

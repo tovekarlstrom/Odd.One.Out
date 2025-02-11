@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 const getAdmin = async () => {
   const admin = await AsyncStorage.getItem('isAdmin');
@@ -13,6 +13,24 @@ const getAdmin = async () => {
   }
 };
 
+const setIsAdmin = async (isAdmin: boolean) => {
+  await AsyncStorage.setItem('isAdmin', JSON.stringify(isAdmin));
+};
+
 export const useIsAdmin = () => {
-  return useQuery('isAdmin', getAdmin);
+  const queryClient = useQueryClient();
+
+  const { data: isAdmin, isLoading, error } = useQuery('isAdmin', getAdmin);
+
+  const mutation = useMutation(setIsAdmin, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('isAdmin');
+    },
+  });
+
+  const updateIsAdmin = (newIsAdmin: boolean) => {
+    mutation.mutate(newIsAdmin);
+  };
+
+  return { isAdmin, isLoading, error, updateIsAdmin };
 };

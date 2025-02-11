@@ -24,6 +24,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { ThemedView } from '@/components/ThemedView';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 
 export default function Join() {
   const [gameCode, setGameCode] = useState('');
@@ -34,6 +35,7 @@ export default function Join() {
   const labels = content?.labels;
   const inputRef = useRef<TextInput | null>(null);
   const searchParams = useLocalSearchParams();
+  const { updateIsAdmin } = useIsAdmin();
   const QRcode = searchParams.code;
   const [checkPlayerName, setCheckPlayerName] = useState(false);
 
@@ -51,7 +53,7 @@ export default function Join() {
     if (gameRoom?.id) {
       await AsyncStorage.setItem('gameRoom', JSON.stringify(gameRoom));
       await addPlayers(gameRoom.id, playerName);
-      await AsyncStorage.setItem('isAdmin', 'false');
+      updateIsAdmin(false);
 
       router.push('/game');
     } else {
@@ -68,7 +70,7 @@ export default function Join() {
   if (isLoading || error) return null;
 
   return (
-    <ParallaxScrollView paddingTop={55} scroll={false}>
+    <ParallaxScrollView paddingTop={45} scroll={false}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
@@ -137,13 +139,14 @@ export default function Join() {
                       alignItems: 'center',
                       gap: 8,
                       position: 'absolute',
+                      left: 25,
                       bottom: 85,
                     }}
                   >
                     <Ionicons name='alert-circle-outline' size={20} />
                     <ThemedText type='default' style={{}}>
-                      {playerName.length <= 2 && 'Min 2 characters'}
-                      {playerName.length >= 10 && 'Max 10 characters'}
+                      {playerName.length <= 2 && labels.minChars}
+                      {playerName.length >= 10 && labels.maxChars}
                     </ThemedText>
                   </ThemedView>
                 )}

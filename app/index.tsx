@@ -12,22 +12,23 @@ import { ButtonComponent } from '@/components/ButtonComponent';
 import { Sizes } from '@/constants/Theme';
 import LearnMore from '@/components/LearnMore';
 import startBackground from '../assets/images/startBackground.png';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { ModalComponent } from '@/components/Modal';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 
 export default function HomeScreen() {
   const fadeBackground = useRef(new Animated.Value(0)).current;
   const [showModal, setShowModal] = useState(false);
   const { content, isLoading, error } = useLanguage();
+  const { updateIsAdmin } = useIsAdmin();
   const labels = content?.labels;
   const pageContent = content?.startPage;
   const button = content?.buttons;
 
   useEffect(() => {
-    AsyncStorage.setItem('isAdmin', 'false');
+    updateIsAdmin(false);
   }, []);
 
   useEffect(() => {

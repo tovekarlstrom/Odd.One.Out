@@ -37,7 +37,7 @@ export default function Answers() {
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
   const { content, isLoading, error } = useLanguage();
-  const { data: isAdmin } = useIsAdmin();
+  const { isAdmin } = useIsAdmin();
   const labels = content?.labels;
   const button = content?.buttons;
   const documentId = gameRoom?.id;

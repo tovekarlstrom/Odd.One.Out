@@ -98,8 +98,16 @@
         "answer": "Your answer",
         "enterCodeOptions": "How do you want to join?",
         "or": "or",
+        "cameraPermission": "We need your permission to access your camera",
+        "cameraInfo": "Scan the QR code to join the game",
         "code": "Code",
+        "minChars": "Minimum 2 characters",
+        "maxChars": "Maximum 10 characters",
         "name": "Name",
+        "language": {
+          "sv": "SV",
+          "en": "EN"
+        },
         "question": "Question",
         "addPlayerName": "Add your player name",
         "gameCountdown": "Game starts in ",
@@ -269,8 +277,16 @@
         "answer": "Ditt svar",
         "enterCodeOptions": "Hur vill du går med?",
         "or": "eller",
+        "cameraPermission": "Du behöver tillåta att kameran används",
+        "cameraInfo": "Scanna QR-koden för att gå med i spelet",
         "code": "Spelkod",
+        "minChars": "Minst 2 tecken",
+        "maxChars": "Max 10 tecken",
         "name": "Namn",
+        "language": {
+          "sv": "SV",
+          "en": "EN"
+        },
         "question": "Fråga",
         "addPlayerName": "Ange ditt namn",
         "gameCountdown": "Spelet startar om ",

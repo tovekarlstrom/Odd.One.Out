@@ -5,7 +5,7 @@ import content from '../public/content.json';
 // Function to fetch the language from AsyncStorage
 const fetchLanguage = async () => {
   const language = await AsyncStorage.getItem('language');
-  return language || 'en';
+  return language || 'EN';
 };
 
 // Function to set the language in AsyncStorage
@@ -17,10 +17,10 @@ const setLanguage = async (language: string) => {
 const fetchContent = async (language: string) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const contentByLanguage: { [key: string]: any } = {
-    en: content.english.content,
-    se: content.swedish.content,
+    EN: content.english.content,
+    SV: content.swedish.content,
   };
-  return contentByLanguage[language] || contentByLanguage['en'];
+  return contentByLanguage[language] || contentByLanguage['EN'];
 };
 
 // Custom hook to manage language state and fetch content
@@ -39,7 +39,7 @@ export const useLanguage = () => {
     data: content,
     isLoading: isLoadingContent,
     error: contentError,
-  } = useQuery(['content', language], () => fetchContent(language || 'en'), {
+  } = useQuery(['content', language], () => fetchContent(language || 'EN'), {
     enabled: !!language, // Only run the query if language is available
     staleTime: Infinity, // Cache the content indefinitely
   });

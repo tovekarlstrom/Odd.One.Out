@@ -4,9 +4,9 @@ import Animated, { useAnimatedRef } from 'react-native-reanimated';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors, Sizes } from '@/constants/Theme';
 import LogoIcon from './LogoIcon';
-import Toggle from './Toggle';
 import Settings from './Settings';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
+import LanguageToggle from './LanguageToggle';
 
 export default function ParallaxScrollView({
   children,
@@ -21,7 +21,7 @@ export default function ParallaxScrollView({
 }) {
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
-  const { data: isAdmin } = useIsAdmin();
+  const { isAdmin } = useIsAdmin();
 
   return (
     <ThemedView
@@ -33,7 +33,7 @@ export default function ParallaxScrollView({
       ]}
     >
       <LogoIcon style={styles.header} size={60} />
-      {isHomePage && <Toggle />}
+      {isHomePage && <LanguageToggle />}
       {isAdmin && <Settings />}
       {scroll ? (
         <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>

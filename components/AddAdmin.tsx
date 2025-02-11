@@ -10,9 +10,9 @@ import { InputComponent } from './InputComponent';
 import { GradientContainer } from './GradientContainer';
 import SlideAnimation from './SlideAnimation';
 import { useQuestions } from '@/contexts/QuestionsProvider';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getIconColorAndShape } from '@/utils/getIconColorAndShape';
 import { useLanguage } from '@/hooks/useLanguage';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 
 interface AddAdminProps {
   showAddAdmin: boolean;
@@ -22,6 +22,7 @@ interface AddAdminProps {
 export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
   const { questions } = useQuestions();
   const { content, isLoading, error } = useLanguage();
+  const { updateIsAdmin } = useIsAdmin();
   const [playerName, setPlayerName] = useState<string>('');
   const labels = content?.labels;
   const button = content?.buttons;
@@ -32,7 +33,7 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
     } else {
       const playerIcon = await getIconColorAndShape();
       await createGameRoom(playerName, questions, playerIcon);
-      AsyncStorage.setItem('isAdmin', 'true');
+      updateIsAdmin(true);
     }
   };
 

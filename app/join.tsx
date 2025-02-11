@@ -42,10 +42,6 @@ export default function Join() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    console.log('test', isSubmitting);
-  });
-
   const joinGame = async () => {
     if (isSubmitting) return;
     setIsSubmitting(true);

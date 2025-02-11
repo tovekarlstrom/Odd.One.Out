@@ -23,7 +23,7 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
   const { questions } = useQuestions();
   const [playerName, setPlayerName] = useState<string>('');
   const button = data.content.buttons;
-  const playerNameCheck = playerName.length >= 2;
+  const playerNameCheck = playerName.length >= 2 && playerName.length <= 10;
 
   const handlePress = async () => {
     if (playerNameCheck) {
@@ -31,7 +31,7 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
       await createGameRoom(playerName, questions, playerIcon);
       AsyncStorage.setItem('isAdmin', 'true');
     } else {
-      alert('Your player name has to contain at least two characters');
+      alert('Your player name must be within 2 - 10 characters');
     }
   };
 

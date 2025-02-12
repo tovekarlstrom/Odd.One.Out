@@ -9,7 +9,7 @@ export const getGameRoom = async (roomId: string) => {
   const querySnapshot = await getDocs(q);
 
   if (querySnapshot.empty) {
-    console.error('No game room found');
+    console.log('No game room found');
     return;
   }
 

@@ -174,6 +174,10 @@
           "title": "Wrong game code",
           "description": "Make sure you have entered the correct code and try again."
         },
+        "questionWarning": {
+          "title": "Already added!",
+          "description": "This question has already been added to you game."
+        },
         "statusText": "The status on each player shows if they have answered the current question or not."
       },
       "descriptions": {
@@ -356,6 +360,10 @@
         "wrongGameCode": {
           "title": "Ogiltig spelkod",
           "description": "Kontrollera att du har angett rätt kod och försök igen."
+        },
+        "questionWarning": {
+          "title": "Redan tillagd!",
+          "description": "Denna frågan är redan tillagd i ditt spel."
         },
         "statusText": "Status på varje spelare visar om de har svarat på den aktuella frågan eller inte."
       },

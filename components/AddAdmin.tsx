@@ -13,6 +13,7 @@ import { useQuestions } from '@/contexts/QuestionsProvider';
 import { getIconColorAndShape } from '@/utils/getIconColorAndShape';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
+import CharacterCheck from './CharacterCheck';
 
 interface AddAdminProps {
   showAddAdmin: boolean;
@@ -24,17 +25,15 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
   const { content, isLoading, error } = useLanguage();
   const { updateIsAdmin } = useIsAdmin();
   const [playerName, setPlayerName] = useState<string>('');
+  const [checkPlayerName, setCheckPlayerName] = useState(false);
   const labels = content?.labels;
   const button = content?.buttons;
+  const playerNameCheck = playerName.length >= 2 && playerName.length <= 10;
 
   const handlePress = async () => {
-    if (playerName.length < 3) {
-      alert('Your player name has to contain at least three characters');
-    } else {
-      const playerIcon = await getIconColorAndShape();
-      await createGameRoom(playerName, questions, playerIcon);
-      updateIsAdmin(true);
-    }
+    const playerIcon = await getIconColorAndShape();
+    await createGameRoom(playerName, questions, playerIcon);
+    updateIsAdmin(true);
   };
 
   if (isLoading || error) return null;
@@ -53,16 +52,32 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
             placeholder={labels.name}
             onChangeText={(value) => {
               setPlayerName(value);
+              if (value.length >= 2 && value.length <= 10) {
+                setCheckPlayerName(true);
+              } else {
+                setCheckPlayerName(false);
+              }
             }}
             value={playerName}
+            returnKeyType='join'
+            onSubmitEditing={() => {
+              if (checkPlayerName) {
+                handlePress();
+              }
+            }}
+            checks={checkPlayerName}
           />
+          {!checkPlayerName && playerName.length > 0 && (
+            <CharacterCheck playerName={playerName} addAdmin={true} />
+          )}
         </ThemedView>
         <GradientContainer>
           <ButtonComponent
             onSubmit={handlePress}
             text={button.createGame}
             variant='primary'
-            route={playerName.length >= 3 ? '/code' : undefined}
+            route={playerNameCheck ? '/code' : undefined}
+            buttonDisabled={!checkPlayerName}
           />
         </GradientContainer>
       </>

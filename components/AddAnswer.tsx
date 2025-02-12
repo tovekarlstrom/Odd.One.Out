@@ -42,7 +42,12 @@ export function AddAnswer({ question }: { question: string }) {
         variant='primary'
         text={button.sendAnswer}
         onSubmit={() => {
-          addNewAnswer();
+          console.log(newAnswer.length);
+          if (newAnswer.length > 0 && newAnswer.length < 100) {
+            addNewAnswer();
+          } else {
+            alert('You need to enter an answer with 1 - 100 characters');
+          }
         }}
       />
     </CardComponent>

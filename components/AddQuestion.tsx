@@ -6,9 +6,11 @@ import { useState } from 'react';
 import { useQuestions } from '@/contexts/QuestionsProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLanguage } from '@/hooks/useLanguage';
+import { ModalComponent } from './Modal';
 
 export function AddQuestion() {
   const [newQuestion, setNewQuestion] = useState<string>('');
+  const [showWarningModal, setShowWarningModal] = useState(false);
   const { addQuestion } = useQuestions();
   const { content, isLoading, error } = useLanguage();
   const labels = content?.labels;
@@ -17,16 +19,20 @@ export function AddQuestion() {
     setNewQuestion(text);
   };
   const addNewQuestion = async () => {
-    if (!newQuestion) return;
+    if (!newQuestion || newQuestion.length > 100) {
+      alert('Question must be within 0 - 100 characters');
+      return;
+    }
 
     const questions = await AsyncStorage.getItem('questions');
     const parsedQuestions = questions ? JSON.parse(questions) : [];
 
     if (parsedQuestions.includes(newQuestion)) {
-      return alert('This question has already been added.');
+      setShowWarningModal(true);
+    } else {
+      addQuestion(newQuestion);
     }
 
-    addQuestion(newQuestion);
     setNewQuestion('');
   };
 
@@ -41,6 +47,14 @@ export function AddQuestion() {
         onSubmitEditing={addNewQuestion}
       />
       <RoundButton isAdding={true} onPress={addNewQuestion} />
+      {showWarningModal && (
+        <ModalComponent
+          onClose={() => setShowWarningModal(false)}
+          heading={labels.questionWarning.title}
+          description={labels.questionWarning.description}
+          oneButton={true}
+        />
+      )}
     </View>
   );
 }

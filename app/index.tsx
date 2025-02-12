@@ -43,63 +43,79 @@ export default function HomeScreen() {
 
   return (
     <Animated.View
-      style={[styles.animatedContainer, { opacity: fadeBackground }]}
+      style={[
+        styles.animatedContainer,
+        {
+          opacity: fadeBackground,
+          maxWidth: Sizes.Widths.medium,
+          margin: 'auto',
+        },
+      ]}
     >
-      <ImageBackground
-        source={startBackground as ImageSourcePropType}
-        resizeMode='cover'
-        style={styles.backGround}
+      <ThemedView
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          overflow: 'hidden',
+        }}
       >
-        <ParallaxScrollView isHomePage={true}>
-          <ThemedView style={styles.titleContainer}>
-            <ThemedText type='title'>{content.title}</ThemedText>
-          </ThemedView>
-          <ThemedView style={styles.stepContainer}>
-            <ThemedText type='default'>{content.description}</ThemedText>
-          </ThemedView>
-          <ThemedView style={styles.stepContainer}>
-            <ButtonComponent
-              text={button.joinGame}
-              variant='primary'
-              onSubmit={() => {
-                setShowModal(true);
-              }}
-            />
-            <ButtonComponent
-              text={button.createGame}
-              variant='secondary'
-              route='/create?mode=majority'
-            />
-          </ThemedView>
-        </ParallaxScrollView>
-        {showModal && (
-          <ModalComponent
-            onClose={handleBackdropPress}
-            heading={labels.enterCodeOptions}
-            showCloseButton={true}
-          >
-            <ButtonComponent
-              text='Scan QR code'
-              variant='primary'
-              route={'/scanCode'}
-              icon='qr-code-outline'
-              onSubmit={() => setShowModal(false)}
-            />
-            <ThemedText type='defaultSemiBold' style={{ paddingTop: 15 }}>
-              {labels.or}
-            </ThemedText>
-            <ButtonComponent
-              text='Enter code'
-              variant='secondary'
-              route='/join'
-              onSubmit={() => {
-                setTimeout(() => setShowModal(false), 30);
-              }}
-            />
-          </ModalComponent>
-        )}
-        <LearnMore />
-      </ImageBackground>
+        <ImageBackground
+          source={startBackground as ImageSourcePropType}
+          resizeMode='cover'
+          style={styles.backGround}
+        >
+          <ParallaxScrollView isHomePage={true}>
+            <ThemedView style={styles.titleContainer}>
+              <ThemedText type='title'>{content.title}</ThemedText>
+            </ThemedView>
+            <ThemedView style={styles.stepContainer}>
+              <ThemedText type='default'>{content.description}</ThemedText>
+            </ThemedView>
+            <ThemedView style={styles.stepContainer}>
+              <ButtonComponent
+                text={button.joinGame}
+                variant='primary'
+                onSubmit={() => {
+                  setShowModal(true);
+                }}
+              />
+              <ButtonComponent
+                text={button.createGame}
+                variant='secondary'
+                route='/create?mode=majority'
+              />
+            </ThemedView>
+          </ParallaxScrollView>
+          {showModal && (
+            <ModalComponent
+              onClose={handleBackdropPress}
+              heading={labels.enterCodeOptions}
+              showCloseButton={true}
+            >
+              <ButtonComponent
+                text='Scan QR code'
+                variant='primary'
+                route={'/scanCode'}
+                icon='qr-code-outline'
+                onSubmit={() => setShowModal(false)}
+              />
+              <ThemedText type='defaultSemiBold' style={{ paddingTop: 15 }}>
+                {labels.or}
+              </ThemedText>
+              <ButtonComponent
+                text='Enter code'
+                variant='secondary'
+                route='/join'
+                onSubmit={() => {
+                  setTimeout(() => setShowModal(false), 30);
+                }}
+              />
+            </ModalComponent>
+          )}
+          <LearnMore />
+        </ImageBackground>
+      </ThemedView>
     </Animated.View>
   );
 }
@@ -115,15 +131,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   stepContainer: {
-    gap: 8,
-    marginVertical: Sizes.Spacings.medium,
+    gap: 17,
+    marginVertical: Sizes.Spacings.large,
   },
   backGround: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    minHeight: '100%',
-    overflow: 'hidden',
+    height: '100%',
+    width: '100%',
   },
-  container: {},
 });

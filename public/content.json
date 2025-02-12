@@ -6,23 +6,28 @@
     },
     "learnMorePage": {
       "title": "Learn more about Odd One Out!",
-      "modes": [
-        {
+      "modes": {
+        "majority": {
           "description": "In this mode, the goal is to NOT be the odd one out. The challenge is to guess what others will pick—can you predict what they'll choose? You'll only score points if someone else thinks the same way. The player with the most points at the end wins!",
           "subHeading": "Think Oddly Together",
           "route": "majority"
         },
-        {
+        "minority": {
           "description": "In this mode, you WANT to be the odd one out! Your mission is to think differently from everyone else. You'll only score points if no one else picks the same answer as you. If someone else has the same idea, neither of you scores! It's all about standing out and thinking outside the box—dare to be different!",
           "subHeading": "Dare To Be Odd",
           "route": "minority"
         }
-      ]
+      }
     },
     "createGame": {
       "title": "Enter questions to challenge the crowd.",
-      "description": "",
-      "subHeading": "Added Questions"
+      "description": "Formulate your questions in a way that there is no right or wrong answer, all questions should be objective.",
+      "subHeading": "Added Questions",
+      "addNewQuestionsInfo": "Struggling with inspiration? Add random questions to get started!",
+      "totalAddedQuestions": {
+        "heading": "All statements added",
+        "description": "All statements from the database have been added. Try adding your own!"
+      }
     },
     "code": {
       "title": [

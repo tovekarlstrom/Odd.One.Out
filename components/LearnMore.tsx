@@ -12,6 +12,7 @@ import data from '../public/content.json';
 export default function LearnMore() {
   const [openLearnMore, setOpenLearnMore] = useState<boolean>(false);
   const content = data.content.learnMorePage;
+  const majority = content.modes.majority;
   const button = data.content.buttons;
 
   const clickLearnMore = () => {
@@ -44,22 +45,18 @@ export default function LearnMore() {
           </ThemedView>
         </Pressable>
         {openLearnMore && (
-          <>
-            <ThemedView style={styles.learnMoreContainer}>
-              <ThemedText type='title'>{content.title}</ThemedText>
-              {content.modes.map((mode, index) => (
-                <ThemedView key={index} style={styles.textBox}>
-                  <ThemedText type='defaultLarge'>{mode.subHeading}</ThemedText>
-                  <ThemedText type='default'>{mode.description}</ThemedText>
-                  <ButtonComponent
-                    text={button.createGame}
-                    variant='primary'
-                    route={`/create?mode=${mode.route}`}
-                  />
-                </ThemedView>
-              ))}
+          <ThemedView style={styles.learnMoreContainer}>
+            <ThemedText type='title'>{content.title}</ThemedText>
+            <ThemedView style={styles.textBox}>
+              <ThemedText type='defaultLarge'>{majority.subHeading}</ThemedText>
+              <ThemedText type='default'>{majority.description}</ThemedText>
+              <ButtonComponent
+                text={button.createGame}
+                variant='primary'
+                route={`/create?mode=${majority.route}`}
+              />
             </ThemedView>
-          </>
+          </ThemedView>
         )}
       </ThemedView>
     </SlideAnimation>

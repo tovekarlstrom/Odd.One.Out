@@ -170,6 +170,10 @@
           "title": "Are you sure?",
           "description": "You can't change you mind after removing the player."
         },
+        "wrongGameCode": {
+          "title": "Wrong game code",
+          "description": "Make sure you have entered the correct code and try again."
+        },
         "statusText": "The status on each player shows if they have answered the current question or not."
       },
       "descriptions": {
@@ -348,6 +352,10 @@
         "areYouSureRemove": {
           "title": "Är du säker?",
           "description": "Du kan inte ångra dig efter att spelaren är borttagen."
+        },
+        "wrongGameCode": {
+          "title": "Ogiltig spelkod",
+          "description": "Kontrollera att du har angett rätt kod och försök igen."
         },
         "statusText": "Status på varje spelare visar om de har svarat på den aktuella frågan eller inte."
       },

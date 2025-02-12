@@ -20,15 +20,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
-import { Ionicons } from '@expo/vector-icons';
-import { ThemedView } from '@/components/ThemedView';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
+import { ModalComponent } from '@/components/Modal';
+import CharacterCheck from '@/components/CharacterCheck';
 
 export default function Join() {
   const [gameCode, setGameCode] = useState('');
   const [playerName, setPlayerName] = useState<string>('');
+  const [showWarningModal, setShowWarningModal] = useState(false);
   const { content, isLoading, error } = useLanguage();
   const pageContent = content?.joinGame;
   const button = content?.buttons;
@@ -57,7 +58,7 @@ export default function Join() {
 
       router.push('/game');
     } else {
-      alert('Wrong game code!');
+      setShowWarningModal(true);
     }
   };
 
@@ -132,23 +133,7 @@ export default function Join() {
                   checks={checkPlayerName}
                 />
                 {!checkPlayerName && playerName.length > 0 && (
-                  <ThemedView
-                    style={{
-                      paddingLeft: 10,
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      gap: 8,
-                      position: 'absolute',
-                      left: 25,
-                      bottom: 85,
-                    }}
-                  >
-                    <Ionicons name='alert-circle-outline' size={20} />
-                    <ThemedText type='default' style={{}}>
-                      {playerName.length <= 2 && labels.minChars}
-                      {playerName.length >= 10 && labels.maxChars}
-                    </ThemedText>
-                  </ThemedView>
+                  <CharacterCheck playerName={playerName} />
                 )}
                 <ButtonComponent
                   style={styles.button}
@@ -163,6 +148,14 @@ export default function Join() {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+      {showWarningModal && (
+        <ModalComponent
+          onClose={() => setShowWarningModal(false)}
+          heading={labels.wrongGameCode.title}
+          description={labels.wrongGameCode.description}
+          oneButton={true}
+        />
+      )}
     </ParallaxScrollView>
   );
 }

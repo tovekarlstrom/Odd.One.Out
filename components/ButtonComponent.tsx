@@ -42,7 +42,7 @@ export function ButtonComponent({
   })();
 
   const handlePress = async () => {
-    Haptics.selectionAsync();
+    if (Haptics) Haptics.selectionAsync();
     if (onSubmit) {
       setDisable(true);
       try {
@@ -64,7 +64,6 @@ export function ButtonComponent({
         {
           backgroundColor: buttonColor,
         },
-        ,
         style,
       ]}
       onPress={handlePress}

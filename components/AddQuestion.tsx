@@ -65,6 +65,7 @@ export function AddQuestion() {
       <ThemedView
         style={{
           flexDirection: 'row',
+          alignItems: 'center',
           gap: 10,
           width: 310,
           marginHorizontal: 20,

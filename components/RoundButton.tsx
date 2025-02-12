@@ -16,7 +16,7 @@ export function RoundButton({ isAdding, onPress, disabled }: RoundButtonProps) {
   const labels = data.content.labels;
 
   const handlePress = () => {
-    Haptics.selectionAsync();
+    if (Haptics) Haptics.selectionAsync();
     if (onPress) {
       onPress();
     }

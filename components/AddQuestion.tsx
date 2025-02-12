@@ -24,7 +24,10 @@ export function AddQuestion() {
     setNewQuestion(text);
   };
   const addNewQuestion = async () => {
-    if (!newQuestion) return;
+    if (!newQuestion || newQuestion.length > 100) {
+      alert('Question must be within 0 - 100 characters');
+      return;
+    }
 
     const questions = await AsyncStorage.getItem('questions');
     const parsedQuestions = questions ? JSON.parse(questions) : [];

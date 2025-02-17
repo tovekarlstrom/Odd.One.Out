@@ -5,7 +5,7 @@ import content from '../public/content.json';
 // Function to fetch the language from AsyncStorage
 const fetchLanguage = async () => {
   const language = await AsyncStorage.getItem('language');
-  return language || 'EN';
+  return language ?? 'EN';
 };
 
 // Function to set the language in AsyncStorage
@@ -40,8 +40,9 @@ export const useLanguage = () => {
     isLoading: isLoadingContent,
     error: contentError,
   } = useQuery(['content', language], () => fetchContent(language || 'EN'), {
-    enabled: !!language, // Only run the query if language is available
+    enabled: !!language && language !== undefined, // Only run the query if language is available
     staleTime: Infinity, // Cache the content indefinitely
+    keepPreviousData: true, // Keep the previous data while fetching new data
   });
 
   // Mutation to update the language
@@ -53,7 +54,12 @@ export const useLanguage = () => {
   });
 
   const updateLanguage = (newLanguage: string) => {
-    mutation.mutate(newLanguage);
+    queryClient.setQueryData('language', newLanguage);
+    mutation.mutate(newLanguage, {
+      onSettled: () => {
+        queryClient.invalidateQueries(['content', newLanguage]);
+      },
+    });
   };
 
   return {

@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
-    overflow: 'scroll',
   },
   textBox: {
     paddingTop: Sizes.Spacings.xLarge,

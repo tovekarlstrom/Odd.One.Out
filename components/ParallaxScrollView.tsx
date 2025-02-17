@@ -64,6 +64,7 @@ const styles = StyleSheet.create({
     maxWidth: Sizes.Widths.medium,
     paddingTop: 80,
     marginHorizontal: 'auto',
+    width: '100%',
   },
   header: {
     position: 'absolute',

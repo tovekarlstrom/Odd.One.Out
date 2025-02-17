@@ -58,6 +58,6 @@ export const Sizes = {
     xxLarge: 40,
   },
   Widths: {
-    medium: 480,
+    medium: 460,
   },
 };

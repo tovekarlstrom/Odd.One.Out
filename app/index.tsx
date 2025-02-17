@@ -65,7 +65,7 @@ export default function HomeScreen() {
           resizeMode='cover'
           style={styles.backGround}
         >
-          <ParallaxScrollView isHomePage={true}>
+          <ParallaxScrollView paddingTop={10} isHomePage={true}>
             <ThemedView style={styles.titleContainer}>
               <ThemedText type='title'>{content.title}</ThemedText>
             </ThemedView>

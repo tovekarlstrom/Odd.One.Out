@@ -57,9 +57,10 @@ export default function TabThreeScreen() {
 
   return (
     <View style={styles.container}>
-      <ParallaxScrollView>
+      <ParallaxScrollView paddingTop={50}>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type='heading32'>{pageContent.title}</ThemedText>
+          <ThemedText type='default'>{pageContent.description}</ThemedText>
         </ThemedView>
         <AddQuestion />
 
@@ -88,10 +89,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   titleContainer: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     gap: 8,
-    marginBottom: 70,
-    width: '90%',
+    marginBottom: 20,
+
+    paddingHorizontal: 20,
   },
   titleSpan: {
     color: Colors.light.contrastBlue,

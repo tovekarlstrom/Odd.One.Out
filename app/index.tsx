@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   stepContainer: {
-    gap: 8,
-    marginVertical: Sizes.Spacings.medium,
+    gap: 17,
+    marginVertical: Sizes.Spacings.large,
   },
   backGround: {
     flex: 1,

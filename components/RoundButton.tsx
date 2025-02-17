@@ -4,6 +4,7 @@ import { Colors } from '@/constants/Theme';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from './ThemedText';
 import { useLanguage } from '@/hooks/useLanguage';
+import * as Haptics from 'expo-haptics';
 
 export type RoundButtonProps = TextProps & {
   isAdding: boolean;
@@ -18,8 +19,14 @@ export function RoundButton({ isAdding, onPress, disabled }: RoundButtonProps) {
 
   if (isLoading || error) return null;
 
+  const handlePress = () => {
+    if (Haptics) Haptics.selectionAsync();
+    if (onPress) {
+      onPress();
+    }
+  };
   return (
-    <Pressable disabled={disabled} style={styles.button} onPress={onPress}>
+    <Pressable disabled={disabled} style={styles.button} onPress={handlePress}>
       {disabled ? (
         <ThemedText type='defaultSmall'>{labels.admin}</ThemedText>
       ) : (

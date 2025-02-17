@@ -9,7 +9,7 @@ export function AddedQuestions({ heading }: { heading: string }) {
 
   return (
     <View style={styled.outerConteiner}>
-      <CardComponent heading={heading} fullWidth>
+      <CardComponent heading={`${heading} (${questions.length})`} fullWidth>
         <View style={styled.container}>
           {questions
             .slice()
@@ -25,7 +25,7 @@ export function AddedQuestions({ heading }: { heading: string }) {
 
 const styled = StyleSheet.create({
   outerConteiner: {
-    marginTop: 45,
+    marginTop: 40,
     marginBottom: 80,
   },
   container: {

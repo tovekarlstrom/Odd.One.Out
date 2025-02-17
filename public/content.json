@@ -22,8 +22,13 @@
       },
       "createGame": {
         "title": "Enter questions to challenge the crowd.",
-        "description": "",
-        "subHeading": "Added Questions"
+        "description": "Formulate your questions in a way that there is no right or wrong answer, all questions should be objective.",
+        "subHeading": "Added Questions",
+        "addNewQuestionsInfo": "Struggling with inspiration? Add random questions to get started!",
+        "totalAddedQuestions": {
+          "heading": "All statements added",
+          "description": "All statements from the database have been added. Try adding your own!"
+        }
       },
       "code": {
         "title": [
@@ -209,8 +214,13 @@
       },
       "createGame": {
         "title": "Lägg till frågor för att utmana spelarna.",
-        "description": "",
-        "subHeading": "Tillagda frågor"
+        "description": "Formulera frågorna på ett sätt så att det inte finns något rätt eller fel, utan frågan ska vara objektiv.",
+        "subHeading": "Tillagda frågor",
+        "addNewQuestionsInfo": "Svårt med inspirationen? Lägg till slumpade frågor!",
+        "totalAddedQuestions": {
+          "heading": "Alla är tillagda",
+          "description": "Försök komma på egna frågor till ditt spel!"
+        }
       },
       "code": {
         "title": [

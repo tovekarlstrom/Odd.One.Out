@@ -62,8 +62,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.light.background,
-    paddingTop: 80,
+    // paddingTop: 80,
+    position: 'relative',
     width: '100%',
+  },
+  homePage: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    paddingTop: 50,
   },
   header: {
     position: 'absolute',
@@ -73,7 +79,8 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: Sizes.Spacings.large,
+    paddingHorizontal: Sizes.Spacings.large,
+    marginVertical: 80,
     overflow: 'hidden',
     backgroundColor: 'transparent',
   },

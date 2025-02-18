@@ -173,6 +173,7 @@ const styles = StyleSheet.create({
     maxWidth: 350,
     gap: 8,
     marginTop: Sizes.Spacings.xxLarge,
+    margin: 'auto',
   },
   podiumContainer: {
     alignItems: 'center',

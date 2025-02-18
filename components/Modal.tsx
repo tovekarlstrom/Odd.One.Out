@@ -88,7 +88,7 @@ export function ModalComponent({
             {twoButtons && (
               <ThemedView style={styles.buttonContainer}>
                 <ButtonComponent
-                  text={buttons.ok}
+                  text={buttons.yes}
                   variant='primary'
                   onSubmit={() => {
                     if (onContinue) {

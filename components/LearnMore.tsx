@@ -13,6 +13,7 @@ export default function LearnMore() {
   const [openLearnMore, setOpenLearnMore] = useState<boolean>(false);
   const { content, isLoading, error } = useLanguage();
   const pageContent = content?.learnMorePage;
+  const majority = pageContent?.modes.majority;
   const button = content?.buttons;
 
   const clickLearnMore = () => {
@@ -47,33 +48,19 @@ export default function LearnMore() {
           </ThemedView>
         </Pressable>
         {openLearnMore && (
-          <>
-            <ThemedView style={styles.learnMoreContainer}>
-              <ThemedText type='title'>{pageContent.title}</ThemedText>
-              {pageContent.modes.map(
-                (
-                  mode: {
-                    subHeading: string;
-                    description: string;
-                    route: string;
-                  },
-                  index: number,
-                ) => (
-                  <ThemedView key={index} style={styles.textBox}>
-                    <ThemedText type='defaultLarge'>
-                      {mode.subHeading}
-                    </ThemedText>
-                    <ThemedText type='default'>{mode.description}</ThemedText>
-                    <ButtonComponent
-                      text={button.createGame}
-                      variant='primary'
-                      route={`/create?mode=${mode.route}`}
-                    />
-                  </ThemedView>
-                ),
-              )}
+          <ThemedView style={styles.learnMoreContainer}>
+            <ThemedText type='title'>{pageContent.title}</ThemedText>
+
+            <ThemedView style={styles.textBox}>
+              <ThemedText type='defaultLarge'>{majority.subHeading}</ThemedText>
+              <ThemedText type='default'>{majority.description}</ThemedText>
+              <ButtonComponent
+                text={button.createGame}
+                variant='primary'
+                route={`/create?mode=${majority.route}`}
+              />
             </ThemedView>
-          </>
+          </ThemedView>
         )}
       </ThemedView>
     </SlideAnimation>
@@ -109,7 +96,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-around',
     alignItems: 'center',
-    overflow: 'scroll',
   },
   textBox: {
     paddingTop: Sizes.Spacings.xLarge,

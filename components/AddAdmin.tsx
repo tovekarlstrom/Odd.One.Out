@@ -88,6 +88,8 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
 const styles = StyleSheet.create({
   addAdminBoxOpen: {
     width: '100%',
+    maxWidth: Sizes.Widths.medium,
+    margin: 'auto',
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingTop: Sizes.Spacings.xxLarge,

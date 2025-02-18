@@ -57,4 +57,7 @@ export const Sizes = {
     xLarge: 25,
     xxLarge: 40,
   },
+  Widths: {
+    medium: 460,
+  },
 };

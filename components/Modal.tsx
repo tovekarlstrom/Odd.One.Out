@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Colors } from '@/constants/Theme';
+import { Colors, Sizes } from '@/constants/Theme';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
   centeredView: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    maxWidth: Sizes.Widths.medium,
+    width: '100%',
   },
   modalView: {
     position: 'relative',

@@ -86,9 +86,9 @@ export function ModalComponent({
               />
             )}
             {twoButtons && (
-              <>
+              <ThemedView style={styles.buttonContainer}>
                 <ButtonComponent
-                  text={buttons.ok}
+                  text={buttons.yes}
                   variant='primary'
                   onSubmit={() => {
                     if (onContinue) {
@@ -102,7 +102,7 @@ export function ModalComponent({
                   variant='secondary'
                   onSubmit={handleClose}
                 />
-              </>
+              </ThemedView>
             )}
             {children}
           </ThemedView>
@@ -147,6 +147,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 15,
     top: 15,
+  },
+  buttonContainer: {
+    gap: Sizes.Spacings.medium,
   },
   heading: {
     fontSize: 18,

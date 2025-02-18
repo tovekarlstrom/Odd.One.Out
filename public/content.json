@@ -179,6 +179,10 @@
           "title": "Wrong game code",
           "description": "Make sure you have entered the correct code and try again."
         },
+        "notEnoughPlayers": {
+          "title": "Not enough players",
+          "description": "You need at least 3 players to start the game."
+        },
         "questionWarning": {
           "title": "Already added!",
           "description": "This question has already been added to you game."
@@ -196,7 +200,7 @@
     "content": {
       "startPage": {
         "title": "Glöm din egen åsikt - Gruppens hjärna styr.",
-        "description": "Det handlar inte om vad som är rätt - utan om vad de flesta tror. Nu kör vi!"
+        "description": "Det handlar inte om vad som är rätt, utan vad de flesta tror. Nu kör vi!"
       },
       "learnMorePage": {
         "title": "Lär dig mer om Odd One Out!",
@@ -371,6 +375,10 @@
         "wrongGameCode": {
           "title": "Ogiltig spelkod",
           "description": "Kontrollera att du har angett rätt kod och försök igen."
+        },
+        "notEnoughPlayers": {
+          "title": "För få spelare!",
+          "description": "Du behöver minst tre spelare för att starta spelet."
         },
         "questionWarning": {
           "title": "Redan tillagd!",

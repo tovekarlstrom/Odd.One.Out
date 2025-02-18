@@ -2,7 +2,7 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Vibration, View } from 'react-native';
+import { Vibration, View, StyleSheet } from 'react-native';
 import { GradientContainer } from '@/components/GradientContainer';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
@@ -18,6 +18,8 @@ import { getRandomString } from '@/utils/getRandomString';
 import { useQuestionsLength } from '@/hooks/useQuestionsLength';
 import { useLanguage } from '@/hooks/useLanguage';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
+import { ThemedView } from '@/components/ThemedView';
+import { Sizes } from '@/constants/Theme';
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
   const [status, setStatus] = useState<string>();
@@ -150,13 +152,14 @@ export default function RoundResult() {
               shape={playerIcon.shape}
               paddingBottom={30}
             />
-            <ThemedText style={{ paddingBottom: 57 }} type='heading32'>
-              {randomString}
-            </ThemedText>
-
-            <ThemedText style={{ marginBottom: 47 }} type='default'>
-              {scored ? 1 : 0} {labels.pointsAdded}
-            </ThemedText>
+            <ThemedView style={styles.titleContainer}>
+              <ThemedText style={{ paddingBottom: 57 }} type='heading32'>
+                {randomString}
+              </ThemedText>
+              <ThemedText style={{ marginBottom: 47 }} type='default'>
+                {scored ? 1 : 0} {labels.pointsAdded}
+              </ThemedText>
+            </ThemedView>
 
             <JoinedPlayers
               heading={labels.topPlayers}
@@ -194,3 +197,12 @@ export default function RoundResult() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  titleContainer: {
+    flexDirection: 'column',
+    gap: 15,
+    marginVertical: Sizes.Spacings.medium,
+    paddingHorizontal: 15,
+  },
+});

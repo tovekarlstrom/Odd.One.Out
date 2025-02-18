@@ -1,5 +1,5 @@
 import { Colors } from '@/constants/Theme';
-import { StyleSheet, Pressable, ViewStyle } from 'react-native';
+import { StyleSheet, Pressable, ViewStyle, Platform } from 'react-native';
 import { ThemedText } from './ThemedText';
 import { Href, useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -42,7 +42,9 @@ export function ButtonComponent({
   })();
 
   const handlePress = async () => {
-    if (Haptics) Haptics.selectionAsync();
+    if (Platform.OS !== 'web' && Haptics) {
+      Haptics.selectionAsync();
+    }
     if (onSubmit) {
       setDisable(true);
       try {

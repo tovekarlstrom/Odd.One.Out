@@ -48,16 +48,6 @@ export default function Score() {
         setPlayer(findUser);
       }
 
-      // const playerIndex = players.indexOf(findUser as Player);
-
-      // if (playerIndex === 0) {
-      //   playerLabel = resultsLabel.winner;
-      // } else if (playerIndex > 0 && playerIndex <= 2) {
-      //   playerLabel = resultsLabel.podium;
-      // } else {
-      //   playerLabel = resultsLabel.loser;
-      // }
-
       const formattedPlayers = topPlayers.map((player, index) => {
         let place, height;
         if (index === 0) {
@@ -128,7 +118,7 @@ export default function Score() {
       {players.length > 0 ? (
         <>
           <ParallaxScrollView>
-            <ThemedView style={styles.textBox}>
+            <ThemedView style={styles.titleContainer}>
               <ThemedText type='heading32'>
                 {label.title} {player?.playerName}!
               </ThemedText>
@@ -183,6 +173,7 @@ const styles = StyleSheet.create({
     maxWidth: 350,
     gap: 8,
     marginTop: Sizes.Spacings.xxLarge,
+    margin: 'auto',
   },
   podiumContainer: {
     alignItems: 'center',
@@ -204,6 +195,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     maxWidth: 95,
     width: '100%',
+  },
+  titleContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    gap: 15,
+    marginVertical: Sizes.Spacings.medium,
+    paddingHorizontal: 15,
   },
   textBox: {
     margin: 'auto',

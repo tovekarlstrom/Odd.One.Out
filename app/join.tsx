@@ -164,11 +164,9 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'column',
-    gap: Sizes.Spacings.small,
-    // marginTop: 35,
-    marginHorizontal: 25,
-    marginBottom: 35,
-    width: '90%',
+    gap: 15,
+    marginVertical: Sizes.Spacings.medium,
+    paddingHorizontal: 15,
   },
   cardContainer: {
     marginTop: 35,

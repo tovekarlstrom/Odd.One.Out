@@ -4,7 +4,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { AddQuestion } from '@/components/AddQuestion';
 import { AddedQuestions } from '@/components/AddedQuestions';
-import { Colors } from '@/constants/Theme';
+import { Colors, Sizes } from '@/constants/Theme';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { GradientContainer } from '@/components/GradientContainer';
 import AddAdmin from '@/components/AddAdmin';
@@ -90,10 +90,9 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'column',
-    gap: 8,
-    marginBottom: 20,
-
-    paddingHorizontal: 20,
+    gap: 15,
+    marginVertical: Sizes.Spacings.large,
+    paddingHorizontal: 15,
   },
   titleSpan: {
     color: Colors.light.contrastBlue,

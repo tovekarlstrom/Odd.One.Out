@@ -15,7 +15,7 @@ import { router } from 'expo-router';
 import { getRandomString } from '@/utils/getRandomString';
 import QRCode from 'react-native-qrcode-svg';
 import React from 'react';
-import { Colors } from '@/constants/Theme';
+import { Colors, Sizes } from '@/constants/Theme';
 import { useLanguage } from '@/hooks/useLanguage';
 import { getGameCode } from '@/utils/getGameCode';
 import { ModalComponent } from '@/components/Modal';
@@ -140,9 +140,9 @@ export default function Code() {
 const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'column',
-    gap: 8,
-    marginBottom: 35,
-    width: '90%',
+    gap: 15,
+    marginVertical: Sizes.Spacings.large,
+    paddingHorizontal: 15,
   },
   cardContainer: {
     marginTop: 35,

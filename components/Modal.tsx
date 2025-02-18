@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Colors } from '@/constants/Theme';
+import { Colors, Sizes } from '@/constants/Theme';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -86,7 +86,7 @@ export function ModalComponent({
               />
             )}
             {twoButtons && (
-              <>
+              <ThemedView style={styles.buttonContainer}>
                 <ButtonComponent
                   text={buttons.ok}
                   variant='primary'
@@ -102,7 +102,7 @@ export function ModalComponent({
                   variant='secondary'
                   onSubmit={handleClose}
                 />
-              </>
+              </ThemedView>
             )}
             {children}
           </ThemedView>
@@ -146,6 +146,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 15,
     top: 15,
+  },
+  buttonContainer: {
+    gap: Sizes.Spacings.medium,
   },
   heading: {
     fontSize: 18,

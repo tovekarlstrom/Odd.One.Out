@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: 'column',
-    justifyContent: 'center',
     gap: 15,
     marginVertical: Sizes.Spacings.medium,
     paddingHorizontal: 15,

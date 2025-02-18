@@ -19,6 +19,7 @@
             "route": "minority"
           }
         }
+      },
       "createGame": {
         "title": "Enter questions to challenge the crowd.",
         "description": "Formulate your questions in a way that there is no right or wrong answer, all questions should be objective.",
@@ -198,18 +199,18 @@
       },
       "learnMorePage": {
         "title": "Lär dig mer om Odd One Out!",
-        "modes": [
-          {
+        "modes": {
+          "majority": {
             "description": "I det här spelläget gäller det att INTE vara den som sticker ut! Utmaningen är att gissa vad andra kommer att välja – kan du förutse deras svar? Du får bara poäng om någon annan tänker likadant. Spelaren med flest poäng i slutet vinner!",
             "subHeading": "Think Oddly Together",
             "route": "majority"
           },
-          {
+          "minority": {
             "description": "I det här spelläget vill du vara den som sticker ut. Målet är att tänka annorlunda än alla andra. Du får bara poäng om ingen annan väljer samma svar som du. Om någon annan har samma idé får ingen av er poäng! Det handlar om att sticka ut och tänka utanför boxen – våga vara annorlunda!",
             "subHeading": "Dare To Be Odd",
             "route": "minority"
           }
-        ]
+        }
       },
       "createGame": {
         "title": "Lägg till frågor för att utmana spelarna.",

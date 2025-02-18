@@ -7,17 +7,20 @@ import { Colors, Sizes } from '@/constants/Theme';
 import { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import SlideAnimation from './SlideAnimation';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function LearnMore() {
   const [openLearnMore, setOpenLearnMore] = useState<boolean>(false);
-  const content = data.content.learnMorePage;
-  const majority = content.modes.majority;
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const pageContent = content?.learnMorePage;
+  const majority = pageContent?.modes.majority;
+  const button = content?.buttons;
 
   const clickLearnMore = () => {
     setOpenLearnMore(!openLearnMore);
   };
+
+  if (isLoading || error) return null;
 
   return (
     <SlideAnimation
@@ -46,7 +49,8 @@ export default function LearnMore() {
         </Pressable>
         {openLearnMore && (
           <ThemedView style={styles.learnMoreContainer}>
-            <ThemedText type='title'>{content.title}</ThemedText>
+            <ThemedText type='title'>{pageContent.title}</ThemedText>
+
             <ThemedView style={styles.textBox}>
               <ThemedText type='defaultLarge'>{majority.subHeading}</ThemedText>
               <ThemedText type='default'>{majority.description}</ThemedText>

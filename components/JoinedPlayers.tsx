@@ -10,7 +10,7 @@ import { removePlayer } from '@/functions/removePlayer';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { Player } from '@/app/code';
 import { ModalComponent } from './Modal';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface JoinedPlayersProps {
   heading: string;
@@ -33,12 +33,13 @@ export function JoinedPlayers({
   const [showWarningModal, setShowWarningModal] = useState(false);
   const [showQuestionModal, setShowQuestionModal] = useState(false);
   const [topHeading, setTopHeading] = useState<string>('');
+  const { content, isLoading, error } = useLanguage();
   const [clickedPlayer, setClickedPlayer] = useState<string>('');
 
   const { data: gameRoom } = useGameRoom();
   const documentId = gameRoom?.id;
 
-  const labels = data.content.labels;
+  const labels = content?.labels;
 
   useEffect(() => {
     if (!players) return;
@@ -87,6 +88,8 @@ export function JoinedPlayers({
       setShowQuestionModal(true);
     }
   };
+
+  if (isLoading || error) return null;
 
   return (
     <CardComponent

@@ -10,9 +10,10 @@ import { InputComponent } from './InputComponent';
 import { GradientContainer } from './GradientContainer';
 import SlideAnimation from './SlideAnimation';
 import { useQuestions } from '@/contexts/QuestionsProvider';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import data from '../public/content.json';
 import { getIconColorAndShape } from '@/utils/getIconColorAndShape';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
+import CharacterCheck from './CharacterCheck';
 
 interface AddAdminProps {
   showAddAdmin: boolean;
@@ -21,19 +22,21 @@ interface AddAdminProps {
 
 export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
   const { questions } = useQuestions();
+  const { content, isLoading, error } = useLanguage();
+  const { updateIsAdmin } = useIsAdmin();
   const [playerName, setPlayerName] = useState<string>('');
-  const button = data.content.buttons;
+  const [checkPlayerName, setCheckPlayerName] = useState(false);
+  const labels = content?.labels;
+  const button = content?.buttons;
   const playerNameCheck = playerName.length >= 2 && playerName.length <= 10;
 
   const handlePress = async () => {
-    if (playerNameCheck) {
-      const playerIcon = await getIconColorAndShape();
-      await createGameRoom(playerName, questions, playerIcon);
-      AsyncStorage.setItem('isAdmin', 'true');
-    } else {
-      alert('Your player name must be within 2 - 10 characters');
-    }
+    const playerIcon = await getIconColorAndShape();
+    await createGameRoom(playerName, questions, playerIcon);
+    updateIsAdmin(true);
   };
+
+  if (isLoading || error) return null;
 
   return (
     <SlideAnimation
@@ -43,15 +46,30 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
       onClose={onClose}
     >
       <>
-        <ThemedText type='heading24'>Add your player name</ThemedText>
+        <ThemedText type='heading24'>{labels.addPlayerName}</ThemedText>
         <ThemedView style={styles.inputContainer}>
           <InputComponent
-            placeholder='Name'
+            placeholder={labels.name}
             onChangeText={(value) => {
               setPlayerName(value);
+              if (value.length >= 2 && value.length <= 10) {
+                setCheckPlayerName(true);
+              } else {
+                setCheckPlayerName(false);
+              }
             }}
             value={playerName}
+            returnKeyType='join'
+            onSubmitEditing={() => {
+              if (checkPlayerName) {
+                handlePress();
+              }
+            }}
+            checks={checkPlayerName}
           />
+          {!checkPlayerName && playerName.length > 0 && (
+            <CharacterCheck playerName={playerName} addAdmin={true} />
+          )}
         </ThemedView>
         <GradientContainer>
           <ButtonComponent
@@ -59,6 +77,7 @@ export default function AddAdmin({ showAddAdmin, onClose }: AddAdminProps) {
             text={button.createGame}
             variant='primary'
             route={playerNameCheck ? '/code' : undefined}
+            buttonDisabled={!checkPlayerName}
           />
         </GradientContainer>
       </>

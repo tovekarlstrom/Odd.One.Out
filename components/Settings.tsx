@@ -3,7 +3,6 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors, Sizes } from '@/constants/Theme';
 import SlideAnimation from './SlideAnimation';
-import data from '../public/content.json';
 import { Ionicons } from '@expo/vector-icons';
 import { JoinedPlayers } from './JoinedPlayers';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
@@ -16,6 +15,7 @@ import { getAnswers } from '@/utils/getAnswers';
 import { PlayerAnswer } from '@/app/answers';
 import Animated, { useAnimatedRef } from 'react-native-reanimated';
 import { getGameCode } from '@/utils/getGameCode';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function Settings() {
   const [gameCode, setGameCode] = useState<string>('');
@@ -28,7 +28,9 @@ export default function Settings() {
 
   const players = useSortedPlayers();
   const { data: gameRoom } = useGameRoom();
-  const labels = data.content.labels;
+  const { content, isLoading, error } = useLanguage();
+
+  const labels = content?.labels;
   const documentId = gameRoom?.id || undefined;
   const scrollRef = useAnimatedRef<Animated.ScrollView>();
 
@@ -79,6 +81,8 @@ export default function Settings() {
   //     console.error('No documentId found');
   //   }
   // };
+
+  if (isLoading || error) return null;
 
   return (
     <>

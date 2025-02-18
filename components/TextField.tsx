@@ -3,7 +3,7 @@ import { Colors, Sizes } from '@/constants/Theme';
 import { ThemedText } from './ThemedText';
 import { ThemedView } from './ThemedView';
 import { useState } from 'react';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface TextFieldProps {
   value: string;
@@ -28,8 +28,9 @@ export function TextField({
 }: TextFieldProps) {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const Wrapper: React.ElementType = isClickable ? Pressable : View;
+  const { content, isLoading, error } = useLanguage();
 
-  const labels = data.content.labels;
+  const labels = content?.labels;
 
   const handlePress = () => {
     setIsClicked(!isClicked);
@@ -44,6 +45,8 @@ export function TextField({
       : children
         ? styles.twoItems
         : styles.textContainer;
+
+  if (isLoading || error) return null;
 
   return (
     <Wrapper

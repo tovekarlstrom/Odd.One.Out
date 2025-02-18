@@ -11,22 +11,24 @@ import { ThemedView } from '@/components/ThemedView';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { Sizes } from '@/constants/Theme';
 import LearnMore from '@/components/LearnMore';
-import data from '../public/content.json';
 import startBackground from '../assets/images/startBackground.png';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useRef } from 'react';
 import { useState } from 'react';
 import { ModalComponent } from '@/components/Modal';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
 
 export default function HomeScreen() {
   const fadeBackground = useRef(new Animated.Value(0)).current;
   const [showModal, setShowModal] = useState(false);
-  const labels = data.content.labels;
-  const content = data.content.startPage;
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const { updateIsAdmin } = useIsAdmin();
+  const labels = content?.labels;
+  const pageContent = content?.startPage;
+  const button = content?.buttons;
 
   useEffect(() => {
-    AsyncStorage.setItem('isAdmin', 'false');
+    updateIsAdmin(false);
   }, []);
 
   useEffect(() => {
@@ -40,6 +42,8 @@ export default function HomeScreen() {
   const handleBackdropPress = () => {
     setShowModal(false);
   };
+
+  if (isLoading || error) return null;
 
   return (
     <Animated.View
@@ -67,10 +71,10 @@ export default function HomeScreen() {
         >
           <ParallaxScrollView paddingTop={10} isHomePage={true}>
             <ThemedView style={styles.titleContainer}>
-              <ThemedText type='title'>{content.title}</ThemedText>
+              <ThemedText type='title'>{pageContent.title}</ThemedText>
             </ThemedView>
             <ThemedView style={styles.stepContainer}>
-              <ThemedText type='default'>{content.description}</ThemedText>
+              <ThemedText type='default'>{pageContent.description}</ThemedText>
             </ThemedView>
             <ThemedView style={styles.stepContainer}>
               <ButtonComponent
@@ -94,7 +98,7 @@ export default function HomeScreen() {
               showCloseButton={true}
             >
               <ButtonComponent
-                text='Scan QR code'
+                text={button.scanCode}
                 variant='primary'
                 route={'/scanCode'}
                 icon='qr-code-outline'
@@ -104,7 +108,7 @@ export default function HomeScreen() {
                 {labels.or}
               </ThemedText>
               <ButtonComponent
-                text='Enter code'
+                text={button.enterCode}
                 variant='secondary'
                 route='/join'
                 onSubmit={() => {

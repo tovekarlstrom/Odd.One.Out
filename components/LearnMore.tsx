@@ -49,11 +49,16 @@ export default function LearnMore() {
         </Pressable>
         {openLearnMore && (
           <ThemedView style={styles.learnMoreContainer}>
-            <ThemedText type='title'>{pageContent.title}</ThemedText>
-
-            <ThemedView style={styles.textBox}>
-              <ThemedText type='defaultLarge'>{majority.subHeading}</ThemedText>
-              <ThemedText type='default'>{majority.description}</ThemedText>
+            <ThemedView style={styles.contentContainer}>
+              <ThemedText type='title'>{pageContent.title}</ThemedText>
+              <ThemedView style={styles.textBox}>
+                <ThemedText type='defaultLarge'>
+                  {majority.subHeading}
+                </ThemedText>
+                <ThemedText type='default'>{majority.description}</ThemedText>
+              </ThemedView>
+            </ThemedView>
+            <ThemedView style={styles.button}>
               <ButtonComponent
                 text={button.createGame}
                 variant='primary'
@@ -91,11 +96,18 @@ const styles = StyleSheet.create({
   learnMoreContainer: {
     padding: 30,
     paddingVertical: 40,
-    // height: 530,
+    flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  contentContainer: {
+    flex: 1,
+    width: '100%',
+  },
+  button: {
+    alignSelf: 'stretch',
   },
   textBox: {
     paddingTop: Sizes.Spacings.xLarge,

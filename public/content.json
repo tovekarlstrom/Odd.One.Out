@@ -187,7 +187,8 @@
           "title": "Already added!",
           "description": "This question has already been added to you game."
         },
-        "statusText": "The status on each player shows if they have answered the current question or not."
+        "statusText": "The status on each player shows if they have answered the current question or not.",
+        "copied": "Copied!"
       },
       "descriptions": {
         "wrongPoints": "Points can only be awarded when at least two players have chosen the same answer.",
@@ -383,7 +384,8 @@
           "title": "Redan tillagd!",
           "description": "Denna frågan är redan tillagd i ditt spel."
         },
-        "statusText": "Status på varje spelare visar om de har svarat på den aktuella frågan eller inte."
+        "statusText": "Status på varje spelare visar om de har svarat på den aktuella frågan eller inte.",
+        "copied": "Kopierad!"
       },
       "descriptions": {
         "wrongPoints": "Poäng delas bara ut om minst två personer har svarat samma.",

@@ -5,7 +5,7 @@ import { ThemedText } from './ThemedText';
 import { Colors } from '@/constants/Theme';
 
 export default function LanguageToggle() {
-  const { language, updateLanguage } = useLanguage();
+  const { language, isLoading, error, updateLanguage } = useLanguage();
   const [isEnglish, setIsEnglish] = useState(language === 'EN');
   const translateX = new Animated.Value(isEnglish ? 0 : 30);
 
@@ -23,8 +23,10 @@ export default function LanguageToggle() {
     setIsEnglish((prev) => !prev);
   };
 
+  if (isLoading || error) return null;
+
   return (
-    <Pressable style={styles.toggle} onPress={toggleLanguage}>
+    <Pressable style={styles.toggle} onPress={() => toggleLanguage()}>
       <Animated.View
         style={styles.slider}
         // style={[

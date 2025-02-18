@@ -5,6 +5,7 @@ import { Colors, Sizes } from '@/constants/Theme';
 import * as Clipboard from 'expo-clipboard';
 import { useState } from 'react';
 import React from 'react';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export function CopyComponent({
   gameCode,
@@ -14,12 +15,16 @@ export function CopyComponent({
   addPadding?: boolean;
 }) {
   const [copied, setCopied] = useState(false);
+  const { content, isLoading, error } = useLanguage();
+  const labels = content?.labels;
 
   const copyToClipboard = () => {
     Clipboard.setStringAsync(gameCode);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
+
+  if (isLoading || error) return null;
 
   return (
     <>
@@ -35,7 +40,7 @@ export function CopyComponent({
       >
         {copied ? (
           <ThemedText style={styles.buttonText} type='defaultSemiBold'>
-            Copied!
+            {labels.copied}
           </ThemedText>
         ) : (
           <ThemedText style={styles.buttonText} type='defaultSemiBold'>

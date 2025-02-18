@@ -6,11 +6,15 @@ import ScanIcon from '../assets/scanIcon.svg';
 import { useState } from 'react';
 import { router, useNavigation } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export default function scanCode() {
   const [permission, requestPermission] = useCameraPermissions();
   const [scanned, setScanned] = useState(false);
   const navigation = useNavigation();
+  const { content, isLoading, error } = useLanguage();
+
+  const labels = content?.labels;
 
   if (!permission) {
     // Camera permissions are still loading.
@@ -21,9 +25,7 @@ export default function scanCode() {
     // Camera permissions are not granted yet.
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>
-          We need your permission to show the camera
-        </Text>
+        <Text style={styles.message}>{labels.cameraPermission}</Text>
         <Button onPress={requestPermission} title='grant permission' />
       </View>
     );
@@ -34,6 +36,8 @@ export default function scanCode() {
     Vibration.vibrate(100);
     router.push(`/join?code=${data}`);
   };
+
+  if (isLoading || error) return null;
 
   return (
     <View style={styles.container}>
@@ -55,7 +59,7 @@ export default function scanCode() {
           </ThemedView>
           <ThemedView style={styles.textBottomContainer}>
             <ThemedText style={styles.scanMessage} type='defaultLarge'>
-              Scan the QR code to join the game
+              {labels.cameraInfo}
             </ThemedText>
           </ThemedView>
         </ThemedView>

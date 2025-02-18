@@ -9,10 +9,10 @@ import { ThemedView } from '@/components/ThemedView';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
 import Loading from '@/components/Loading';
 import { useEffect, useState } from 'react';
-import data from '../public/content.json';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { Player } from './code';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface TopPlayer {
   playerName: string;
@@ -26,14 +26,15 @@ export default function Score() {
   const [player, setPlayer] = useState<Player | null>(null);
   const [label, setLabel] = useState({ title: '', description: '' });
   const players = useSortedPlayers();
-  const content = data.content.results;
-  const labels = data.content.labels;
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const pageContent = content?.results;
+  const labels = content?.labels;
+  const button = content?.buttons;
   const gameRoom = useGameRoom();
   const mode = gameRoom.data?.mode;
 
   const resultsLabel =
-    mode === 'majority' ? content.majority : content.minority;
+    mode === 'majority' ? pageContent.majority : pageContent.minority;
 
   useEffect(() => {
     const setResults = async (players: Player[]) => {
@@ -119,6 +120,8 @@ export default function Score() {
 
     setResults(players);
   }, [players]);
+
+  if (isLoading || error) return null;
 
   return (
     <>

@@ -16,21 +16,26 @@ import { addPlayers } from '../functions/addPlayers';
 import { getGameRoom } from '@/functions/getGameRoom';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import data from '../public/content.json';
 import React from 'react';
 import { useLocalSearchParams } from 'expo-router/build/hooks';
-import { Ionicons } from '@expo/vector-icons';
-import { ThemedView } from '@/components/ThemedView';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
+import { useLanguage } from '@/hooks/useLanguage';
+import { useIsAdmin } from '@/hooks/useIsAdmin';
+import { ModalComponent } from '@/components/Modal';
+import CharacterCheck from '@/components/CharacterCheck';
 
 export default function Join() {
   const [gameCode, setGameCode] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [playerName, setPlayerName] = useState<string>('');
-  const content = data.content.joinGame;
-  const button = data.content.buttons;
+  const [showWarningModal, setShowWarningModal] = useState(false);
+  const { content, isLoading, error } = useLanguage();
+  const pageContent = content?.joinGame;
+  const button = content?.buttons;
+  const labels = content?.labels;
   const inputRef = useRef<TextInput | null>(null);
   const searchParams = useLocalSearchParams();
+  const { updateIsAdmin } = useIsAdmin();
   const QRcode = searchParams.code;
   const [checkPlayerName, setCheckPlayerName] = useState(false);
 
@@ -51,11 +56,11 @@ export default function Join() {
       if (gameRoom?.id) {
         await AsyncStorage.setItem('gameRoom', JSON.stringify(gameRoom));
         await addPlayers(gameRoom.id, playerName);
-        await AsyncStorage.setItem('isAdmin', 'false');
+        updateIsAdmin(false);
 
         router.push('/game');
       } else {
-        alert('Wrong game code!');
+        setShowWarningModal(true);
       }
     } finally {
       setIsSubmitting(false);
@@ -68,8 +73,10 @@ export default function Join() {
     }
   };
 
+  if (isLoading || error) return null;
+
   return (
-    <ParallaxScrollView paddingTop={55} scroll={false}>
+    <ParallaxScrollView paddingTop={45} scroll={false}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
@@ -82,14 +89,14 @@ export default function Join() {
           }}
         >
           <View style={styles.titleContainer}>
-            <ThemedText type='heading32'>{content.title}</ThemedText>
-            <ThemedText type='default'>{content.description}</ThemedText>
+            <ThemedText type='heading32'>{pageContent.title}</ThemedText>
+            <ThemedText type='default'>{pageContent.description}</ThemedText>
           </View>
 
           <View style={styles.inner}>
-            <CardComponent heading={content.subHeading} fullWidth>
+            <CardComponent heading={pageContent.subHeading} fullWidth>
               <InputComponent
-                placeholder='Code'
+                placeholder={labels.code}
                 editable={QRcode ? false : true}
                 onChangeText={(value) => {
                   setGameCode(value);
@@ -100,7 +107,7 @@ export default function Join() {
                 checks={gameCode.length === 9}
               />
               <InputComponent
-                placeholder='Name'
+                placeholder={labels.name}
                 onChangeText={(value) => {
                   setPlayerName(value);
                   if (value.length >= 2 && value.length <= 10) {
@@ -120,22 +127,7 @@ export default function Join() {
                 checks={checkPlayerName}
               />
               {!checkPlayerName && playerName.length > 0 && (
-                <ThemedView
-                  style={{
-                    paddingLeft: 10,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 8,
-                    position: 'absolute',
-                    bottom: 85,
-                  }}
-                >
-                  <Ionicons name='alert-circle-outline' size={20} />
-                  <ThemedText type='default' style={{}}>
-                    {playerName.length <= 2 && 'Min 2 characters'}
-                    {playerName.length >= 10 && 'Max 10 characters'}
-                  </ThemedText>
-                </ThemedView>
+                <CharacterCheck playerName={playerName} />
               )}
               <ButtonComponent
                 style={styles.button}
@@ -148,6 +140,14 @@ export default function Join() {
           </View>
         </View>
       </KeyboardAvoidingView>
+      {showWarningModal && (
+        <ModalComponent
+          onClose={() => setShowWarningModal(false)}
+          heading={labels.wrongGameCode.title}
+          description={labels.wrongGameCode.description}
+          oneButton={true}
+        />
+      )}
     </ParallaxScrollView>
   );
 }

@@ -5,12 +5,14 @@ import { InputComponent } from './InputComponent';
 import { useRouter } from 'expo-router';
 import { addAnswerToQuestion } from '@/functions/addAnswers';
 import { useGameRoom } from '@/hooks/useGameRoom';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 export function AddAnswer({ question }: { question: string }) {
   const [newAnswer, setNewAnswer] = useState<string>('');
   const { data: gameRoom } = useGameRoom();
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const button = content?.buttons;
+  const labels = content?.labels;
   const documentId = gameRoom?.id;
 
   const router = useRouter();
@@ -25,10 +27,12 @@ export function AddAnswer({ question }: { question: string }) {
     }
   };
 
+  if (isLoading || error) return null;
+
   return (
     <CardComponent heading={question} fullWidth>
       <InputComponent
-        placeholder='Your answer'
+        placeholder={labels?.answer}
         onChangeText={(text) => {
           setNewAnswer(text);
         }}
@@ -42,7 +46,7 @@ export function AddAnswer({ question }: { question: string }) {
           if (newAnswer.length > 0 && newAnswer.length < 100) {
             addNewAnswer();
           } else {
-            alert('You need to enter an aswer within 1 - 100 characters');
+            alert('You need to enter an answer with 1 - 100 characters');
           }
         }}
       />

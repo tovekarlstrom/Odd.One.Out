@@ -11,12 +11,12 @@ import { updateIndex } from '@/functions/getOrUpdateIndex';
 import { JoinedPlayers } from '@/components/JoinedPlayers';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
-import data from '../public/content.json';
 
 import PlayerIcon from '@/components/PlayerIcon';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { getRandomString } from '@/utils/getRandomString';
 import { useQuestionsLength } from '@/hooks/useQuestionsLength';
+import { useLanguage } from '@/hooks/useLanguage';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
 export default function RoundResult() {
   const [scored, setScored] = useState<boolean | undefined>(undefined);
@@ -31,10 +31,11 @@ export default function RoundResult() {
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
   const { data: questionsLength } = useQuestionsLength();
-  const { data: isAdmin } = useIsAdmin();
+  const { content, isLoading, error } = useLanguage();
+  const { isAdmin } = useIsAdmin();
 
-  const labels = data.content.labels;
-  const button = data.content.buttons;
+  const labels = content?.labels;
+  const button = content?.buttons;
 
   const previousStatus = useRef<string | null>(null);
 
@@ -135,6 +136,8 @@ export default function RoundResult() {
       await getOrUpdateStatus({ documentId, changeStatus: 'active' });
     }
   }, []);
+
+  if (isLoading || error) return null;
 
   return (
     <>

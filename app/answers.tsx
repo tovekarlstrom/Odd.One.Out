@@ -14,10 +14,10 @@ import Loading from '@/components/Loading';
 import { router } from 'expo-router';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { useSortedPlayers } from '@/hooks/useSortedPlayers';
-import data from '../public/content.json';
 import { usePlayerIcon } from '@/hooks/usePlayerIcon';
 import { shape } from '@/utils/getIconColorAndShape';
 import { PointsConfimationModal } from '@/components/PointsConfimationModal';
+import { useLanguage } from '@/hooks/useLanguage';
 import { getStatus } from '@/utils/getStatus';
 import { getAnswers } from '@/utils/getAnswers';
 import { useIsAdmin } from '@/hooks/useIsAdmin';
@@ -30,15 +30,16 @@ export interface PlayerAnswer {
 export default function Answers() {
   const [answers, setAnswers] = useState<PlayerAnswer[]>([]);
   const [status, setStatus] = useState<string>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [playerGetPoints, setPlayerGetPoints] = useState<string[]>([]);
   const { data: gameRoom } = useGameRoom();
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
-  const { data: isAdmin } = useIsAdmin();
-  const labels = data.content.labels;
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const { isAdmin } = useIsAdmin();
+  const labels = content?.labels;
+  const button = content?.buttons;
   const documentId = gameRoom?.id;
 
   const getPlayerAnswer = (playerId: string) => {
@@ -57,7 +58,7 @@ export default function Answers() {
   useEffect(() => {
     if (status === 'active') {
       if (players.length !== 0 && answers.length === players.length) {
-        setIsLoading(false);
+        setIsPageLoading(false);
       }
     }
     if (status === 'idle' && !isAdmin) {
@@ -83,10 +84,12 @@ export default function Answers() {
     }
   };
 
+  if (isLoading || error) return null;
+
   return (
     <>
       <ParallaxScrollView paddingTop={20}>
-        {isLoading ? (
+        {isPageLoading ? (
           <Loading initial='active' />
         ) : (
           <>
@@ -143,7 +146,7 @@ export default function Answers() {
           />
         )}
       </ParallaxScrollView>
-      {isAdmin && !isLoading && (
+      {isAdmin && !isPageLoading && (
         <GradientContainer>
           <ButtonComponent
             onSubmit={() => setShowModal(true)}

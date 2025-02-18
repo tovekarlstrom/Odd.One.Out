@@ -5,20 +5,23 @@ import { useState } from 'react';
 
 import { useQuestions } from '@/contexts/QuestionsProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLanguage } from '@/hooks/useLanguage';
 import { ButtonComponent } from './ButtonComponent';
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
 import { Ionicons } from '@expo/vector-icons';
-import data from '../public/content.json';
 import { majority } from '../public/statements.json';
 import { ModalComponent } from './Modal';
 
 export function AddQuestion() {
   const [newQuestion, setNewQuestion] = useState<string>('');
+  const [showWarningModal, setShowWarningModal] = useState(false);
   const { addQuestion } = useQuestions();
+  const { content, isLoading, error } = useLanguage();
+  const labels = content?.labels;
   const { questions } = useQuestions();
   const [showModal, setShowModal] = useState(false);
-  const text = data?.content?.createGame || {};
+  const text = content?.createGame || {};
 
   const handleNewQuestion = (text: string) => {
     setNewQuestion(text);
@@ -33,12 +36,15 @@ export function AddQuestion() {
     const parsedQuestions = questions ? JSON.parse(questions) : [];
 
     if (parsedQuestions.includes(newQuestion)) {
-      return alert('This question has already been added.');
+      setShowWarningModal(true);
+    } else {
+      addQuestion(newQuestion);
     }
 
-    addQuestion(newQuestion);
     setNewQuestion('');
   };
+
+  if (isLoading || error) return null;
 
   const handleRandomStatements = async () => {
     const uniqueStatement = majority.filter(
@@ -55,7 +61,7 @@ export function AddQuestion() {
   return (
     <View style={styled.container}>
       <InputComponent
-        placeholder='Question'
+        placeholder={labels?.question}
         onChangeText={handleNewQuestion}
         value={newQuestion}
         onSubmitEditing={addNewQuestion}
@@ -98,6 +104,14 @@ export function AddQuestion() {
           }}
           description={text.totalAddedQuestions.description}
           oneButton
+        />
+      )}
+      {showWarningModal && (
+        <ModalComponent
+          onClose={() => setShowWarningModal(false)}
+          heading={labels.questionWarning.title}
+          description={labels.questionWarning.description}
+          oneButton={true}
         />
       )}
     </View>

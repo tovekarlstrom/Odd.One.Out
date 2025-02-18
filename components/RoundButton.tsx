@@ -3,7 +3,7 @@ import { type TextProps, Pressable, StyleSheet } from 'react-native';
 import { Colors } from '@/constants/Theme';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from './ThemedText';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 import * as Haptics from 'expo-haptics';
 
 export type RoundButtonProps = TextProps & {
@@ -13,7 +13,11 @@ export type RoundButtonProps = TextProps & {
 };
 
 export function RoundButton({ isAdding, onPress, disabled }: RoundButtonProps) {
-  const labels = data.content.labels;
+  const { content, isLoading, error } = useLanguage();
+
+  const labels = content?.labels;
+
+  if (isLoading || error) return null;
 
   const handlePress = () => {
     if (Haptics) Haptics.selectionAsync();

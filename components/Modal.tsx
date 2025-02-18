@@ -11,7 +11,7 @@ import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
 import { Ionicons } from '@expo/vector-icons';
 import { ButtonComponent } from './ButtonComponent';
-import data from '../public/content.json';
+import { useLanguage } from '@/hooks/useLanguage';
 
 interface ModalProps {
   heading: string;
@@ -34,8 +34,9 @@ export function ModalComponent({
   twoButtons,
 }: ModalProps) {
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const { content, isLoading, error } = useLanguage();
 
-  const buttons = data.content.buttons;
+  const buttons = content?.buttons;
 
   useEffect(() => {
     Animated.timing(fadeAnim, {
@@ -54,6 +55,9 @@ export function ModalComponent({
       if (onClose) onClose();
     });
   };
+
+  if (isLoading || error) return null;
+
   return (
     <Modal animationType='fade' transparent={true}>
       <Pressable style={styles.backdrop} onPress={handleClose}>

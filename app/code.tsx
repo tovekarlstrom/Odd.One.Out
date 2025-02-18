@@ -12,11 +12,11 @@ import { getPlayers } from '@/functions/getPlayers';
 import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { router } from 'expo-router';
-import data from '../public/content.json';
 import { getRandomString } from '@/utils/getRandomString';
 import QRCode from 'react-native-qrcode-svg';
 import React from 'react';
 import { Colors } from '@/constants/Theme';
+import { useLanguage } from '@/hooks/useLanguage';
 import { getGameCode } from '@/utils/getGameCode';
 
 export type PlayerIconType = {
@@ -37,13 +37,14 @@ export default function Code() {
   const [gameCode, setGameCode] = useState('');
   const [players, setPlayers] = useState<Player[]>([]);
   const { data: gameRoom } = useGameRoom();
-  const content = data.content.code;
-  const button = data.content.buttons;
+  const { content, isLoading, error } = useLanguage();
+  const pageContent = content?.code;
+  const button = content?.buttons;
   const documentId = gameRoom?.id;
 
   const headerTitle = useMemo(
-    () => getRandomString(content.title),
-    [content.title[0]],
+    () => getRandomString(pageContent.title),
+    [pageContent.title[0]],
   );
 
   useEffect(() => {
@@ -87,12 +88,14 @@ export default function Code() {
     // }
   };
 
+  if (isLoading || error) return null;
+
   return (
     <>
       <ParallaxScrollView paddingTop={50}>
         <ThemedView style={styles.titleContainer}>
           <ThemedText type='heading32'>{headerTitle}</ThemedText>
-          <ThemedText type='default'>{content.description}</ThemedText>
+          <ThemedText type='default'>{pageContent.description}</ThemedText>
         </ThemedView>
         {gameCode && (
           <ThemedView style={{ alignItems: 'center' }}>
@@ -109,7 +112,7 @@ export default function Code() {
         <View style={styles.cardContainer}>
           <JoinedPlayers
             players={players}
-            heading={content.subHeading}
+            heading={pageContent.subHeading}
             showListLength={true}
           />
         </View>

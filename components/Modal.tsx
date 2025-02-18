@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
   centeredView: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    maxWidth: Sizes.Widths.medium,
+    width: '100%',
   },
   modalView: {
     position: 'relative',

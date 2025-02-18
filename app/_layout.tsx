@@ -1,8 +1,3 @@
-import {
-  DarkTheme,
-  DefaultTheme,
-  ThemeProvider,
-} from '@react-navigation/native';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -12,17 +7,16 @@ import AbrilFatFace from '../assets/fonts/AbrilFatface.ttf';
 import InstrumentSansRegular from '../assets/fonts/InstrumentSans-Regular.ttf';
 import InstrumentSansSemiBold from '../assets/fonts/InstrumentSans-SemiBold.ttf';
 import InstrumentSansBold from '../assets/fonts/InstrumentSans-Bold.ttf';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { QuestionsProvider } from '@/contexts/QuestionsProvider';
 import { QueryClientProvider } from 'react-query';
 import queryClient from '@/contexts/queryClient';
 import { StartAnimation } from '@/components/StartAnimation';
+import { Colors } from '@/constants/Theme';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
   const pages = [
     'index',
     'code',
@@ -50,26 +44,29 @@ export default function RootLayout() {
   }, [loaded]);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <QueryClientProvider client={queryClient}>
-        <QuestionsProvider>
-          {appReady && animationFinished ? (
-            <Stack screenOptions={{ animation: 'none' }}>
-              {pages.map((page) => (
-                <Stack.Screen
-                  key={page}
-                  name={page}
-                  options={{ headerShown: false }}
-                />
-              ))}
-              <Stack.Screen name='+not-found' />
-            </Stack>
-          ) : null}
-          {(!appReady || !animationFinished) && (
-            <StartAnimation onAnimationEnd={() => setAnimationFinished(true)} />
-          )}
-        </QuestionsProvider>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <QuestionsProvider>
+        {appReady && animationFinished ? (
+          <Stack
+            screenOptions={{
+              animation: 'none',
+              contentStyle: { backgroundColor: Colors.light.text },
+            }}
+          >
+            {pages.map((page) => (
+              <Stack.Screen
+                key={page}
+                name={page}
+                options={{ headerShown: false }}
+              />
+            ))}
+            <Stack.Screen name='+not-found' />
+          </Stack>
+        ) : null}
+        {(!appReady || !animationFinished) && (
+          <StartAnimation onAnimationEnd={() => setAnimationFinished(true)} />
+        )}
+      </QuestionsProvider>
+    </QueryClientProvider>
   );
 }

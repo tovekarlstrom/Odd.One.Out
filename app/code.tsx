@@ -18,6 +18,7 @@ import React from 'react';
 import { Colors } from '@/constants/Theme';
 import { useLanguage } from '@/hooks/useLanguage';
 import { getGameCode } from '@/utils/getGameCode';
+import { ModalComponent } from '@/components/Modal';
 
 export type PlayerIconType = {
   color: string;
@@ -36,10 +37,12 @@ export interface Player {
 export default function Code() {
   const [gameCode, setGameCode] = useState('');
   const [players, setPlayers] = useState<Player[]>([]);
+  const [showModal, setShowModal] = useState(false);
   const { data: gameRoom } = useGameRoom();
   const { content, isLoading, error } = useLanguage();
   const pageContent = content?.code;
   const button = content?.buttons;
+  const labels = content?.labels;
   const documentId = gameRoom?.id;
 
   const headerTitle = useMemo(
@@ -71,21 +74,17 @@ export default function Code() {
   }, [gameCode]);
 
   const startGame = async () => {
-    //   if (players.length >= 3) {
-    if (documentId) {
-      getOrUpdateStatus({
-        documentId,
-        changeStatus: 'active',
-      });
+    if (players.length >= 3) {
+      if (documentId) {
+        getOrUpdateStatus({
+          documentId,
+          changeStatus: 'active',
+        });
+      }
+      router.push('/game');
+    } else {
+      setShowModal(true);
     }
-    router.push('/game');
-    // } else {
-    //   Alert.alert(
-    //     "Not enough players",
-    //     "You need at least 3 players to start the game",
-    //     [{ text: "OK", onPress: () => {} }]
-    //   );
-    // }
   };
 
   if (isLoading || error) return null;
@@ -126,6 +125,14 @@ export default function Code() {
           }}
         />
       </GradientContainer>
+      {showModal && (
+        <ModalComponent
+          onClose={() => setShowModal(false)}
+          heading={labels.notEnoughPlayers.title}
+          description={labels.notEnoughPlayers.description}
+          oneButton={true}
+        />
+      )}
     </>
   );
 }

@@ -42,7 +42,6 @@ export function AddAnswer({ question }: { question: string }) {
         variant='primary'
         text={button.sendAnswer}
         onSubmit={() => {
-          console.log(newAnswer.length);
           if (newAnswer.length > 0 && newAnswer.length < 100) {
             addNewAnswer();
           } else {

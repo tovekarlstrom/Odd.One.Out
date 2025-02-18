@@ -57,8 +57,6 @@ export default function HomeScreen() {
         <ParallaxScrollView isHomePage={true}>
           <ThemedView style={styles.titleContainer}>
             <ThemedText type='title'>{pageContent.title}</ThemedText>
-          </ThemedView>
-          <ThemedView style={styles.stepContainer}>
             <ThemedText type='default'>{pageContent.description}</ThemedText>
           </ThemedView>
           <ThemedView style={styles.stepContainer}>
@@ -114,9 +112,11 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    gap: 15,
+    marginVertical: Sizes.Spacings.medium,
+    paddingHorizontal: 15,
   },
   stepContainer: {
     gap: 17,

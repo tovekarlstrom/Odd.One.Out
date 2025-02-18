@@ -1,4 +1,4 @@
-import { type TextProps, Pressable, StyleSheet } from 'react-native';
+import { type TextProps, Platform, Pressable, StyleSheet } from 'react-native';
 
 import { Colors } from '@/constants/Theme';
 import { Ionicons } from '@expo/vector-icons';
@@ -20,7 +20,9 @@ export function RoundButton({ isAdding, onPress, disabled }: RoundButtonProps) {
   if (isLoading || error) return null;
 
   const handlePress = () => {
-    if (Haptics) Haptics.selectionAsync();
+    if (Platform.OS !== 'web' && Haptics) {
+      Haptics.selectionAsync();
+    }
     if (onPress) {
       onPress();
     }

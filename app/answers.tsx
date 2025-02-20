@@ -62,7 +62,7 @@ export default function Answers() {
       }
     }
     if (status === 'idle' && !isAdmin) {
-      router.push('/result');
+      router.replace('/result');
     }
   }, [status, answers, players]);
 
@@ -80,7 +80,7 @@ export default function Answers() {
     if (documentId) {
       await addPoints(documentId, playerGetPoints);
       await getOrUpdateStatus({ documentId, changeStatus: 'idle' });
-      router.push('/result');
+      router.replace('/result');
     }
   };
 

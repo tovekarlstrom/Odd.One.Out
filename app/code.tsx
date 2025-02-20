@@ -81,7 +81,7 @@ export default function Code() {
           changeStatus: 'active',
         });
       }
-      router.push('/game');
+      router.replace('/game');
     } else {
       setShowModal(true);
     }

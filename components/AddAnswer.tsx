@@ -23,7 +23,7 @@ export function AddAnswer({ question }: { question: string }) {
         await addAnswerToQuestion(documentId, newAnswer);
         setNewAnswer('');
       }
-      router.push('/answers');
+      router.replace('/answers');
     }
   };
 

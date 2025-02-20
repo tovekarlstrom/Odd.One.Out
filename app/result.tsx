@@ -6,7 +6,7 @@ import { Vibration, View, StyleSheet } from 'react-native';
 import { GradientContainer } from '@/components/GradientContainer';
 import { ButtonComponent } from '@/components/ButtonComponent';
 import { getOrUpdateStatus } from '@/functions/getOrUpdateStatus';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { updateIndex } from '@/functions/getOrUpdateIndex';
 import { JoinedPlayers } from '@/components/JoinedPlayers';
 import { useGameRoom } from '@/hooks/useGameRoom';
@@ -35,7 +35,7 @@ export default function RoundResult() {
   const { data: questionsLength } = useQuestionsLength();
   const { content, isLoading, error } = useLanguage();
   const { isAdmin } = useIsAdmin();
-
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const labels = content?.labels;
   const button = content?.buttons;
 
@@ -45,32 +45,37 @@ export default function RoundResult() {
     mode === 'majority' ? labels.score.majority : labels.score.minority;
 
   useEffect(() => {
+    if (!documentId) return;
+
+    let unsubscribe: (() => void) | undefined;
+
     const getIndex = async () => {
       if (documentId) {
         await updateIndex(documentId, setIndex);
       }
     };
+
+    getIndex();
+
     const getStatus = async () => {
-      if (documentId) {
-        const unsubscribe = await getOrUpdateStatus({
-          documentId,
-          setStatus: (newStatus) => {
-            if (previousStatus.current !== newStatus) {
-              setStatus(newStatus);
-              previousStatus.current = newStatus;
-            }
-          },
-        });
-        return () => {
-          if (unsubscribe) {
-            unsubscribe();
+      unsubscribe = await getOrUpdateStatus({
+        documentId,
+        setStatus: (newStatus) => {
+          if (previousStatus.current !== newStatus) {
+            setStatus(newStatus);
+            previousStatus.current = newStatus;
           }
-        };
-      }
+        },
+      });
     };
 
     getStatus();
-    getIndex();
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [documentId]);
 
   useEffect(() => {
@@ -91,37 +96,64 @@ export default function RoundResult() {
   }, [players]);
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout | null = null;
+    console.log('RoundResult mounted');
+
+    return () => {
+      console.log('RoundResult unmounted');
+    };
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log('RoundResult is focused');
+
+      return () => {
+        console.log('RoundResult lost focus, cleaning up');
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+        }
+      };
+    }, []),
+  );
+
+  useEffect(() => {
+    // let intervalId: NodeJS.Timeout | null = null;
 
     if (status === 'active') {
       setCountdownStarted(true);
       setCountDown(5);
 
-      intervalId = setInterval(() => {
+      intervalRef.current = setInterval(() => {
         setCountDown((prevCountDown) => {
           if (prevCountDown > 1) {
+            console.log('Vibration triggered in RoundResult');
             Vibration.vibrate(500);
             return prevCountDown - 1;
           } else {
-            if (intervalId) {
-              clearInterval(intervalId);
-            }
+            clearInterval(intervalRef.current!);
+            intervalRef.current = null;
             return 0;
           }
         });
       }, 1000);
+    } else {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     }
-
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
       }
     };
   }, [status]);
 
   useEffect(() => {
     if (countDown === 0) {
-      router.push('/game');
+      router.replace('/game');
     }
   }, [countDown]);
 

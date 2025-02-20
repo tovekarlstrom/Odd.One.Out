@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
 import { PlayerIconType } from '@/app/code';
 
@@ -41,6 +41,7 @@ export const createGameRoom = async (
       qIndex: 0,
       status: 'waiting',
       mode: 'majority',
+      createdAt: serverTimestamp(),
     });
     const gameRoom = { id: gameRoomRef.id, mode: 'majority' };
     await AsyncStorage.setItem('playerId', playerId);

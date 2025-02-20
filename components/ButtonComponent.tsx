@@ -54,7 +54,7 @@ export function ButtonComponent({
       }
     }
     if (route) {
-      router.push(route);
+      router.replace(route);
     }
   };
 

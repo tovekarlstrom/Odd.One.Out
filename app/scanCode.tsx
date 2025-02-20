@@ -34,7 +34,7 @@ export default function scanCode() {
   const handleBarCodeScanned = ({ data }: { data: string }) => {
     setScanned(true);
     Vibration.vibrate(100);
-    router.push(`/join?code=${data}`);
+    router.replace(`/join?code=${data}`);
   };
 
   if (isLoading || error) return null;

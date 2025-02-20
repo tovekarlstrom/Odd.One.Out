@@ -17,40 +17,47 @@ export default function Game() {
   const [question, setQuestion] = useState<string>('');
   const [questionsLength, setQuestionsLength] = useState<number>(0);
   const documentId = gameRoom?.id;
-
   useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+
     const ListenAndGetStatus = async () => {
       if (documentId) {
-        const unsubscribe = await getOrUpdateStatus({
+        unsubscribe = await getOrUpdateStatus({
           documentId,
           setStatus,
         });
-        return () => {
-          if (unsubscribe) {
-            unsubscribe();
-          }
-        };
-      }
-    };
-
-    const fetchQuestion = async () => {
-      if (documentId) {
-        const unsubscribe = await getQuestion(
-          documentId,
-          setQuestion,
-          setQuestionsLength,
-        );
-
-        return () => {
-          if (unsubscribe) {
-            unsubscribe();
-          }
-        };
       }
     };
 
     ListenAndGetStatus();
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
+  }, [documentId]);
+
+  useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+
+    const fetchQuestion = async () => {
+      if (documentId) {
+        unsubscribe = await getQuestion(
+          documentId,
+          setQuestion,
+          setQuestionsLength,
+        );
+      }
+    };
+
     fetchQuestion();
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, [documentId]);
 
   useEffect(() => {

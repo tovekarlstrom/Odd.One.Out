@@ -58,7 +58,7 @@ export default function Join() {
         await addPlayers(gameRoom.id, playerName);
         updateIsAdmin(false);
 
-        router.push('/game');
+        router.replace('/game');
       } else {
         setShowWarningModal(true);
       }

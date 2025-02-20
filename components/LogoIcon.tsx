@@ -1,8 +1,8 @@
-import React from "react";
-import { TouchableOpacity, ViewProps } from "react-native";
-import Icon from "../assets/oddOneOutIcon.svg";
-import { router } from "expo-router";
-import { ThemedView } from "./ThemedView";
+import React from 'react';
+import { TouchableOpacity, ViewProps } from 'react-native';
+import Icon from '../assets/oddOneOutIcon.svg';
+import { router } from 'expo-router';
+import { ThemedView } from './ThemedView';
 
 export type IconProps = ViewProps & {
   size: number;
@@ -13,7 +13,7 @@ export default function LogoIcon({ size, style }: IconProps) {
     <ThemedView style={[style]}>
       <TouchableOpacity
         onPress={() => {
-          router.push("/");
+          router.replace('/');
         }}
         activeOpacity={1}
       >

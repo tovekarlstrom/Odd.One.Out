@@ -17,6 +17,7 @@ export default function Game() {
   const [question, setQuestion] = useState<string>('');
   const [questionsLength, setQuestionsLength] = useState<number>(0);
   const documentId = gameRoom?.id;
+
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
 

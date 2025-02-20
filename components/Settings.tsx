@@ -64,24 +64,6 @@ export default function Settings() {
     }
   }, [renderSettings]);
 
-  // const handleQuitGame = async () => {
-  //   if (documentId) {
-  //     await deleteGameRoom(documentId);
-  //     try {
-  //       await AsyncStorage.clear();
-  //       console.log('AsyncStorage cleared successfully.');
-  //     } catch (e) {
-  //       console.error('Failed to clear AsyncStorage:', e);
-  //     }
-
-  //     refetch();
-  //     setOpenSettings(false);
-  //     setRenderSettings(false);
-  //   } else {
-  //     console.error('No documentId found');
-  //   }
-  // };
-
   if (isLoading || error) return null;
 
   return (

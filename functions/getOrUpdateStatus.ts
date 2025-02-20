@@ -30,7 +30,8 @@ export const getOrUpdateStatus = async ({
           const localStatus = gameRoomData.status as Status;
           setStatus(localStatus);
         } else {
-          console.error('No game room found!');
+          return;
+          // console.error('No game room found!');
         }
       });
       return unsubscribe;

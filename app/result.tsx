@@ -28,8 +28,8 @@ export default function RoundResult() {
   const [index, setIndex] = useState<number>(0);
   const [countdownStarted, setCountdownStarted] = useState(false);
   const { data: gameRoom } = useGameRoom();
-  const documentId = gameRoom.id;
-  const mode = gameRoom.mode;
+  const documentId = gameRoom?.id;
+  const mode = gameRoom?.mode;
   const { data: playerIcon } = usePlayerIcon();
   const players = useSortedPlayers();
   const { data: questionsLength } = useQuestionsLength();
@@ -45,8 +45,6 @@ export default function RoundResult() {
     mode === 'majority' ? labels.score.majority : labels.score.minority;
 
   useEffect(() => {
-    if (!documentId) return;
-
     let unsubscribe: (() => void) | undefined;
 
     const getIndex = async () => {
@@ -58,15 +56,17 @@ export default function RoundResult() {
     getIndex();
 
     const getStatus = async () => {
-      unsubscribe = await getOrUpdateStatus({
-        documentId,
-        setStatus: (newStatus) => {
-          if (previousStatus.current !== newStatus) {
-            setStatus(newStatus);
-            previousStatus.current = newStatus;
-          }
-        },
-      });
+      if (documentId) {
+        unsubscribe = await getOrUpdateStatus({
+          documentId,
+          setStatus: (newStatus) => {
+            if (previousStatus.current !== newStatus) {
+              setStatus(newStatus);
+              previousStatus.current = newStatus;
+            }
+          },
+        });
+      }
     };
 
     getStatus();
@@ -95,20 +95,9 @@ export default function RoundResult() {
     checkScore();
   }, [players]);
 
-  useEffect(() => {
-    console.log('RoundResult mounted');
-
-    return () => {
-      console.log('RoundResult unmounted');
-    };
-  }, []);
-
   useFocusEffect(
     useCallback(() => {
-      console.log('RoundResult is focused');
-
       return () => {
-        console.log('RoundResult lost focus, cleaning up');
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
           intervalRef.current = null;
@@ -127,7 +116,6 @@ export default function RoundResult() {
       intervalRef.current = setInterval(() => {
         setCountDown((prevCountDown) => {
           if (prevCountDown > 1) {
-            console.log('Vibration triggered in RoundResult');
             Vibration.vibrate(500);
             return prevCountDown - 1;
           } else {

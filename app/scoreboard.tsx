@@ -13,6 +13,8 @@ import { useGameRoom } from '@/hooks/useGameRoom';
 import { Player } from './code';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useLanguage } from '@/hooks/useLanguage';
+import { deleteGameRoom } from '@/functions/deleteGameRoom';
+import { router } from 'expo-router';
 
 interface TopPlayer {
   playerName: string;
@@ -30,8 +32,9 @@ export default function Score() {
   const pageContent = content?.results;
   const labels = content?.labels;
   const button = content?.buttons;
-  const gameRoom = useGameRoom();
-  const mode = gameRoom.data?.mode;
+  const { data: gameRoom } = useGameRoom();
+  const mode = gameRoom?.mode;
+  const documentId = gameRoom?.id;
 
   const resultsLabel =
     mode === 'majority' ? pageContent.majority : pageContent.minority;
@@ -111,6 +114,28 @@ export default function Score() {
     setResults(players);
   }, [players]);
 
+  // Jag tror att vi behöver göra en changeStatus i handleQuitGame före spelet tas bort, typ till 'ended' eller något sånt för att kunna routa övriga spelare, sen ta bort spelet och routa AddAdmin..
+
+  const handleQuitGame = async () => {
+    if (documentId) {
+      await deleteGameRoom(documentId);
+      try {
+        await AsyncStorage.clear();
+        console.log('AsyncStorage cleared successfully.');
+      } catch (e) {
+        console.error('Failed to clear AsyncStorage:', e);
+      }
+    } else {
+      console.error('No documentId found');
+    }
+  };
+
+  useEffect(() => {
+    if (!documentId) {
+      router.replace('/');
+    }
+  }, [documentId]);
+
   if (isLoading || error) return null;
 
   return (
@@ -155,6 +180,7 @@ export default function Score() {
             <ButtonComponent
               text={button.newGame}
               variant='primary'
+              onSubmit={handleQuitGame}
               route='/'
             />
           </GradientContainer>

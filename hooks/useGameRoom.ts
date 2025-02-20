@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 const getGameRoom = async () => {
   const gameRoom = await AsyncStorage.getItem('gameRoom');
@@ -7,5 +7,11 @@ const getGameRoom = async () => {
 };
 
 export const useGameRoom = () => {
-  return useQuery('gameRoom', getGameRoom);
+  const queryClient = useQueryClient();
+
+  return useQuery('gameRoom', getGameRoom, {
+    onError: () => {
+      queryClient.invalidateQueries('gameRoom');
+    },
+  });
 };

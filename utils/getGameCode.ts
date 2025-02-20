@@ -5,7 +5,6 @@ const loadGameCode = async () => {
     const roomId = await AsyncStorage.getItem('roomId');
 
     if (!roomId) {
-      console.log('No roomId in storage');
       return null;
     }
 

@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { addAnswerToQuestion } from '@/functions/addAnswers';
 import { useGameRoom } from '@/hooks/useGameRoom';
 import { useLanguage } from '@/hooks/useLanguage';
+import { ModalComponent } from './Modal';
 
 export function AddAnswer({ question }: { question: string }) {
   const [newAnswer, setNewAnswer] = useState<string>('');
@@ -13,7 +14,9 @@ export function AddAnswer({ question }: { question: string }) {
   const { content, isLoading, error } = useLanguage();
   const button = content?.buttons;
   const labels = content?.labels;
+  const descriptions = content?.descriptions;
   const documentId = gameRoom?.id;
+  const [showModal, setShowModal] = useState(false);
 
   const router = useRouter();
 
@@ -45,10 +48,20 @@ export function AddAnswer({ question }: { question: string }) {
           if (newAnswer.length > 0 && newAnswer.length < 100) {
             addNewAnswer();
           } else {
-            alert('You need to enter an answer with 1 - 100 characters');
+            setShowModal(true);
           }
         }}
       />
+      {showModal && (
+        <ModalComponent
+          heading={labels.canNotProceed}
+          onClose={() => {
+            setShowModal(false);
+          }}
+          description={descriptions.notEnoughCharacters}
+          oneButton
+        />
+      )}
     </CardComponent>
   );
 }

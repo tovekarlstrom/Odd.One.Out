@@ -192,7 +192,8 @@
       },
       "descriptions": {
         "wrongPoints": "Points can only be awarded when at least two players have chosen the same answer.",
-        "safetyCheckPoints": " Make sure you’ve assigned points based on the players who provided the same answer before moving forward."
+        "safetyCheckPoints": " Make sure you’ve assigned points based on the players who provided the same answer before moving forward.",
+        "notEnoughCharacters": "You answer must contain 1 - 100 characters"
       }
     }
   },
@@ -387,9 +388,11 @@
         "statusText": "Status på varje spelare visar om de har svarat på den aktuella frågan eller inte.",
         "copied": "Kopierad!"
       },
+
       "descriptions": {
         "wrongPoints": "Poäng delas bara ut om minst två personer har svarat samma.",
-        "safetyCheckPoints": "Har du gett poäng till de spelare som har valt samma svar innan du går vidare?"
+        "safetyCheckPoints": "Har du gett poäng till de spelare som har valt samma svar innan du går vidare?",
+        "notEnoughCharacters": "Ditt svar måste innehålla 1 - 100 täcken"
       }
     }
   }
